@@ -230,7 +230,6 @@ export default function Home() {
     setShowModeDropup(false);
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (showModeDropup && !(event.target as Element).closest('.mode-dropdown, .mode-button')) {
@@ -286,8 +285,9 @@ export default function Home() {
                     <Link href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       <FiShoppingCart className="inline mr-2" /> Shop
                     </Link>
+   
                     <div className="px-4 py-2 text-sm text-gray-700">
-                      Word System Update
+                      Credits: {rewriteCount}
                       <div className="relative w-full h-2 bg-gray-200 rounded-full mt-1">
                         <div
                           className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
@@ -336,6 +336,8 @@ export default function Home() {
                     : "bg-white text-gray-900"
                 } max-w-[90%] transform hover:scale-105 transition-all duration-300`}
               >
+
+
                 <p className="text-sm">{message.text}</p>
                 {message.sender === "bot" && message.versions && (
                   <div className="mt-2 flex justify-between items-center text-sm">

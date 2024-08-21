@@ -55,7 +55,6 @@ export default function Home() {
 
   const [mode, setMode] = useState<Mode>("General");
   const [showModeDropup, setShowModeDropup] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
   const modes: Mode[] = ["General", "University", "Essay", "Business", "Creative"];
 
   const getRewrites = async () => {
@@ -217,7 +216,6 @@ export default function Home() {
     config: { duration: 1000 }
   });
 
-
   const backgroundAnimation = useSpring({
     from: { backgroundPosition: '0% 50%' },
     to: { backgroundPosition: '100% 50%' },
@@ -230,14 +228,10 @@ export default function Home() {
     setShowModeDropup(false);
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (showModeDropup && !(event.target as Element).closest('.mode-dropdown, .mode-button')) {
+      if (showModeDropup && !(event.target as Element).closest('.mode-dropdown')) {
         setShowModeDropup(false);
-      }
-      if (showDropdown && !(event.target as Element).closest('.dropdown-menu, .dropdown-button')) {
-        setShowDropdown(false);
       }
     };
 
@@ -245,7 +239,7 @@ export default function Home() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showModeDropup, showDropdown]);
+  }, [showModeDropup]);
 
   return (
     <div className="flex flex-col bg-gray-50 min-h-screen w-screen font-sans relative overflow-hidden">
@@ -263,7 +257,7 @@ export default function Home() {
       />
       <header className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">NoaiGPT</h1>
+          <h1 className="text-2xl font-bold text-gray-900">NoaiGPT✦</h1>
           <div className="flex items-center space-x-4">
             {!isLoggedIn && (
               <Link href="/pricing" className="px-6 py-2 bg-gray-100 text-gray-800 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105">
@@ -271,41 +265,30 @@ export default function Home() {
               </Link>
             )}
             {isLoggedIn && (
-              <div className="relative">
-                <button
-                  className="px-6 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full hover:from-purple-600 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 dropdown-button"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                >
+              <div className="relative group">
+                <button className="px-6 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full hover:from-purple-600 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
                   {user?.name}
                 </button>
-                {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg dropdown-menu">
-                    <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      <FiUser className="inline mr-2" /> Profile
-                    </Link>
-                    <Link href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      <FiShoppingCart className="inline mr-2" /> Shop
-                    </Link>
-                    <div className="px-4 py-2 text-sm text-gray-700">
-                      Word System Update
-                      <div className="relative w-full h-2 bg-gray-200 rounded-full mt-1">
-                        <div
-                          className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
-                          style={{ width: `${(rewriteCount / 100) * 100}%` }}
-                        />
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => {
-                        localStorage.clear();
-                        window.location.href = "/login";
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
-                    >
-                      <FiLogOut className="inline mr-2" /> Logout
-                    </button>
-                  </div>
-                )}
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden group-hover:block">
+                  <Link href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <FiShoppingCart className="inline mr-2" /> Shop
+                  </Link>
+                  <Link href="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <FiPackage className="inline mr-2" /> My Orders
+                  </Link>
+                  <Link href="/purchases" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <FiShoppingBag className="inline mr-2" /> My Purchases
+                  </Link>
+                  <button
+                    onClick={() => {
+                      localStorage.clear();
+                      window.location.href = "/login";
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
+                  >
+                    <FiLogOut className="inline mr-2" /> Logout
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -379,7 +362,7 @@ export default function Home() {
               <div className="relative mode-dropdown">
                 <button 
                   onClick={() => setShowModeDropup(!showModeDropup)}
-                  className="flex items-center space-x-1 bg-white rounded-lg px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 mode-button"
+                  className="flex items-center space-x-1 bg-white rounded-lg px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                 >
                   <span>{mode}</span>
                   <FiChevronUp className={`transform transition-transform duration-200 ${showModeDropup ? 'rotate-180' : ''}`} />

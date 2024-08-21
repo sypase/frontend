@@ -3,11 +3,22 @@ import { useEffect } from "react";
 
 export default function Page() {
     useEffect(() => {
-        window.location.href = "/";
-    });
+        const timer = setTimeout(() => {
+            window.location.href = "/";
+        }, 3000); // Redirect after 5 seconds
+        return () => clearTimeout(timer);
+    }, []);
 
-    return <main className="flex flex-col w-screen h-screen bg-base-100 p-4 overflow-hidden">
-        <p className="mb-5 font-semibold text-2xl max-sm:mb-3">Payment Successful</p>
-    </main>
+    return (
+        <main className="flex flex-col items-center justify-center w-screen h-screen bg-gradient-to-r from-green-400 to-blue-500 p-4 overflow-hidden">
+            <div className="bg-white p-10 rounded-lg shadow-lg animate-fade-in">
+                <p className="mb-5 font-semibold text-3xl text-center text-gray-800 animate-bounce">
+                    Payment Successful
+                </p>
+                <p className="text-lg text-center text-gray-700">
+                    Thanks for purchasing!
+                </p>
+            </div>
+        </main>
+    );
 }
-

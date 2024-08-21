@@ -10,7 +10,7 @@ export default function Page() {
     const [paymentMethods, setPaymentMethods] = useState<any>();
     const [items, setItems] = useState<any[]>([]);
     const [selectedItem, setSelectedItem] = useState(0);
-    const [paymentMethod, setPaymentMethod] = useState("stripe"); // ["stripe", "razorpay", "manual"]
+    const [paymentMethod, setPaymentMethod] = useState("imepay"); // ["stripe", "razorpay", "manual", "imepay", "esewa", "khalti"]
 
     const getItems = async () => {
         const config = {
@@ -51,35 +51,47 @@ export default function Page() {
                 })
             }
         </div>
-        {!paymentMethods?.razorpay && !paymentMethods?.stripe && !paymentMethods?.manual ? <p className="text-center mb-10 text-red-600">No payment method available</p> : <div className="flex justify-center my-5">
-            <label htmlFor="paymentmethod_modal" className="btn btn-primary" >Buy Now <FiArrowRight /></label>
-        </div>}
+        {!paymentMethods?.razorpay && !paymentMethods?.stripe && !paymentMethods?.manual && !paymentMethods?.imepay && !paymentMethods?.esewa && !paymentMethods?.khalti ? 
+            <p className="text-center mb-10 text-red-600">No payment method available</p> : 
+            <div className="flex justify-center my-5">
+                <label htmlFor="paymentmethod_modal" className="btn btn-primary" >Buy Now <FiArrowRight /></label>
+            </div>
+        }
         {/* Payment Method Modal */}
         <input type="checkbox" id="paymentmethod_modal" className="modal-toggle" />
         <div className="modal">
             <div className="modal-box">
                 <h3 className="flex items-center font-bold text-lg"><FiCreditCard className="mr-1" /> Select Payment Method</h3>
-                {paymentMethods?.stripe ? <div onClick={() => setPaymentMethod("stripe")} className={(paymentMethod === "stripe" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
+                {paymentMethods?.stripe && <div onClick={() => setPaymentMethod("stripe")} className={(paymentMethod === "stripe" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
                     <div className="card-body">
-                        <h2 className="card-title">
-                            Stripe
-                        </h2>
+                        <h2 className="card-title">Stripe</h2>
                     </div>
-                </div> : ""}
-                {paymentMethods?.razorpay ? <div onClick={() => setPaymentMethod("razorpay")} className={(paymentMethod === "razorpay" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
+                </div>}
+                {paymentMethods?.razorpay && <div onClick={() => setPaymentMethod("razorpay")} className={(paymentMethod === "razorpay" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
                     <div className="card-body">
-                        <h2 className="card-title">
-                            Razorpay
-                        </h2>
+                        <h2 className="card-title">Razorpay</h2>
                     </div>
-                </div> : ""}
-                {paymentMethods?.manual ? <div onClick={() => setPaymentMethod("manual")} className={(paymentMethod === "manual" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
+                </div>}
+                {paymentMethods?.manual && <div onClick={() => setPaymentMethod("manual")} className={(paymentMethod === "manual" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
                     <div className="card-body">
-                        <h2 className="card-title">
-                            Manual Payment
-                        </h2>
+                        <h2 className="card-title">Manual Payment</h2>
                     </div>
-                </div> : ""}
+                </div>}
+                {paymentMethods?.imepay && <div onClick={() => setPaymentMethod("imepay")} className={(paymentMethod === "imepay" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
+                    <div className="card-body">
+                        <h2 className="card-title">IME Pay</h2>
+                    </div>
+                </div>}
+                {paymentMethods?.esewa && <div onClick={() => setPaymentMethod("esewa")} className={(paymentMethod === "esewa" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
+                    <div className="card-body">
+                        <h2 className="card-title">eSewa</h2>
+                    </div>
+                </div>}
+                {paymentMethods?.khalti && <div onClick={() => setPaymentMethod("khalti")} className={(paymentMethod === "khalti" ? "border-primary " : "") + "cursor-pointer border-2 select-none card bg-base-100 hover:bg-base-200 duration-75 active:scale-95 shadow-xl mr-5 my-4"}>
+                    <div className="card-body">
+                        <h2 className="card-title">Khalti</h2>
+                    </div>
+                </div>}
                 <div className="modal-action mt-10">
                     <label htmlFor="paymentmethod_modal" className="btn">Cancel</label>
                     <label className="btn btn-primary" onClick={() => window.location.href = `/shop/payment?item=${items[selectedItem]?._id}&method=${paymentMethod}`}>Pay</label>

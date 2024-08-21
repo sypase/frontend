@@ -48,7 +48,7 @@ export default function Home() {
         toast.success("Logged In!");
         localStorage.setItem("token", response.data.token);
         window.location.href =
-          response.data.user.type === "admin" ? "/admin" : "/";
+          response.data.user.type === "admin" ? "/admin" : "/chat";
       })
       .catch((error) => {
         console.log(error);
