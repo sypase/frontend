@@ -419,7 +419,7 @@ import Head from 'next/head';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
-const serverURL = "http://localhost:8080"; // Replace with your actual server URL
+const serverURL = "https://backendngpt.azurewebsites.net"; // Replace with your actual server URL
 
 function countWords(str: string) {
   return str.trim().split(/\s+/).filter(Boolean).length;
