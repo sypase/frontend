@@ -4,17 +4,22 @@ import { serverURL } from "@/utils/utils";
 import { FiCreditCard } from "react-icons/fi";
 import React, { useEffect, useState } from "react";
 
-export default function Page() {
-  type PaymentMethodData = {
-    stripe: boolean;
-    razorpay: boolean;
-    manual: boolean;
-    imepay: boolean;
-    esewa: boolean;
-    khalti: boolean;
-  };
+type PaymentMethodData = {
+  enabled: boolean;
+  currencies: string[];
+};
 
-  const [data, setData] = useState<PaymentMethodData | null>();
+type PaymentMethods = {
+  stripe: PaymentMethodData;
+  razorpay: PaymentMethodData;
+  manual: PaymentMethodData;
+  imepay: PaymentMethodData;
+  esewa: PaymentMethodData;
+  khalti: PaymentMethodData;
+};
+
+export default function Page() {
+  const [data, setData] = useState<PaymentMethods | null>(null);
 
   const getData = async () => {
     const config = {
@@ -34,7 +39,7 @@ export default function Page() {
       });
   };
 
-  const saveData = async (data: PaymentMethodData) => {
+  const saveData = async (updatedData: PaymentMethods) => {
     const config = {
       method: "POST",
       url: `${serverURL}/admin/payment-methods`,
@@ -42,7 +47,7 @@ export default function Page() {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
-      data: data,
+      data: updatedData,
     };
 
     axios(config)
@@ -58,9 +63,12 @@ export default function Page() {
     getData();
   }, []);
 
-  const handleToggle = (method: keyof PaymentMethodData) => {
+  const handleToggle = (method: keyof PaymentMethods) => {
     if (data) {
-      const updatedData = { ...data, [method]: !data[method] };
+      const updatedData = {
+        ...data,
+        [method]: { ...data[method], enabled: !data[method].enabled },
+      };
       setData(updatedData);
       saveData(updatedData);
     }
@@ -69,32 +77,37 @@ export default function Page() {
   return (
     <div className="animate-fade-in-bottom w-full h-full p-4">
       <p className="font-semibold text-xl flex items-center">
-        <FiCreditCard className="mr-2" /> Payment methods
+        <FiCreditCard className="mr-2" /> Payment Methods
       </p>
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
             <tr>
               <th></th>
-              <th>Payment method</th>
+              <th>Payment Method</th>
               <th>Enable</th>
+              <th>Currencies</th>
             </tr>
           </thead>
           <tbody>
-            {data && Object.keys(data).map((method, index) => (
-              <tr className="hover" key={method}>
-                <th>{index + 1}</th>
-                <td>{method.charAt(0).toUpperCase() + method.slice(1)}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    className="toggle"
-                    onChange={() => handleToggle(method as keyof PaymentMethodData)}
-                    checked={data[method as keyof PaymentMethodData]}
-                  />
-                </td>
-              </tr>
-            ))}
+            {data &&
+              Object.entries(data)
+                .filter(([method]) => ["stripe", "razorpay", "manual", "imepay", "esewa", "khalti"].includes(method))
+                .map(([method, details], index) => (
+                  <tr className="hover" key={method}>
+                    <th>{index + 1}</th>
+                    <td>{method.charAt(0).toUpperCase() + method.slice(1)}</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        className="toggle"
+                        onChange={() => handleToggle(method as keyof PaymentMethods)}
+                        checked={details.enabled}
+                      />
+                    </td>
+                    <td>{details.currencies?.join(", ") || "N/A"}</td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>
