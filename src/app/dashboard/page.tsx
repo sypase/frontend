@@ -6,11 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { appName, serverURL } from "@/utils/utils";
 import { useRef, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import {
-  FiUser,
-  FiLogOut,
-  FiShoppingCart,
-} from "react-icons/fi";
+import { FiUser, FiLogOut, FiShoppingCart } from "react-icons/fi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { motion } from "framer-motion";
@@ -35,12 +31,16 @@ export default function Home() {
   const [rewriteCount, setRewriteCount] = useState<number>(-1);
   const [showLanding, setShowLanding] = useState<boolean>(true);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [expirationDate, setExpirationDate] = useState<string | null>(null);
   const [tone, setTone] = useState<number>(0);
   const [rewrites, setRewrites] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState<boolean>(false); // Add this line
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const textareaRef = useRef<null | HTMLTextAreaElement>(null);
+  const [isAdvancedMode, setIsAdvancedMode] = useState(false); // Ensure state is managed like this
+
+  const toggleAdvancedMode = () => {
+    setIsAdvancedMode((prevMode) => !prevMode); // Toggle the state
+  };
 
   const getRewrites = async () => {
     const config = {
@@ -54,24 +54,6 @@ export default function Home() {
     axios(config)
       .then((response) => {
         setRewriteCount(response.data.rewrites);
-      })
-      .catch((error) => {
-        toast.error("Something went wrong!");
-      });
-  };
-
-  const getExpirationDate = async () => {
-    const config = {
-      method: "GET",
-      url: `${serverURL}/rewordai/userExpirationDate`,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    };
-
-    axios(config)
-      .then((response) => {
-        setExpirationDate(response.data.expirationDate);
       })
       .catch((error) => {
         toast.error("Something went wrong!");
@@ -125,6 +107,8 @@ export default function Home() {
 
     axios(config)
       .then((response) => {
+        console.log(response);
+
         setLoading(false);
         const botMessage: Message = {
           id: newMessage.id + 1,
@@ -150,32 +134,36 @@ export default function Home() {
   useEffect(() => {
     getUser();
     getRewrites();
-    getExpirationDate();
   }, []);
 
   const countWords = (text: string) => {
     // Implement your logic to count words here
     return 0; // Replace 0 with the actual word count
   };
-  
-  const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+
+  const handleTextAreaChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setText(event.target.value);
     setWordCount(countWords(event.target.value));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       rewrite();
     }
   };
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast.success("Copied to clipboard!");
-    }, (err) => {
-      toast.error("Failed to copy text.");
-    });
+    navigator.clipboard.writeText(text).then(
+      () => {
+        toast.success("Copied to clipboard!");
+      },
+      (err) => {
+        toast.error("Failed to copy text.");
+      }
+    );
   };
 
   const redoMessage = (originalInput: string) => {
@@ -184,16 +172,22 @@ export default function Home() {
   };
 
   const changeVersion = (messageId: number, variantIndex: number) => {
-    setMessages(prevMessages => prevMessages.map((msg) => {
-      if (msg.id === messageId && msg.versions && msg.currentVersionIndex !== undefined) {
-        return {
-          ...msg,
-          text: msg.versions[variantIndex].text,
-          currentVersionIndex: variantIndex
-        };
-      }
-      return msg;
-    }));
+    setMessages((prevMessages) =>
+      prevMessages.map((msg) => {
+        if (
+          msg.id === messageId &&
+          msg.versions &&
+          msg.currentVersionIndex !== undefined
+        ) {
+          return {
+            ...msg,
+            text: msg.versions[variantIndex].text,
+            currentVersionIndex: variantIndex,
+          };
+        }
+        return msg;
+      })
+    );
   };
 
   const scrollToBottom = () => {
@@ -205,20 +199,21 @@ export default function Home() {
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
-    config: { duration: 1000 }
+    config: { duration: 1000 },
   });
 
   return (
     <div className="flex flex-col bg-gray-50 min-h-screen w-screen font-sans relative overflow-hidden">
       <animated.div
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(45deg, #ffffff, #f9fafb, #f3f4f6, #ffffff)',
-          backgroundSize: '400% 400%',
+          background:
+            "linear-gradient(45deg, #ffffff, #f9fafb, #f3f4f6, #ffffff)",
+          backgroundSize: "400% 400%",
         }}
       />
       <header className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-sm">
@@ -226,7 +221,10 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-900">NoaiGPT</h1>
           <div className="flex items-center space-x-4">
             {!isLoggedIn && (
-              <Link href="/pricing" className="px-6 py-2 bg-gray-100 text-gray-800 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105">
+              <Link
+                href="/pricing"
+                className="px-6 py-2 bg-gray-100 text-gray-800 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105"
+              >
                 Pricing
               </Link>
             )}
@@ -240,16 +238,21 @@ export default function Home() {
                 </button>
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg dropdown-menu">
-                    <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
                       <FiUser className="inline mr-2" /> Profile
                     </Link>
-                    <Link href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link
+                      href="/shop"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
                       <FiShoppingCart className="inline mr-2" /> Shop
                     </Link>
-   
+
                     <div className="px-4 py-2 text-sm text-gray-700">
                       Credits: {rewriteCount}
-       
                     </div>
                     <button
                       onClick={() => {
@@ -272,9 +275,12 @@ export default function Home() {
         <animated.div style={fadeIn} className="max-w-2xl mx-auto">
           {showLanding && (
             <div className="text-center py-8">
-              <h2 className="text-4xl font-bold mb-4 text-gray-900">Welcome to NoaiGPT</h2>
+              <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                Welcome to NoaiGPT
+              </h2>
               <p className="text-lg mb-8 text-gray-700">
-                NoaiGPT converts AI-generated content into natural, human-like writing that bypasses AI detection.
+                NoaiGPT converts AI-generated content into natural, human-like
+                writing that bypasses AI detection.
               </p>
             </div>
           )}
@@ -298,7 +304,7 @@ export default function Home() {
           </div>
         </animated.div>
       </main>
-      
+
       <Footer
         text={text}
         setText={setText}
@@ -308,9 +314,9 @@ export default function Home() {
         handleTextAreaChange={handleTextAreaChange}
         handleKeyDown={handleKeyDown}
         textareaRef={textareaRef}
-        isAdvancedMode={false} // Assuming you don't have advanced mode logic here
-        toggleAdvancedMode={() => {}} // Placeholder function
-      />
+        isAdvancedMode={isAdvancedMode}
+        toggleAdvancedMode={toggleAdvancedMode}
+        />
 
       <ToastContainer position="bottom-right" />
     </div>

@@ -31,7 +31,7 @@ const Footer: React.FC<FooterProps> = ({
     <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg z-40 shadow-lg">
       <div className="max-w-2xl mx-auto relative">
         <div className="absolute top-[-40px] right-0">
-          <div className="flex items-center cursor-pointer relative" onClick={toggleAdvancedMode}>
+          <div className="flex items-center cursor-pointer relative">
             <div className="group flex items-center relative">
               <div
                 className={`w-12 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out ${

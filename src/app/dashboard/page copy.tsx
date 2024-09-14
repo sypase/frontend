@@ -66,23 +66,6 @@ export default function Home() {
       });
   };
 
-  const getExpirationDate = async () => {
-    const config = {
-      method: "GET",
-      url: `${serverURL}/rewordai/userExpirationDate`,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    };
-
-    axios(config)
-      .then((response) => {
-        setExpirationDate(response.data.expirationDate);
-      })
-      .catch((error) => {
-        toast.error("Something went wrong!");
-      });
-  };
 
   const getUser = async () => {
     const config = {
@@ -150,7 +133,6 @@ export default function Home() {
   useEffect(() => {
     getUser();
     getRewrites();
-    getExpirationDate();
   }, []);
 
   const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
