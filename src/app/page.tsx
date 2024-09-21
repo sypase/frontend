@@ -17,9 +17,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { serverURL } from "@/utils/utils";
 import { logos, logoSettings, kathmanduText, countWords } from "./constants";
+import Header from "./header";
+
 
 // Import the l-grid component
-import { grid } from 'ldrs';
+import { grid } from "ldrs";
 grid.register();
 
 interface Message {
@@ -46,11 +48,7 @@ export default function Home() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const phrases = [
-    "Bypassing AI",
-    "Checking Grammar",
-    "Checking AI",
-  ];
+  const phrases = ["Bypassing AI", "Checking Grammar", "Checking AI"];
 
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
 
@@ -87,10 +85,9 @@ export default function Home() {
     setText("");
 
     try {
-      const response = await axios.post(`${serverURL}/free/rewrite`, {
+      const response = await axios.post(`${serverURL}/free/bypass`, {
         text: text,
-        setting: isAdvancedMode ? 2 : 1,
-        output_format: "json",
+        tone: 1,
       });
 
       setLoading(false);
@@ -258,7 +255,9 @@ export default function Home() {
         />
       </Head>
 
-      <div className="flex flex-col min-h-screen w-screen font-sans relative overflow-hidden overflow-x-hidden">
+      <Header isLoggedIn={isLoggedIn} onShowSignupForm={() => setShowSignupForm(true)}></Header>
+
+      <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
         <animated.div
           style={{
             ...backgroundAnimation,
@@ -273,39 +272,9 @@ export default function Home() {
             backgroundSize: "400% 400%",
           }}
         />
+        
 
-        <header className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-50 backdrop-blur-lg shadow-sm">
-          <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">NoaiGPT</h1>
-            <div className="flex space-x-4">
-              {!isLoggedIn && (
-                <>
-                  <Link
-                    href="/pricing"
-                    className="px-6 py-2 bg-gray-100 text-gray-800 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105"
-                  >
-                    Pricing
-                  </Link>
-                  <button
-                    onClick={() => setShowSignupForm(true)}
-                    className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
-                  >
-                    Try for Free
-                  </button>
-                </>
-              )}
-              {isLoggedIn && (
-                <Link
-                  href="/dashboard"
-                  className="px-6 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full hover:from-purple-600 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
-                >
-                  Go to Dashboard
-                </Link>
-              )}
-            </div>
-          </div>
-        </header>
-        <main className="flex-grow mt-24 px-4 overflow-y-auto overflow-x-hidden relative z-30 pb-24 bg-gray-50 ">
+        <main className="flex-grow mt-24 px-4 overflow-y-auto overflow-x-hidden relative z-30 pb-24 bg-gray-10 ">
           <animated.div style={fadeIn} className="max-w-2xl mx-auto">
             {showLanding && (
               <div className="text-center py-8">
@@ -360,12 +329,10 @@ export default function Home() {
               ))}
               {loading && (
                 <div className="flex items-center p-4 rounded-lg bg-gray max-w-[50%]">
-                  <l-grid
-                    size="30"
-                    speed="1.0" 
-                    color="green" 
-                  ></l-grid>
-                  <p className="ml-4 text-black text-lg">{phrases[currentPhraseIndex]}</p>
+                  <l-grid size="30" speed="1.0" color="green"></l-grid>
+                  <p className="ml-4 text-black text-lg">
+                    {phrases[currentPhraseIndex]}
+                  </p>
                 </div>
               )}
               <div ref={messagesEndRef} />

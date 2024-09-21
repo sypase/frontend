@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = ({
   toggleAdvancedMode,
 }) => {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg z-40 shadow-lg">
+    <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg z-40 ">
       <div className="max-w-2xl mx-auto relative">
         <div className="absolute top-[-40px] right-0">
           <div className="flex items-center cursor-pointer relative">
@@ -66,11 +66,8 @@ const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
         <div
-          className="flex items-end rounded-lg overflow-hidden bg-white bg-opacity-50 shadow-lg transition-all duration-300 hover:shadow-xl relative"
-          style={{
-            boxShadow:
-              "0 0 15px rgba(59, 130, 246, 0.3), 0 0 30px rgba(59, 130, 246, 0.2), 0 0 45px rgba(59, 130, 246, 0.1)",
-          }}
+          className="flex items-end rounded-lg overflow-hidden bg-white bg-opacity-50 shadow-lg transition-all duration-300 hover:shadow-xl relative border border-gray-500"
+
         >
           <textarea
             ref={textareaRef}

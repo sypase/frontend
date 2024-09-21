@@ -41,7 +41,7 @@ const IMEPayIntegration: React.FC<IMEPayProps> = ({ item }) => {
   const createOrder = async () => {
     try {
       const response = await axios.post(
-        `${serverURL}/imepay/create-order-imepay`,
+        `${serverURL}/payments/imepay/create-order-imepay`,
         {
           item,
         },

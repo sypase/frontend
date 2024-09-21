@@ -20,6 +20,7 @@ interface Message {
   text: string;
   versions?: { text: string; confidence: number }[];
   currentVersionIndex?: number;
+  messageId?: string; // Add this line to include the server-generated messageId
 }
 
 export default function Home() {
@@ -107,6 +108,10 @@ export default function Home() {
 
     axios(config)
       .then((response) => {
+        const { messageId } = response.data;
+        console.log(messageId);
+        
+
         console.log(response);
 
         setLoading(false);
@@ -116,6 +121,7 @@ export default function Home() {
           text: response.data.output,
           versions: [{ text: response.data.output, confidence: 0.95 }],
           currentVersionIndex: 0,
+          messageId: messageId,
         };
         setMessages((prev) => [...prev, botMessage]);
         getRewrites();
@@ -316,7 +322,7 @@ export default function Home() {
         textareaRef={textareaRef}
         isAdvancedMode={isAdvancedMode}
         toggleAdvancedMode={toggleAdvancedMode}
-        />
+      />
 
       <ToastContainer position="bottom-right" />
     </div>
