@@ -17,11 +17,23 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { serverURL } from "@/utils/utils";
 import { logos, logoSettings, kathmanduText, countWords } from "./constants";
-import Header from "./header";
 
+import Spline from "@splinetool/react-spline";
+
+import Header from "./header";
 
 // Import the l-grid component
 import { grid } from "ldrs";
+import AIMeter from "./AIMeter";
+import SmartProcessingSection from "./SmartProcessingSection";
+import CardSection from "./CardSection";
+import ProdashBoard from "./ProdashBoard";
+import TopGrammarScore from "./TopGrammarScore";
+import NoSubscription from "./NoSubscription";
+import ZeroPlagiarism from "./ZeroPlagiarism";
+import QuestionsList from "./QuestionsList";
+import FAQ from "./FAQ";
+import ElegantFooter from "./last";
 grid.register();
 
 interface Message {
@@ -255,7 +267,10 @@ export default function Home() {
         />
       </Head>
 
-      <Header isLoggedIn={isLoggedIn} onShowSignupForm={() => setShowSignupForm(true)}></Header>
+      <Header
+        isLoggedIn={isLoggedIn}
+        onShowSignupForm={() => setShowSignupForm(true)}
+      ></Header>
 
       <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
         <animated.div
@@ -272,52 +287,101 @@ export default function Home() {
             backgroundSize: "400% 400%",
           }}
         />
-        
 
         <main className="flex-grow mt-24 px-4 overflow-y-auto overflow-x-hidden relative z-30 pb-24 bg-gray-10 ">
-          <animated.div style={fadeIn} className="max-w-2xl mx-auto">
+          <animated.div style={fadeIn} className="max-w-1xl mx-auto">
             {showLanding && (
-              <div className="text-center py-8">
-                <h2 className="text-4xl font-bold mb-4 text-gray-900">
-                  Transform Your AI Text into{" "}
-                  <span className="bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
-                    Human Text
-                  </span>
-                </h2>
-                <p className="text-lg mb-8 text-gray-700">
-                  With no AI detection and natural flow, our tool bypasses AI
-                  detectors like:
-                </p>
-                <Slider {...logoSettings} className="mb-8">
-                  {logos.map((logo, index) => (
-                    <div key={index} className="flex justify-center px-2">
-                      <img src={logo} alt={`Logo ${index}`} className="h-12" />
+              <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
+                {/* Landing Section */}
+                {showLanding && (
+                  <section
+                    className="text-center py-8"
+                    style={{ height: "90vh", backgroundColor: "#f9fafb" }}
+                  >
+                    <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                      #1 AI Bypasser In The World
+                    </h2>
+                    <p className="text-lg mb-8 text-gray-700">
+                      Effortlessly bypass AI detectors with our cutting-edge
+                      tool, ensuring a natural flow and undetectable AI traces.
+                    </p>
+
+                    <div className="flex justify-center mb-8">
+                      <iframe
+                        width="800" // Set a larger width
+                        height="450" // Set a larger height
+                        src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1&controls=0&mute=1"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        className="w-full max-w-3xl rounded-lg shadow-lg" // Adjust max-width for responsiveness
+                      ></iframe>
                     </div>
-                  ))}
-                </Slider>
-                <p className="text-lg mb-8 text-gray-700">
-                  Remove AI traces and achieve plagiarism-free paraphrasing.
-                </p>
-                <div className="flex justify-center mt-8">
-                  <img
-                    src="/assets/MS-Startups-Celebration-Badge-Dark.png"
-                    alt="Microsoft Startups Member"
-                    className="h-16"
-                  />
-                </div>
-                <p className="text-sm text-gray-600 mt-4">
-                  Proud member of the Microsoft for Startups program.
-                </p>
-                <button
-                  className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
-                  onClick={handleKathmanduClick}
+
+                    <p className="text-lg mb-8 text-gray-700">
+                      Seamlessly bypass AI detection systems like:
+                    </p>
+
+                    <Slider {...logoSettings} className="mb-8 w-1/2 mx-auto">
+                      {logos.map((logo, index) => (
+                        <div key={index} className="flex justify-center px-2">
+                          <img
+                            src={logo}
+                            alt={`Logo ${index}`}
+                            className="h-12"
+                          />
+                        </div>
+                      ))}
+                    </Slider>
+
+                    {/* <button
+    className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
+    onClick={handleKathmanduClick}
+  >
+    Try Example: Kathmandu Description
+  </button> */}
+                  </section>
+                )}
+
+                {/* From 100% AI to 0$ AI DETECTED ANIMATION and  down A meter animation from 100 to 0 animation*/}
+                {/* <section
+                  style={{ height: "90vh" }}
+                  className="flex items-center justify-center bg-gray-100 w-full"
                 >
-                  Try Example: Kathmandu Description
-                </button>
+                  <h2 className="text-center text-xl font-bold mb-4">
+                    
+                  </h2>
+                </section> */}
+
+                <AIMeter />
+
+                {/* Feature Section */}
+                <SmartProcessingSection />
+                <CardSection />
+
+                {/* Pro Dashboard Section */}
+                <ProdashBoard />
+
+                {/* Top Grammar Score Section */}
+                <TopGrammarScore />
+
+                {/* Zero Plagiarism Section */}
+                <ZeroPlagiarism />
+
+                {/* No Subscription Section */}
+                <NoSubscription />
+
+                {/* Questions List Section */}
+                <QuestionsList />
+
+                {/* FAQ Section */}
+                <FAQ />
+
+                {/* Elegant Footer Section */}
+                <ElegantFooter />
               </div>
             )}
 
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-2xl">
               {messages.map((message, index) => (
                 <MessageComponent
                   key={index}

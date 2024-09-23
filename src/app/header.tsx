@@ -14,7 +14,9 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center">
           <img src="/assets/logo.svg" alt="NoaiGPT Logo" className="h-10 w-auto" />
+          Beta
         </Link>
+        
         <div className="flex space-x-3">
           {!isLoggedIn && (
             <>
