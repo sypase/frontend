@@ -84,6 +84,7 @@ const ElegantFooter = () => {
             <p className="mt-4 text-lg font-medium text-center">
               Bypass all detectors with no plagiarism
             </p>
+            <p>contact@noaigpt.com</p>
           </div>
 
           {/* Payment and Location Section */}
