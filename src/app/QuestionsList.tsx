@@ -341,9 +341,10 @@ const QuestionsCarousel = () => {
   return (
     <section className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8 overflow-hidden space-y-8">
       {/* Fixed Center Text */}
-      <div className=" top-1/4 flex items-center justify-center z-10">
-        <h1 className="text-5xl font-bold text-gray-800">
-          NOAIGPT IS THE ULTIMATE SOLUTION
+      <div className="top-1 md:top-1/4 flex items-center justify-center z-10 px-4 md:px-0">
+        <h1 className="text-[6vw] md:text-5xl font-bold text-gray-800 leading-tight md:leading-normal text-center">
+          <span className="block md:inline">NOAIGPT IS THE</span>{" "}
+          <span className="block md:inline">ULTIMATE SOLUTION</span>
         </h1>
       </div>
 
@@ -369,10 +370,10 @@ const QuestionsCarousel = () => {
           ))}
         </div>
       ))}
-
-      <div className=" top-1/4 flex items-center justify-center z-10">
-        <h1 className="text-5xl font-bold text-gray-800">
-            BYPASS AI TEXT EASILY
+      <div className="top-1/4 flex items-center justify-center z-10 px-2 w-full">
+        <h1 className="text-[10vw] md:text-3xl lg:text-5xl font-bold text-gray-800 whitespace-nowrap">
+          <span className="sm:hidden">BYPASS AI EASILY</span>
+          <span className="hidden sm:inline">BYPASS AI TEXT EASILY</span>
         </h1>
       </div>
     </section>

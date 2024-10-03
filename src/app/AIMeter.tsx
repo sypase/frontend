@@ -150,7 +150,6 @@
 
 // // // // // // // // // // // // export default AIMeter;
 
-
 // // // // // // // // // // // import { useEffect, useState, useRef } from "react";
 // // // // // // // // // // // import { bypassScreenshot } from "./constants";
 
@@ -503,7 +502,6 @@
 // // // // // // // // };
 
 // // // // // // // // export default AIMeter;
-
 
 // // // // // // // import { useEffect, useState, useRef } from "react";
 // // // // // // // import gsap from "gsap";
@@ -894,7 +892,6 @@
 // // // // };
 
 // // // // export default AIMeter;
-
 
 // // // import { useEffect, useState, useRef } from "react";
 // // // import gsap from "gsap";
@@ -1319,8 +1316,8 @@ const AIMeter = () => {
               trigger: `.image-${index}`,
               start: "top bottom",
               end: "top center",
-              scrub: true
-            }
+              scrub: true,
+            },
           }
         );
       });
@@ -1330,17 +1327,19 @@ const AIMeter = () => {
   return (
     <section
       ref={meterRef}
-      style={{ height: "120vh" }}
-      className="relative flex flex-col items-center justify-center w-full overflow-hidden"
+      // style={{ height: "120vh" }}
+      className=" md:h-[120vh] relative flex flex-col items-center justify-center w-full overflow-hidden"
     >
-      <div className="relative z-10 text-center">
-        <h1 className="text-4xl font-extrabold mb-8 leading-tight">
+      <div className="md:relative md:z-10 text-center">
+        <h1 className="text-3xl md:text-4xl font-extrabold mb-8 leading-tight">
           Bypass all AI detection effortlessly with plag-free content
         </h1>
-        <h1 className="text-4xl font-extrabold mb-8 leading-tight">
+        <h1 className="text-3xl md:text-4xl font-extrabold mb-8 leading-tight">
           {percentage}% AI Detected
         </h1>
-        <h2 className="text-xl font-bold mb-4">AI Detection Meter</h2>
+        <h2 className="text-base md:text-xl font-bold mb-4">
+          AI Detection Meter
+        </h2>
         <div className="relative w-80 h-8 bg-gray-300 rounded-full overflow-hidden mb-4 mx-auto">
           <div
             className="absolute top-0 left-0 h-full bg-green-500 transition-all"
@@ -1348,23 +1347,25 @@ const AIMeter = () => {
           ></div>
         </div>
         <p className="text-lg mb-8 mx-auto max-w-md">
-          Our AI detection tool is the best in the market, ensuring your content is free from plagiarism and AI detection. Experience seamless content creation with our advanced technology.
+          Our AI detection tool is the best in the market, ensuring your content
+          is free from plagiarism and AI detection. Experience seamless content
+          creation with our advanced technology.
         </p>
       </div>
 
       {/* Animated Screenshots */}
-      <div className="absolute inset-0 flex justify-between items-end">
+      <div className="absolute inset-0 hidden md:flex justify-between items-start h-auto">
         {bypassScreenshot.map((src, index) => (
           <img
             key={index}
             src={src}
             alt={`Bypass ${index + 1}`}
-            className={`image-${index} absolute w-full max-w-xs h-auto object-cover`}
+            className={`image-${index} absolute w-full max-w-xs  object-cover`}
             style={{
               bottom: `${index * (60 / bypassScreenshot.length)}%`,
-              left: `${index % 2 === 0 ? '5%' : 'auto'}`,
-              right: `${index % 2 !== 0 ? '5%' : 'auto'}`,
-              transform: `rotate(${index % 2 === 0 ? '-10deg' : '10deg'})`,
+              left: `${index % 2 === 0 ? "5%" : "auto"}`,
+              right: `${index % 2 !== 0 ? "5%" : "auto"}`,
+              transform: `rotate(${index % 2 === 0 ? "-10deg" : "10deg"})`,
             }}
           />
         ))}

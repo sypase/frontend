@@ -35,6 +35,7 @@ import QuestionsList from "./QuestionsList";
 import FAQ from "./FAQ";
 import ElegantFooter from "./last";
 import AICheckerShowcase from "./AICheckerShowcase";
+import React from "react";
 grid.register();
 
 interface Message {
@@ -296,8 +297,9 @@ export default function Home() {
                 {/* Landing Section */}
                 {showLanding && (
                   <section
-                    className="text-center py-8"
-                    style={{ height: "90vh", backgroundColor: "#f9fafb" }}
+                    className="text-center py-8  h-fit"
+                    // "h-[110vh] md:h-[90vh]"
+                    style={{ backgroundColor: "#f9fafb" }}
                   >
                     <h2 className="text-4xl font-bold mb-4 text-gray-900">
                       #1 Premium AI Bypasser In The World
@@ -307,18 +309,16 @@ export default function Home() {
                       tool, ensuring a natural flow and undetectable AI traces.
                     </p>
 
-                    <div className="flex justify-center mb-8">
+                    <div className="aspect-video w-full max-w-3xl mx-auto">
                       <iframe
-                        width="800" // Set a larger width
-                        height="450" // Set a larger height
+                        className="w-full h-full rounded-lg shadow-lg"
                         src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1&controls=0&mute=1"
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        className="w-full max-w-3xl rounded-lg shadow-lg" // Adjust max-width for responsiveness
                       ></iframe>
                     </div>
 
-                    <p className="text-lg mb-8 text-gray-700">
+                    <p className="text-lg m-8 text-gray-700">
                       Seamlessly bypass AI detection systems like:
                     </p>
 
@@ -357,8 +357,6 @@ export default function Home() {
 
                 {/* AI Checker Showcase Section */}
                 <AICheckerShowcase />
-
-
 
                 {/* Feature Section */}
                 <SmartProcessingSection />
