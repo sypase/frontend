@@ -19,9 +19,7 @@ interface Item {
 }
 
 interface PaymentMethods {
-    razorpay: { enabled: boolean; currencies: string[] };
     stripe: { enabled: boolean; currencies: string[] };
-    manual: { enabled: boolean; currencies: string[] };
     imepay: { enabled: boolean; currencies: string[] };
     esewa: { enabled: boolean; currencies: string[] };
     khalti: { enabled: boolean; currencies: string[] };
@@ -75,9 +73,8 @@ export default function Page() {
 
         if (currency === "USD") {
             return (
-                paymentMethods.stripe.enabled ||
-                paymentMethods.razorpay.enabled ||
-                paymentMethods.manual.enabled
+                paymentMethods.stripe.enabled 
+
             );
         } else if (currency === "NPR") {
             return (
@@ -198,20 +195,7 @@ export default function Page() {
                             setMethod={setPaymentMethod}
                         />
                     )}
-                    {currency === "USD" && paymentMethods?.razorpay.enabled && (
-                        <PaymentOption
-                            method="razorpay"
-                            currentMethod={paymentMethod}
-                            setMethod={setPaymentMethod}
-                        />
-                    )}
-                    {currency === "USD" && paymentMethods?.manual.enabled && (
-                        <PaymentOption
-                            method="manual"
-                            currentMethod={paymentMethod}
-                            setMethod={setPaymentMethod}
-                        />
-                    )}
+
                     {currency === "NPR" && paymentMethods?.imepay.enabled && (
                         <PaymentOption
                             method="imepay"

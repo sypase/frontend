@@ -4,27 +4,26 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 import { appName } from "@/utils/utils";
-import IMEPayIntegration from './imepay_form';
-import EsewaIntegration from './esewa_form'; // Import the eSewa component
-import KhaltiIntegration from './esewa_form'; // Import the Khalti component
+import dynamic from "next/dynamic";
+
+const IMEPayIntegration = dynamic(() => import("./imepay_form"), {
+  ssr: false,
+});
+
+const EsewaIntegration = dynamic(() => import("./esewa_form"), {
+  ssr: false,
+});
 
 function PaymentContent() {
   const params = useSearchParams();
 
-  const method = params.get('method');
-  const item = params.get('item');
+  const method = params.get("method");
+  const item = params.get("item");
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      {method === 'imepay' && item && (
-        <IMEPayIntegration item={item} />
-      )}
-      {method === 'esewa' && item && (
-        <EsewaIntegration item={item} />
-      )}
-      {method === 'khalti' && item && (
-        <KhaltiIntegration item={item} />
-      )}
+      {method === "imepay" && item && <IMEPayIntegration item={item} />}
+      {method === "esewa" && item && <EsewaIntegration item={item} />}
     </div>
   );
 }
@@ -35,7 +34,7 @@ export default function Page() {
       <p className="mb-5 font-semibold text-2xl max-sm:mb-3">
         <Link href="/">
           <span>{appName}</span>
-        </Link>{' '}
+        </Link>{" "}
         | Payment
       </p>
       <Suspense fallback={<div>Loading...</div>}>
