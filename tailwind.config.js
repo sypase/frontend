@@ -35,7 +35,6 @@
 // //   },
 // // }
 
-
 // /** @type {import('tailwindcss').Config} */
 // module.exports = {
 //   content: [
@@ -103,15 +102,21 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      fontFamily: {
+        mono: ["JetBrains Mono", "Menlo", "Monaco", "Courier New", "monospace"],
+        garamond: ["EB Garamond", "serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
     },
   },
@@ -121,16 +126,16 @@ module.exports = {
       {
         light: {
           ...require("daisyui/src/theming/themes")["[data-theme=light]"],
-          "primary": "#000000",
+          primary: "#000000",
           "primary-focus": "#1a1a1a",
           "primary-content": "#f5f5f5", // Off-white
-          "secondary": "#f5f5f5", // Off-white
+          secondary: "#f5f5f5", // Off-white
           "secondary-focus": "#ebebeb", // Off-white
           "secondary-content": "#000000",
-          "accent": "#000000",
+          accent: "#000000",
           "accent-focus": "#1a1a1a",
           "accent-content": "#f5f5f5", // Off-white
-          "neutral": "#ebebeb", // Off-white
+          neutral: "#ebebeb", // Off-white
           "neutral-focus": "#d9d9d9", // Off-white
           "neutral-content": "#000000",
           "base-100": "rgba(245, 245, 245, 0.7)", // Off-white with transparency
@@ -142,16 +147,16 @@ module.exports = {
       {
         dark: {
           ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
-          "primary": "#f5f5f5", // Off-white
+          primary: "#f5f5f5", // Off-white
           "primary-focus": "#ebebeb", // Off-white
           "primary-content": "#000000",
-          "secondary": "#000000",
+          secondary: "#000000",
           "secondary-focus": "#1a1a1a",
           "secondary-content": "#f5f5f5", // Off-white
-          "accent": "#f5f5f5", // Off-white
+          accent: "#f5f5f5", // Off-white
           "accent-focus": "#ebebeb", // Off-white
           "accent-content": "#000000",
-          "neutral": "#1a1a1a",
+          neutral: "#1a1a1a",
           "neutral-focus": "#000000",
           "neutral-content": "#f5f5f5", // Off-white
           "base-100": "rgba(0, 0, 0, 0.7)",
@@ -162,4 +167,4 @@ module.exports = {
       },
     ],
   },
-}
+};

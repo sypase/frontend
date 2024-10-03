@@ -20,7 +20,6 @@
 // import { jelly } from "ldrs";
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
-// import Header from "./Header";
 
 // // Register the ScrollToPlugin with GSAP
 // gsap.registerPlugin(ScrollToPlugin);
@@ -56,7 +55,7 @@
 //   useEffect(() => {
 //     const interval = setInterval(() => {
 //       setCurrentStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
-//     }, 3000);
+//     }, 3000); // Change step every 2 seconds
 
 //     return () => clearInterval(interval);
 //   }, []);
@@ -64,7 +63,7 @@
 //   useEffect(() => {
 //     if (containerRef.current) {
 //       gsap.to(containerRef.current, {
-//         y: -currentStep * 40,
+//         y: -currentStep * 40, // Adjust this value based on your step height
 //         duration: 0.5,
 //         ease: "power2.out",
 //       });
@@ -104,42 +103,67 @@
 //   );
 // };
 
-// const TypewriterEffect: React.FC<{ messages: string[] }> = ({ messages }) => {
-//   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-//   const [currentText, setCurrentText] = useState("");
-//   const [isTyping, setIsTyping] = useState(true);
-//   const [displayedMessages, setDisplayedMessages] = useState<string[]>([]); // New state to track all messages
-
-//   useEffect(() => {
-//     if (currentMessageIndex >= messages.length) {
-//       setIsTyping(false);
-//       return;
-//     }
-
-//     const currentMessage = messages[currentMessageIndex];
-//     if (currentText.length < currentMessage.length) {
-//       const timeout = setTimeout(() => {
-//         setCurrentText(currentMessage.slice(0, currentText.length + 1));
-//       }, 50);
-//       return () => clearTimeout(timeout);
-//     } else {
-//       const timeout = setTimeout(() => {
-//         setDisplayedMessages((prev) => [...prev, currentMessage]); // Add the message to the list
-//         setCurrentMessageIndex(currentMessageIndex + 1);
-//         setCurrentText("");
-//       }, 1000);
-//       return () => clearTimeout(timeout);
-//     }
-//   }, [currentText, currentMessageIndex, messages]);
-
+// const Header: React.FC<{
+//   isLoggedIn: boolean;
+//   user: any;
+//   rewriteCount: number;
+//   showDropdown: boolean;
+//   setShowDropdown: (show: boolean) => void;
+// }> = ({ isLoggedIn, user, rewriteCount, showDropdown, setShowDropdown }) => {
 //   return (
-//     <div className="text-gray-600">
-//       {displayedMessages.map((msg, index) => (
-//         <p key={index}>{msg}</p> // Display each accumulated message in its own line
-//       ))}
-//       <p>{currentText}</p> {/* Display the currently typing text */}
-//       {isTyping && <span className="animate-pulse">|</span>}
-//     </div>
+//     <header className="bg-white shadow-sm">
+//       <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+//         <h1 className="text-xl font-bold text-indigo-600">NoaiGPT</h1>
+//         <div className="flex items-center space-x-4">
+//           {!isLoggedIn && (
+//             <Link
+//               href="/pricing"
+//               className="px-4 py-1 bg-indigo-100 text-indigo-700 rounded-full hover:bg-indigo-200 transition-all duration-300 text-sm"
+//             >
+//               Pricing
+//             </Link>
+//           )}
+//           {isLoggedIn && (
+//             <div className="relative">
+//               <button
+//                 className="px-4 py-1 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all duration-300 text-sm"
+//                 onClick={() => setShowDropdown(!showDropdown)}
+//               >
+//                 {user?.name}
+//               </button>
+//               {showDropdown && (
+//                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+//                   <Link
+//                     href="/profile"
+//                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+//                   >
+//                     <FiUser className="inline mr-2" /> Profile
+//                   </Link>
+//                   <Link
+//                     href="/shop"
+//                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+//                   >
+//                     <FiShoppingCart className="inline mr-2" /> Shop
+//                   </Link>
+//                   <div className="px-4 py-2 text-sm text-gray-700">
+//                     Credits: {rewriteCount}
+//                   </div>
+//                   <button
+//                     onClick={() => {
+//                       localStorage.clear();
+//                       window.location.href = "/login";
+//                     }}
+//                     className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
+//                   >
+//                     <FiLogOut className="inline mr-2" /> Logout
+//                   </button>
+//                 </div>
+//               )}
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </header>
 //   );
 // };
 
@@ -172,15 +196,6 @@
 //   useEffect(() => {
 //     scrollToBottom();
 //   }, [messages]);
-
-//   useEffect(() => {
-//     if (!loading) {
-//       const savedMessages = localStorage.getItem("messageHistory");
-//       const existingMessages = savedMessages ? JSON.parse(savedMessages) : [];
-//       const combinedMessages = [...existingMessages, ...messages];
-//       localStorage.setItem("messageHistory", JSON.stringify(combinedMessages));
-//     }
-//   }, [messages, loading]);
 
 //   const getRewrites = async () => {
 //     const config = {
@@ -244,7 +259,7 @@
 
 //     const config = {
 //       method: "POST",
-//       url: `${serverURL}/bypass/rewrite`,
+//       url: `${serverURL}/free/bypass`,
 //       headers: {
 //         Authorization: `Bearer ${localStorage.getItem("token")}`,
 //         "Content-Type": `application/json`,
@@ -258,7 +273,7 @@
 //     try {
 //       const response = await axios(config);
 
-//       console.log(response.data);
+//       console.log(response);
 
 //       const variants = response.data.variants.map((variant: any) => ({
 //         text: variant.text,
@@ -266,7 +281,7 @@
 //       }));
 
 //       const botMessage: Message = {
-//         id: response.data.messageId,
+//         id: newMessage.id + 1,
 //         sender: "bot",
 //         text: variants.length > 0 ? variants[0].text : response.data.output,
 //         variants,
@@ -323,16 +338,15 @@
 //     textareaRef.current?.focus();
 //   };
 
-//   const welcomeMessages = [
-//     "Hello, Welcome to NoaiGPT!",
-//     "Paste the text and Start Humanizing Content",
-//     "Bypass Turnitin, Zerogpt, GptZero etc",
-//     "Stay Unique, Stay Undetectable."
-//   ];
-
 //   return (
 //     <div className="flex flex-col h-screen bg-gradient-to-br">
-//       <Header isLoggedIn={isLoggedIn} user={user} rewriteCount={rewriteCount} />
+//       <Header
+//         isLoggedIn={isLoggedIn}
+//         user={user}
+//         rewriteCount={rewriteCount}
+//         showDropdown={showDropdown}
+//         setShowDropdown={setShowDropdown}
+//       />
 
 //       <main className="flex-grow flex px-4 py-2 overflow-hidden">
 //         <div className="max-w-7xl w-full mx-auto flex space-x-4">
@@ -385,10 +399,17 @@
 //                     <div className="w-full max-w-md">
 //                       <LoadingSteps />
 //                     </div>
+//                     {/* <div className="space-y-2 w-full mt-4 max-w-md">
+//                       <Skeleton height={18} width="80%" />
+//                       <Skeleton height={18} width="75%" />
+//                       <Skeleton height={18} width="60%" />
+//                       <Skeleton height={18} width="70%" />
+//                       <Skeleton height={18} width="65%" />
+//                     </div> */}
 //                   </div>
 //                 ) : messages.length === 0 ? (
 //                   <div className="flex items-center justify-center h-full">
-//                     <TypewriterEffect messages={welcomeMessages} />
+//                     <p className="text-gray-400">Hello, Welcome to NoaiGPT</p>
 //                   </div>
 //                 ) : (
 //                   <textarea
@@ -503,10 +524,15 @@ import { quantum } from "ldrs";
 import { jelly } from "ldrs";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import Header from "./Header";
 
 // Register the ScrollToPlugin with GSAP
 gsap.registerPlugin(ScrollToPlugin);
+
+// Register quantum loader
+quantum.register();
+
+// Register jelly loader
+jelly.register();
 
 interface Message {
   id: number;
@@ -581,11 +607,75 @@ const LoadingSteps: React.FC = () => {
   );
 };
 
+const Header: React.FC<{
+  isLoggedIn: boolean;
+  user: any;
+  rewriteCount: number;
+  showDropdown: boolean;
+  setShowDropdown: (show: boolean) => void;
+}> = ({ isLoggedIn, user, rewriteCount, showDropdown, setShowDropdown }) => {
+  return (
+    <header className="bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+        <h1 className="text-xl font-bold text-indigo-600">NoaiGPT</h1>
+        <div className="flex items-center space-x-4">
+          {!isLoggedIn && (
+            <Link
+              href="/pricing"
+              className="px-4 py-1 bg-indigo-100 text-indigo-700 rounded-full hover:bg-indigo-200 transition-all duration-300 text-sm"
+            >
+              Pricing
+            </Link>
+          )}
+          {isLoggedIn && (
+            <div className="relative">
+              <button
+                className="px-4 py-1 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all duration-300 text-sm"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                {user?.name}
+              </button>
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+                  >
+                    <FiUser className="inline mr-2" /> Profile
+                  </Link>
+                  <Link
+                    href="/shop"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+                  >
+                    <FiShoppingCart className="inline mr-2" /> Shop
+                  </Link>
+                  <div className="px-4 py-2 text-sm text-gray-700">
+                    Credits: {rewriteCount}
+                  </div>
+                  <button
+                    onClick={() => {
+                      localStorage.clear();
+                      window.location.href = "/login";
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
+                  >
+                    <FiLogOut className="inline mr-2" /> Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+};
+
 const TypewriterEffect: React.FC<{ messages: string[] }> = ({ messages }) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
-  const [displayedMessages, setDisplayedMessages] = useState<string[]>([]);
+  const [displayedMessages, setDisplayedMessages] = useState<string[]>([]); // New state to track all messages
 
   useEffect(() => {
     if (currentMessageIndex >= messages.length) {
@@ -601,7 +691,7 @@ const TypewriterEffect: React.FC<{ messages: string[] }> = ({ messages }) => {
       return () => clearTimeout(timeout);
     } else {
       const timeout = setTimeout(() => {
-        setDisplayedMessages((prev) => [...prev, currentMessage]);
+        setDisplayedMessages((prev) => [...prev, currentMessage]); // Add the message to the list
         setCurrentMessageIndex(currentMessageIndex + 1);
         setCurrentText("");
       }, 1000);
@@ -612,9 +702,9 @@ const TypewriterEffect: React.FC<{ messages: string[] }> = ({ messages }) => {
   return (
     <div className="text-gray-600">
       {displayedMessages.map((msg, index) => (
-        <p key={index}>{msg}</p>
+        <p key={index}>{msg}</p> // Display each accumulated message in its own line
       ))}
-      <p>{currentText}</p>
+      <p>{currentText}</p> {/* Display the currently typing text */}
       {isTyping && <span className="animate-pulse">|</span>}
     </div>
   );
@@ -629,10 +719,25 @@ export default function Home() {
   const [rewriteCount, setRewriteCount] = useState<number>(0);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [historyMessages, setHistoryMessages] = useState<Message[]>([]);
+
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputContainerRef = useRef<HTMLDivElement>(null);
   const outputContainerRef = useRef<HTMLTextAreaElement>(null);
+
+  // Load history from local storage when component mounts
+  useEffect(() => {
+    const storedHistory = localStorage.getItem("messageHistory");
+    if (storedHistory) {
+      setHistoryMessages(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  // Save messages to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem("messageHistory", JSON.stringify(messages));
+  }, [messages]);
 
   const scrollToBottom = () => {
     if (inputContainerRef.current && outputContainerRef.current) {
@@ -649,15 +754,6 @@ export default function Home() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  useEffect(() => {
-    if (!loading) {
-      const savedMessages = localStorage.getItem("messageHistory");
-      const existingMessages = savedMessages ? JSON.parse(savedMessages) : [];
-      const combinedMessages = [...existingMessages, ...messages];
-      localStorage.setItem("messageHistory", JSON.stringify(combinedMessages));
-    }
-  }, [messages, loading]);
 
   const getRewrites = async () => {
     const config = {
@@ -735,7 +831,7 @@ export default function Home() {
     try {
       const response = await axios(config);
 
-      console.log(response.data);
+      console.log(response);
 
       const variants = response.data.variants.map((variant: any) => ({
         text: variant.text,
@@ -743,7 +839,7 @@ export default function Home() {
       }));
 
       const botMessage: Message = {
-        id: response.data.messageId,
+        id: newMessage.id + 1,
         sender: "bot",
         text: variants.length > 0 ? variants[0].text : response.data.output,
         variants,
@@ -803,20 +899,17 @@ export default function Home() {
   const welcomeMessages = [
     "Hello, Welcome to NoaiGPT!",
     "Paste the text and Start Humanizing Content",
-    "Bypass Turnitin, Zerogpt, GptZero etc",
-    "Stay Unique, Stay Undetectable.",
   ];
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      quantum.register();
-      jelly.register();
-    }
-  }, []);
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br">
-      <Header isLoggedIn={isLoggedIn} user={user} rewriteCount={rewriteCount} />
+      <Header
+        isLoggedIn={isLoggedIn}
+        user={user}
+        rewriteCount={rewriteCount}
+        showDropdown={showDropdown}
+        setShowDropdown={setShowDropdown}
+      />
 
       <main className="flex-grow flex px-4 py-2 overflow-hidden">
         <div className="max-w-7xl w-full mx-auto flex space-x-4">
@@ -941,7 +1034,9 @@ export default function Home() {
                           messages[messages.length - 1].variantIndex ===
                           messages[messages.length - 1].variants!.length - 1
                         }
-                      ></button>
+                      >
+                        &gt;
+                      </button>
                       <button
                         className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-all duration-300"
                         onClick={() =>

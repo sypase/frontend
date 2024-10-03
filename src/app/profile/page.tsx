@@ -7,6 +7,7 @@ import { serverURL } from '@/utils/utils';
 import 'react-toastify/dist/ReactToastify.css';
 import { FiUser, FiLogOut, FiCopy, FiShoppingCart, FiShoppingBag, FiPackage } from 'react-icons/fi';
 import MinidenticonImg from './MinidenticonImg'; // Import the Minidenticon component
+import Header from '../dashboard/Header';
 
 interface User {
   name: string;
@@ -15,13 +16,19 @@ interface User {
   referralCode: string;
 }
 
-interface EarnedPoint {
+interface EarnedPointAsReferrer {
+  referredUserName: string;
+  rewardAmount: number;
+}
+
+interface EarnedPointAsReferred {
   referrerName: string;
   rewardAmount: number;
 }
 
 interface EarnedPointsResponse {
-  earnedPoints: EarnedPoint[];
+  earnedPointsAsReferrer: EarnedPointAsReferrer[];
+  earnedPointsAsReferred: EarnedPointAsReferred[];
   totalCompletedReferrals: number;
 }
 
@@ -36,7 +43,8 @@ interface Purchase {
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [earnedPoints, setEarnedPoints] = useState<EarnedPoint[]>([]);
+  const [earnedPointsAsReferrer, setEarnedPointsAsReferrer] = useState<EarnedPointAsReferrer[]>([]);
+  const [earnedPointsAsReferred, setEarnedPointsAsReferred] = useState<EarnedPointAsReferred[]>([]);
   const [totalCompletedReferrals, setTotalCompletedReferrals] = useState<number>(0);
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [rewriteCount, setRewriteCount] = useState<number>(-1);
@@ -49,7 +57,10 @@ export default function ProfilePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setEarnedPoints(response.data.earnedPoints);
+      console.log(response.data);
+      
+      setEarnedPointsAsReferrer(response.data.earnedPointsAsReferrer);
+      setEarnedPointsAsReferred(response.data.earnedPointsAsReferred);
       setTotalCompletedReferrals(response.data.totalCompletedReferrals);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -84,7 +95,7 @@ export default function ProfilePage() {
   const getRewrites = async () => {
     const config = {
       method: "GET",
-      url: `${serverURL}/rewordai/rewrites`,
+      url: `${serverURL}/bypass/rewrites`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -153,71 +164,7 @@ export default function ProfilePage() {
 
   return (
     <div className="flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen w-screen font-sans">
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
-                <Link href="/" className="text-2xl font-bold text-gray-800">
-                  NoaiGPT
-                </Link>
-              </div>
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                <Link href="/" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                  Home
-                </Link>
-                <Link href="/profile" className="border-blue-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                  Profile
-                </Link>
-                <Link href="/shop" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                  Shop
-                </Link>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="relative">
-                <button
-                  className="flex items-center space-x-1 text-gray-700 hover:text-gray-900"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                >
-                  <span>{user?.name}</span>
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
-                    <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      <FiUser className="inline mr-2" /> Profile
-                    </Link>
-                    <Link href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      <FiShoppingCart className="inline mr-2" /> Shop
-                    </Link>
-                    <Link href="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      <FiPackage className="inline mr-2" /> My Orders
-                    </Link>
-                    <Link href="/purchases" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      <FiShoppingBag className="inline mr-2" /> My Purchases
-                    </Link>
-                    <div className="px-4 py-2 text-sm text-gray-700">
-                      Credits: {rewriteCount}
-                    </div>
-                    <button
-                      onClick={() => {
-                        localStorage.clear();
-                        window.location.href = "/login";
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
-                    >
-                      <FiLogOut className="inline mr-2" /> Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header isLoggedIn={!!user} user={user} rewriteCount={rewriteCount} />
 
       <main className="flex-grow py-10">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -262,6 +209,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
+
           <div className="bg-white bg-opacity-90 rounded-xl mb-8 p-6">
             <h2 className="text-2xl font-bold mb-6">Credits</h2>
             <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-200 to-teal-200 bg-opacity-70 rounded-lg">
@@ -277,22 +225,41 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="bg-white bg-opacity-90 rounded-xl mb-8 p-6">
-            <h2 className="text-2xl font-bold mb-6">Earned Points</h2>
-            {earnedPoints.length > 0 ? (
-              <ul className="divide-y divide-gray-200">
-                {earnedPoints.map((point, index) => (
-                  <li key={index} className="py-4">
-                    <p className="text-sm font-medium text-gray-900">Referral: {point.referrerName}</p>
-                    <p className="text-sm text-gray-500">Amount: {point.rewardAmount}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-500">No earned points yet.</p>
-            )}
+          {earnedPointsAsReferrer && (
+            <div className="bg-white bg-opacity-90 rounded-xl mb-8 p-6">
+              <h2 className="text-2xl font-bold mb-6">Earned Points as Referrer</h2>
+              {earnedPointsAsReferrer.length > 0 ? (
+                <ul className="divide-y divide-gray-200">
+                  {earnedPointsAsReferrer.map((point, index) => (
+                    <li key={index} className="py-4">
+                      <p className="text-sm font-medium text-gray-900">Referred User: {point.referredUserName}</p>
+                      <p className="text-sm text-gray-500">Amount: {point.rewardAmount}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500">No earned points as referrer yet.</p>
+              )}
+            </div>
+          )}
 
-          </div>
+          {earnedPointsAsReferred && (
+            <div className="bg-white bg-opacity-90 rounded-xl mb-8 p-6">
+              <h2 className="text-2xl font-bold mb-6">Earned Points as Referred</h2>
+              {earnedPointsAsReferred.length > 0 ? (
+                <ul className="divide-y divide-gray-200">
+                  {earnedPointsAsReferred.map((point, index) => (
+                    <li key={index} className="py-4">
+                      <p className="text-sm font-medium text-gray-900">Referrer: {point.referrerName}</p>
+                      <p className="text-sm text-gray-500">Amount: {point.rewardAmount}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500">No earned points as referred yet.</p>
+              )}
+            </div>
+          )}
 
           <div className="bg-white bg-opacity-90 rounded-xl mb-8 p-6">
             <h2 className="text-2xl font-bold mb-6">Recent Purchases</h2>
