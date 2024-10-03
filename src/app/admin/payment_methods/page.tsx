@@ -11,8 +11,6 @@ type PaymentMethodData = {
 
 type PaymentMethods = {
   stripe: PaymentMethodData;
-  razorpay: PaymentMethodData;
-  manual: PaymentMethodData;
   imepay: PaymentMethodData;
   esewa: PaymentMethodData;
   khalti: PaymentMethodData;
@@ -92,7 +90,7 @@ export default function Page() {
           <tbody>
             {data &&
               Object.entries(data)
-                .filter(([method]) => ["stripe", "razorpay", "manual", "imepay", "esewa", "khalti"].includes(method))
+                .filter(([method]) => ["stripe", "imepay", "esewa", "khalti"].includes(method))
                 .map(([method, details], index) => (
                   <tr className="hover" key={method}>
                     <th>{index + 1}</th>

@@ -13,23 +13,27 @@ import {
   FiTrash,
 } from "react-icons/fi";
 
-type PricingOption = {
+type Item = {
+  _id: string;
+  enable: boolean;
+  title: string;
+  rewriteLimit: number;
   country: string;
   currency: string;
   price: number;
+  features: string[];
 };
 
 export default function Page() {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [title, setTitle] = useState<string>("");
   const [rewriteLimit, setRewriteLimit] = useState<number>(1);
-  const [enable, setEnable] = useState<boolean>(false);
-  const [pricing, setPricing] = useState<PricingOption[]>([
-    { country: "US", currency: "USD", price: 0 },
-  ]);
+  const [enable, setEnable] = useState<boolean>(true);
+  const [country, setCountry] = useState<string>("US");
+  const [currency, setCurrency] = useState<string>("USD");
+  const [price, setPrice] = useState<number>(0);
   const [features, setFeatures] = useState<string[]>([]);
   const [editItemId, setEditItemId] = useState<string>("");
-  const [deleteItemId, setDeleteItemId] = useState<string>("");
 
   const getItems = async () => {
     try {
@@ -47,8 +51,7 @@ export default function Page() {
   const createItem = async () => {
     if (!title) return toast.error("Please enter a title!");
     if (!rewriteLimit) return toast.error("Please enter a rewrite limit!");
-    if (pricing.some((p) => !p.price))
-      return toast.error("Please enter a price for all pricing options!");
+    if (!price) return toast.error("Please enter a price!");
 
     try {
       await axios.post(
@@ -56,7 +59,9 @@ export default function Page() {
         {
           title,
           rewriteLimit,
-          pricing,
+          country,
+          currency,
+          price,
           features,
         },
         {
@@ -77,8 +82,7 @@ export default function Page() {
   const editItem = async () => {
     if (!title) return toast.error("Please enter a title!");
     if (!rewriteLimit) return toast.error("Please enter a rewrite limit!");
-    if (pricing.some((p) => !p.price))
-      return toast.error("Please enter a price for all pricing options!");
+    if (!price) return toast.error("Please enter a price!");
 
     try {
       await axios.post(
@@ -88,7 +92,9 @@ export default function Page() {
           enable,
           title,
           rewriteLimit,
-          pricing,
+          country,
+          currency,
+          price,
           features,
         },
         {
@@ -106,11 +112,11 @@ export default function Page() {
     }
   };
 
-  const deleteItem = async () => {
+  const disableItem = async (itemId: string) => {
     try {
       await axios.post(
-        `${serverURL}/admin/shop/delete`,
-        { itemId: deleteItemId },
+        `${serverURL}/admin/shop/disable`,
+        { itemId },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -118,7 +124,7 @@ export default function Page() {
           },
         }
       );
-      toast.success("Item deleted!");
+      toast.success("Item disabled!");
       getItems();
     } catch (error) {
       toast.error("Something went wrong!");
@@ -128,29 +134,12 @@ export default function Page() {
   const resetForm = () => {
     setTitle("");
     setRewriteLimit(1);
-    setEnable(false);
-    setPricing([{ country: "US", currency: "USD", price: 0 }]);
+    setEnable(true);
+    setCountry("US");
+    setCurrency("USD");
+    setPrice(0);
     setFeatures([]);
     setEditItemId("");
-  };
-
-  const handlePricingChange = (
-    index: number,
-    field: keyof PricingOption,
-    value: string | number
-  ) => {
-    const newPricing = [...pricing];
-    newPricing[index] = { ...newPricing[index], [field]: value };
-    setPricing(newPricing);
-  };
-
-  const addPricingOption = () => {
-    setPricing([...pricing, { country: "US", currency: "USD", price: 0 }]);
-  };
-
-  const removePricingOption = (index: number) => {
-    const newPricing = pricing.filter((_, i) => i !== index);
-    setPricing(newPricing);
   };
 
   useEffect(() => {
@@ -170,44 +159,43 @@ export default function Page() {
           >
             <div className="card-body">
               <h2 className="card-title">
-                {item?.title}
-                {!item?.enable && (
+                {item.title}
+                {!item.enable && (
                   <div className="badge badge-ghost">Disabled</div>
                 )}
               </h2>
-              {(item?.pricing || []).map((p: PricingOption, index: number) => (
-                <p key={index} className="font-semibold text-4xl mb-4">
-                  {p.currency} {p.price} ({p.country})
-                </p>
-              ))}
+              <p className="font-semibold text-4xl mb-4">
+                {item.currency} {item.price} ({item.country})
+              </p>
               <p className="flex items-center">
                 <FiCheckCircle className="mr-2" />
-                {item?.rewriteLimit} rewrites
+                {item.rewriteLimit} rewrites
               </p>
               <div className="card-actions justify-end">
                 <label
                   htmlFor="edititem_modal"
                   className="btn btn-sm"
                   onClick={() => {
-                    setTitle(item?.title);
-                    setRewriteLimit(item?.rewriteLimit);
-                    setEditItemId(item?._id);
-                    setEnable(item?.enable);
-                    setPricing(item?.pricing || []);
-                    setFeatures(item?.features || []);
+                    setTitle(item.title);
+                    setRewriteLimit(item.rewriteLimit);
+                    setEditItemId(item._id);
+                    setEnable(item.enable);
+                    setCountry(item.country);
+                    setCurrency(item.currency);
+                    setPrice(item.price);
+                    setFeatures(item.features);
                   }}
                 >
                   <FiEdit />
                   Edit
                 </label>
-                <label
-                  htmlFor="deleteitem_modal"
+                <button
                   className="btn btn-sm"
-                  onClick={() => setDeleteItemId(item?._id)}
+                  onClick={() => disableItem(item._id)}
                 >
                   <FiTrash />
-                  Delete
-                </label>
+                  Disable
+                </button>
               </div>
             </div>
           </div>
@@ -252,55 +240,36 @@ export default function Page() {
           />
           <p className="flex items-center py-4">
             <FiDollarSign className="mr-2" />
-            Pricing Options
+            Pricing
           </p>
-          {pricing.map((p, index) => (
-            <div key={index} className="mb-4">
-              <div className="flex items-center mb-2">
-                <select
-                  className="select select-bordered w-full mr-2"
-                  onChange={(e) =>
-                    handlePricingChange(index, "country", e.target.value)
-                  }
-                  value={p.country}
-                >
-                  <option value="US">United States</option>
-                  <option value="NP">Nepal</option>
-                  {/* Add more countries as needed */}
-                </select>
-                <select
-                  className="select select-bordered w-full mr-2"
-                  onChange={(e) =>
-                    handlePricingChange(index, "currency", e.target.value)
-                  }
-                  value={p.currency}
-                >
-                  <option value="USD">USD</option>
-                  <option value="NPR">NPR</option>
-                  <option value="INR">INR</option>
-                </select>
-                <input
-                  className="input input-bordered w-full"
-                  placeholder="Price"
-                  type="number"
-                  min={0}
-                  onChange={(e) =>
-                    handlePricingChange(index, "price", parseInt(e.target.value))
-                  }
-                  value={p.price}
-                />
-                <button
-                  className="btn btn-error btn-sm ml-2"
-                  onClick={() => removePricingOption(index)}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-          <button className="btn btn-secondary btn-sm" onClick={addPricingOption}>
-            Add Pricing Option
-          </button>
+          <div className="flex items-center mb-2">
+            <select
+              className="select select-bordered w-full mr-2"
+              onChange={(e) => setCountry(e.target.value)}
+              value={country}
+            >
+              <option value="US">United States</option>
+              <option value="NP">Nepal</option>
+              <option value="IN">India</option>
+            </select>
+            <select
+              className="select select-bordered w-full mr-2"
+              onChange={(e) => setCurrency(e.target.value)}
+              value={currency}
+            >
+              <option value="USD">USD</option>
+              <option value="NPR">NPR</option>
+              <option value="INR">INR</option>
+            </select>
+            <input
+              className="input input-bordered w-full"
+              placeholder="Price"
+              type="number"
+              min={0}
+              onChange={(e) => setPrice(parseFloat(e.target.value))}
+              value={price}
+            />
+          </div>
           <p className="flex items-center py-4">
             <FiFile className="mr-2" />
             Features
@@ -374,55 +343,36 @@ export default function Page() {
           />
           <p className="flex items-center py-4">
             <FiDollarSign className="mr-2" />
-            Pricing Options
+            Pricing
           </p>
-          {pricing.map((p, index) => (
-            <div key={index} className="mb-4">
-              <div className="flex items-center mb-2">
-                <select
-                  className="select select-bordered w-full mr-2"
-                  onChange={(e) =>
-                    handlePricingChange(index, "country", e.target.value)
-                  }
-                  value={p.country}
-                >
-                  <option value="US">United States</option>
-                  <option value="NP">Nepal</option>
-                  {/* Add more countries as needed */}
-                </select>
-                <select
-                  className="select select-bordered w-full mr-2"
-                  onChange={(e) =>
-                    handlePricingChange(index, "currency", e.target.value)
-                  }
-                  value={p.currency}
-                >
-                  <option value="USD">USD</option>
-                  <option value="NPR">NPR</option>
-                  <option value="INR">INR</option>
-                </select>
-                <input
-                  className="input input-bordered w-full"
-                  placeholder="Price"
-                  type="number"
-                  min={0}
-                  onChange={(e) =>
-                    handlePricingChange(index, "price", parseInt(e.target.value))
-                  }
-                  value={p.price}
-                />
-                <button
-                  className="btn btn-error btn-sm ml-2"
-                  onClick={() => removePricingOption(index)}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-          <button className="btn btn-secondary btn-sm" onClick={addPricingOption}>
-            Add Pricing Option
-          </button>
+          <div className="flex items-center mb-2">
+            <select
+              className="select select-bordered w-full mr-2"
+              onChange={(e) => setCountry(e.target.value)}
+              value={country}
+            >
+              <option value="US">United States</option>
+              <option value="NP">Nepal</option>
+              <option value="IN">India</option>
+            </select>
+            <select
+              className="select select-bordered w-full mr-2"
+              onChange={(e) => setCurrency(e.target.value)}
+              value={currency}
+            >
+              <option value="USD">USD</option>
+              <option value="NPR">NPR</option>
+              <option value="INR">INR</option>
+            </select>
+            <input
+              className="input input-bordered w-full"
+              placeholder="Price"
+              type="number"
+              min={0}
+              onChange={(e) => setPrice(parseFloat(e.target.value))}
+              value={price}
+            />
+          </div>
           <p className="flex items-center py-4">
             <FiFile className="mr-2" />
             Features
@@ -449,31 +399,6 @@ export default function Page() {
             </label>
           </div>
         </div>
-      </div>
-      {/* Delete Item Modal */}
-      <input type="checkbox" id="deleteitem_modal" className="modal-toggle" />
-      <div className="modal">
-        <div className="modal-box">
-          <h3 className="flex items-center font-bold text-lg">
-            <FiTrash className="mr-1" /> Delete Item
-          </h3>
-          <p className="py-4">Are you sure you want to delete this item?</p>
-          <div className="modal-action">
-            <label htmlFor="deleteitem_modal" className="btn">
-              Cancel
-            </label>
-            <label
-              htmlFor="deleteitem_modal"
-              className="btn btn-error"
-              onClick={() => deleteItem()}
-            >
-              Delete
-            </label>
-          </div>
-        </div>
-        <label className="modal-backdrop" htmlFor="deleteitem_modal">
-          Cancel
-        </label>
       </div>
     </div>
   );

@@ -7,25 +7,19 @@ import React, { useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight, FiCheckCircle, FiCreditCard, FiShoppingCart } from "react-icons/fi";
 
 // Define interfaces for the item and payment methods
-interface Pricing {
-    country: string;
-    currency: string;
-    price: number;
-}
-
 interface Item {
     _id: string;
     title: string;
     rewriteLimit: number;
     enable: boolean;
-    pricing: Pricing[];
+    country: string;
+    currency: string;
+    price: number;
     features: string[];
 }
 
 interface PaymentMethods {
-    razorpay: { enabled: boolean; currencies: string[] };
     stripe: { enabled: boolean; currencies: string[] };
-    manual: { enabled: boolean; currencies: string[] };
     imepay: { enabled: boolean; currencies: string[] };
     esewa: { enabled: boolean; currencies: string[] };
     khalti: { enabled: boolean; currencies: string[] };
@@ -79,9 +73,8 @@ export default function Page() {
 
         if (currency === "USD") {
             return (
-                paymentMethods.stripe.enabled ||
-                paymentMethods.razorpay.enabled ||
-                paymentMethods.manual.enabled
+                paymentMethods.stripe.enabled 
+
             );
         } else if (currency === "NPR") {
             return (
@@ -132,8 +125,7 @@ export default function Page() {
 
             <div className="animate-fade-in-bottom w-full h-full flex items-center justify-center flex-wrap overflow-y-auto">
                 {items.map((item, i) => {
-                    const price = item.pricing.find((p) => p.currency === currency)?.price || "N/A";
-                    const isBestSelling = currency === "NPR" && price === 999;
+                    const isBestSelling = currency === "NPR" && item.price === 999;
                     return (
                         <div
                             key={i}
@@ -146,7 +138,7 @@ export default function Page() {
                                 <h2 className="card-title text-2xl font-bold text-gray-800 flex justify-between items-center">
                                     {item.title}
                                     <div className="badge bg-blue-200 text-blue-800 px-2 py-1 rounded-full">
-                                        {currency} {price}
+                                        {item.currency} {item.price}
                                     </div>
                                 </h2>
                                 {isBestSelling && (
@@ -203,20 +195,7 @@ export default function Page() {
                             setMethod={setPaymentMethod}
                         />
                     )}
-                    {currency === "USD" && paymentMethods?.razorpay.enabled && (
-                        <PaymentOption
-                            method="razorpay"
-                            currentMethod={paymentMethod}
-                            setMethod={setPaymentMethod}
-                        />
-                    )}
-                    {currency === "USD" && paymentMethods?.manual.enabled && (
-                        <PaymentOption
-                            method="manual"
-                            currentMethod={paymentMethod}
-                            setMethod={setPaymentMethod}
-                        />
-                    )}
+
                     {currency === "NPR" && paymentMethods?.imepay.enabled && (
                         <PaymentOption
                             method="imepay"
