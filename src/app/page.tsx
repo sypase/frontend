@@ -739,7 +739,7 @@ export default function Home() {
                     style={{ height: "90vh", backgroundColor: "#f9fafb" }}
                   >
                     <h2 className="text-4xl font-bold mb-4 text-gray-900">
-                      #1 Premium AI Bypasser In The World
+                      #1 Premium AI Humanizer In The World
                     </h2>
                     <p className="text-lg mb-8 text-gray-700">
                       Effortlessly bypass AI detectors with our cutting-edge
