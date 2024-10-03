@@ -122,6 +122,29 @@ const ElegantFooter = () => {
                   Under No A I G P T{" "}
                 </a>
               </li>
+              <li className="footer-link mb-2">
+                <a className="hover:text-gray-600 transition duration-300 ease-in-out"
+                href="/assets/terms-of-service.txt"
+                >
+                  Terms & Condition ↗{" "}
+                </a>
+              </li>
+              <li className="footer-link mb-2">
+                <a
+                  className="hover:text-gray-600 transition duration-300 ease-in-out"
+                  href="/assets/Privacy%20Policy%20for%20NoaiGPT%20-%20TermsFeed.pdf"
+                >
+                  Privacy Policy ↗{" "}
+                </a>
+              </li>
+              <li className="footer-link mb-2">
+                <a
+                  className="hover:text-gray-600 transition duration-300 ease-in-out"
+                  href="/assets/Return%20and%20Refund%20Policy%20for%20NoaiGPT%20-%20PrivacyPolicies.com.pdf"
+                >
+                  Refund Policy ↗{" "}
+                </a>
+              </li>
             </ul>
           </div>
         </div>

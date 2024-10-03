@@ -115,7 +115,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
           <div className="mt-8 text-sm text-gray-600 text-center">
             By signing up, you agree to our{" "}
             <a
-              href="/privacy-policy"
+              href="/assets/Privacy%20Policy%20for%20NoaiGPT%20-%20TermsFeed.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
@@ -124,7 +124,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
             </a>{" "}
             and{" "}
             <a
-              href="/terms-and-conditions"
+              href="/assets/terms-of-service.txt"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
