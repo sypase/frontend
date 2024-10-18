@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { serverURL } from "@/utils/utils";
 import axios from "axios";
 import Image from "next/image";
@@ -28,11 +28,13 @@ const IMEPayIntegration: React.FC<IMEPayProps> = ({ item }) => {
   const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
   const [transactionDetails, setTransactionDetails] = useState<TransactionDetails | null>(null);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const orderCreated = useRef(false);
 
   useEffect(() => {
-    if (item) {
+    if (item && !orderCreated.current) {
       createOrder();
-    } else {
+      orderCreated.current = true;
+    } else if (!item) {
       setError("No item specified for payment");
       setLoading(false);
     }

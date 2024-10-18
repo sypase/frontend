@@ -9,9 +9,7 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-  },
-  swcMinify: false, // Disable SWC minification (Next.js >=12)
-  
+  }  
 };
 
 module.exports = nextConfig;

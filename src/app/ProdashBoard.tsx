@@ -1,7 +1,6 @@
 // components/ProdashBoard.tsx
 
 import React, { useEffect, useRef } from 'react';
-import Spline from '@splinetool/react-spline';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -65,10 +64,7 @@ const ProdashBoard = () => {
 
       {/* Spline 3D Scene on the Right */}
       <div ref={splineRef} className="w-full md:w-1/2 h-full flex items-center justify-center p-4">
-        <Spline
-          scene="https://prod.spline.design/e51ZTomqqNpsvjGh/scene.splinecode"
-          className="w-full h-[50vh] max-w-none"
-        />
+
       </div>
     </section>
   );

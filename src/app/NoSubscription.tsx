@@ -33,13 +33,7 @@ const NoSubscription = () => {
 
   return (
     <section className="relative flex items-center justify-center min-h-screen bg-white p-8 overflow-hidden">
-      {/* Spline Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <Spline
-          scene="https://prod.spline.design/TtKxEk97ZzdOkg8q/scene.splinecode"
-          className="w-full h-full"
-        />
-      </div>
+
 
       {/* Content */}
       <div ref={contentRef} className="relative text-center max-w-xl z-10 flex flex-col items-center">

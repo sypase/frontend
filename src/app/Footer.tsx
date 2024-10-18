@@ -28,12 +28,12 @@ const Footer: React.FC<FooterProps> = ({
   toggleAdvancedMode,
 }) => {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg z-40 ">
+    <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-40 ">
       <div className="max-w-2xl mx-auto relative">
         <div className="absolute top-[-40px] right-0">
           <div className="flex items-center cursor-pointer relative">
             <div className="group flex items-center relative">
-              <div
+              {/* <div
                 className={`w-12 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out ${
                   isAdvancedMode
                     ? "bg-gradient-to-r from-green-400 via-blue-500 to-purple-600"
@@ -45,7 +45,7 @@ const Footer: React.FC<FooterProps> = ({
                     isAdvancedMode ? "translate-x-6" : ""
                   }`}
                 ></div>
-              </div>
+              </div> */}
               <div className="absolute bottom-12 left-[-80px] bg-white text-gray-700 text-sm p-4 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-72 flex flex-col items-start pointer-events-none">
                 <div className="flex items-center mb-2">
                   <FiZap className="mr-2 text-blue-500" />

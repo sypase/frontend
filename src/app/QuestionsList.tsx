@@ -330,7 +330,7 @@ const QuestionsCarousel = () => {
         const totalWidth = ref.current.scrollWidth;
         gsap.to(ref.current, {
           x: index % 2 === 0 ? -totalWidth / 2 : totalWidth / 2,
-          duration: questions.length * 2,
+          duration: questions.length * 8,
           ease: "none",
           repeat: -1,
         });
@@ -370,11 +370,11 @@ const QuestionsCarousel = () => {
         </div>
       ))}
 
-      <div className=" top-1/4 flex items-center justify-center z-10">
+      {/* <div className=" top-1/4 flex items-center justify-center z-10">
         <h1 className="text-5xl font-bold text-gray-800">
             BYPASS AI TEXT EASILY
         </h1>
-      </div>
+      </div> */}
     </section>
   );
 };
