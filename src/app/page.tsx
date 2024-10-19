@@ -1,11 +1,8 @@
-
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { motion } from "framer-motion";
 import { useSpring, animated } from "react-spring";
 import Link from "next/link";
 import Head from "next/head";
@@ -35,7 +32,7 @@ import QuestionsList from "./QuestionsList";
 import FAQ from "./FAQ";
 import ElegantFooter from "./last";
 import AICheckerShowcase from "./AICheckerShowcase";
-import {AnimatedBeamDemo} from "./AnimatedBeam"
+import {AnimatedBeamMultipleOutputDemo} from "./AnimatedBeam"
 
 interface Message {
   id: number;
@@ -279,7 +276,9 @@ export default function Home() {
         onShowSignupForm={() => setShowSignupForm(true)}
       ></Header>
 
-      <AnimatedBeamDemo/>
+
+
+
 
 
 
@@ -307,7 +306,7 @@ export default function Home() {
                 {showLanding && (
                   <section
                     className="text-center py-8"
-                    style={{ height: "90vh", backgroundColor: "#f9fafb" }}
+                    style={{ height: "150vh", backgroundColor: "#f9fafb" }}
                   >
                     <h2 className="text-4xl font-bold mb-4 text-gray-900">
                       #1 Premium AI Humanizer In The World
@@ -315,21 +314,6 @@ export default function Home() {
                     <p className="text-lg mb-8 text-gray-700">
                       Effortlessly bypass AI detectors with our cutting-edge
                       tool, ensuring a natural flow and undetectable AI traces.
-                    </p>
-
-                    <div className="flex justify-center mb-8">
-                      <iframe
-                        width="800" // Set a larger width
-                        height="450" // Set a larger height
-                        src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1&controls=0&mute=1"
-                        title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        className="w-full max-w-3xl rounded-lg shadow-lg" // Adjust max-width for responsiveness
-                      ></iframe>
-                    </div>
-
-                    <p className="text-lg mb-8 text-gray-700">
-                      Seamlessly bypass AI detection systems like:
                     </p>
 
                     <Slider {...logoSettings} className="mb-8 w-1/2 mx-auto">
@@ -343,6 +327,17 @@ export default function Home() {
                         </div>
                       ))}
                     </Slider>
+
+                    <div className="flex justify-center mb-8">
+                      <iframe
+                        width="800" // Set a larger width
+                        height="450" // Set a larger height
+                        src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1&controls=0&mute=1"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        className="w-full max-w-3xl rounded-lg shadow-lg" // Adjust max-width for responsiveness
+                      ></iframe>
+                    </div>
 
                     {/* <button
     className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
@@ -369,6 +364,9 @@ export default function Home() {
                 {/* <AICheckerShowcase /> */}
 
                 {/* Animated Beam Demo Section */}
+
+                <AnimatedBeamMultipleOutputDemo/>
+
 
                 
                 

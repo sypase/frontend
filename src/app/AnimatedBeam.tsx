@@ -1,7 +1,8 @@
+
+
 "use client";
 
 import React, { forwardRef, useRef } from "react";
-
 import { cn } from "@/lib/utils";
 import { AnimatedBeam } from "@/components/ui/animated-beam";
 
@@ -13,8 +14,8 @@ const Circle = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
-        className,
+        "z-10 flex w-12 h-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
+        className
       )}
     >
       {children}
@@ -24,7 +25,11 @@ const Circle = forwardRef<
 
 Circle.displayName = "Circle";
 
-export function AnimatedBeamDemo() {
+export function AnimatedBeamMultipleOutputDemo({
+  className,
+}: {
+  className?: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const div1Ref = useRef<HTMLDivElement>(null);
   const div2Ref = useRef<HTMLDivElement>(null);
@@ -36,84 +41,82 @@ export function AnimatedBeamDemo() {
 
   return (
     <div
-      className="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border bg-background p-10 md:shadow-xl"
+      className={cn(
+        "relative flex min-h-[100vh] w-full items-center justify-center overflow-hidden rounded-lg border bg-white p-10 md:shadow-l",
+        className
+      )}
       ref={containerRef}
     >
-      <div className="flex size-full flex-col max-w-lg max-h-[200px] items-stretch justify-between gap-10">
-        <div className="flex flex-row items-center justify-between">
-          <Circle ref={div1Ref}>
-            <Icons.googleDrive />
-          </Circle>
-          <Circle ref={div5Ref}>
-            <Icons.googleDocs />
-          </Circle>
-        </div>
-        <div className="flex flex-row items-center justify-between">
-          <Circle ref={div2Ref}>
-            <Icons.notion />
-          </Circle>
-          <Circle ref={div4Ref} className="size-16">
-            <Icons.openai />
-          </Circle>
-          <Circle ref={div6Ref}>
+      <div className="flex w-full max-w-lg flex-row items-stretch justify-between gap-10">
+        <div className="flex flex-col justify-center">
+          <Circle ref={div7Ref}>
             <Icons.zapier />
           </Circle>
         </div>
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col justify-center">
+          <Circle ref={div6Ref} className="w-16 h-16">
+            <Icons.openai />
+          </Circle>
+        </div>
+        <div className="flex flex-col justify-center gap-2">
+          <Circle ref={div1Ref}>
+            <Icons.googleDrive />
+          </Circle>
+          <Circle ref={div2Ref}>
+            <Icons.googleDocs />
+          </Circle>
           <Circle ref={div3Ref}>
             <Icons.whatsapp />
           </Circle>
-          <Circle ref={div7Ref}>
+          <Circle ref={div4Ref}>
             <Icons.messenger />
+          </Circle>
+          <Circle ref={div5Ref}>
+            <Icons.notion />
           </Circle>
         </div>
       </div>
 
+      {/* AnimatedBeams */}
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div1Ref}
-        toRef={div4Ref}
-        curvature={-75}
-        endYOffset={-10}
+        toRef={div6Ref}
+        duration={3}
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div2Ref}
-        toRef={div4Ref}
+        toRef={div6Ref}
+        duration={3}
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div3Ref}
-        toRef={div4Ref}
-        curvature={75}
-        endYOffset={10}
+        toRef={div6Ref}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div4Ref}
+        toRef={div6Ref}
+        duration={3}
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div5Ref}
-        toRef={div4Ref}
-        curvature={-75}
-        endYOffset={-10}
-        reverse
+        toRef={div6Ref}
+        duration={3}
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div6Ref}
-        toRef={div4Ref}
-        reverse
-      />
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={div7Ref}
-        toRef={div4Ref}
-        curvature={75}
-        endYOffset={10}
-        reverse
+        toRef={div7Ref}
+        duration={3}
       />
     </div>
   );
 }
-
 const Icons = {
   notion: () => (
     <svg
