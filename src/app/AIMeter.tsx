@@ -76,14 +76,14 @@ const AIMeter = () => {
   return (
     <section
       ref={meterRef}
-      style={{ height: "120vh" }}
+      style={{ height: "90vh" }}
       className="relative flex flex-col items-center justify-center w-full overflow-hidden"
     >
       <div className="relative z-10 text-center">
-        <h1 className="text-4xl font-extrabold mb-8 leading-tight">
+        <h1 className="text-5xl  mb-8 leading-tight w-[80vh]">
           Bypass all AI detection effortlessly with plag-free content
         </h1>
-        <h1 className="text-4xl font-extrabold mb-8 leading-tight">
+        {/* <h1 className="text-4xl font-bold mb-8 leading-tight">
           {percentage}% AI Detected
         </h1>
         <h2 className="text-xl font-bold mb-4">AI Detection Meter</h2>
@@ -95,7 +95,7 @@ const AIMeter = () => {
         </div>
         <p className="text-lg mb-8 mx-auto max-w-md">
           Our AI detection tool is the best in the market, ensuring your content is free from plagiarism and AI detection. Experience seamless content creation with our advanced technology.
-        </p>
+        </p> */}
       </div>
 
       {/* Animated Screenshots */}

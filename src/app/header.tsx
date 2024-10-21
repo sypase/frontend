@@ -13,10 +13,12 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-50 backdrop-blur-lg">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center">
-          <img src="/assets/logo.svg" alt="NoaiGPT Logo" className="h-10 w-auto" />
-          Beta
+          <h1 className="text-xl font-bold racking-tight text-black-400">
+            NoaiGPT
+          </h1>
+          <span className="ml-2 text-sm font-semibold text-gray-500">Beta</span>
         </Link>
-        
+
         <div className="flex space-x-3">
           {!isLoggedIn && (
             <>

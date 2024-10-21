@@ -1,7 +1,7 @@
 import './globals.css'
 import { appName } from '@/utils/utils'
-import { Golos_Text } from 'next/font/google'
-const golos = Golos_Text({
+import { Inter } from 'next/font/google'
+const golos = Inter({
   weight: '400',
   subsets: ['latin'],
 })

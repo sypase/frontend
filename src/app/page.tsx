@@ -32,7 +32,8 @@ import QuestionsList from "./QuestionsList";
 import FAQ from "./FAQ";
 import ElegantFooter from "./last";
 import AICheckerShowcase from "./AICheckerShowcase";
-import {AnimatedBeamMultipleOutputDemo} from "./AnimatedBeam"
+import { AnimatedBeamMultipleOutputDemo } from "./AnimatedBeam";
+import Hero from "./hero";
 
 interface Message {
   id: number;
@@ -276,12 +277,6 @@ export default function Home() {
         onShowSignupForm={() => setShowSignupForm(true)}
       ></Header>
 
-
-
-
-
-
-
       <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
         <animated.div
           style={{
@@ -304,48 +299,53 @@ export default function Home() {
               <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
                 {/* Landing Section */}
                 {showLanding && (
-                  <section
-                    className="text-center py-8"
-                    style={{ height: "150vh", backgroundColor: "#f9fafb" }}
-                  >
-                    <h2 className="text-4xl font-bold mb-4 text-gray-900">
-                      #1 Premium AI Humanizer In The World
-                    </h2>
-                    <p className="text-lg mb-8 text-gray-700">
-                      Effortlessly bypass AI detectors with our cutting-edge
-                      tool, ensuring a natural flow and undetectable AI traces.
-                    </p>
+                  //                 <section
+                  //                   className="text-center py-8"
+                  //                   style={{ height: "150vh", backgroundColor: "#f9fafb" }}
+                  //                 >
+                  //                   <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                  //                     #1 Premium AI Humanizer In The World
+                  //                   </h2>
+                  //                   <p className="text-lg mb-8 text-gray-700">
+                  //                     Effortlessly bypass AI detectors with our cutting-edge
+                  //                     tool, ensuring a natural flow and undetectable AI traces.
+                  //                   </p>
 
-                    <Slider {...logoSettings} className="mb-8 w-1/2 mx-auto">
-                      {logos.map((logo, index) => (
-                        <div key={index} className="flex justify-center px-2">
-                          <img
-                            src={logo}
-                            alt={`Logo ${index}`}
-                            className="h-12"
-                          />
-                        </div>
-                      ))}
-                    </Slider>
+                  //                   <Slider {...logoSettings} className="mb-8 w-1/2 mx-auto">
+                  //                     {logos.map((logo, index) => (
+                  //                       <div key={index} className="flex justify-center px-2">
+                  //                         <img
+                  //                           src={logo}
+                  //                           alt={`Logo ${index}`}
+                  //                           className="h-12"
+                  //                         />
+                  //                       </div>
+                  //                     ))}
+                  //                   </Slider>
 
-                    <div className="flex justify-center mb-8">
-                      <iframe
-                        width="800" // Set a larger width
-                        height="450" // Set a larger height
-                        src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1&controls=0&mute=1"
-                        title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        className="w-full max-w-3xl rounded-lg shadow-lg" // Adjust max-width for responsiveness
-                      ></iframe>
-                    </div>
+                  //                   <div className="flex justify-center mb-8">
+                  //                     <iframe
+                  //                       width="800" // Set a larger width
+                  //                       height="450" // Set a larger height
+                  //                       src="https://www.youtube.com/embed/GDlkCkcIqTs?autoplay=1&controls=0&mute=1"
+                  //                       title="YouTube video player"
+                  //                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  //                       className="w-full max-w-3xl rounded-lg shadow-lg" // Adjust max-width for responsiveness
+                  //                     ></iframe>
+                  //                   </div>
 
-                    {/* <button
-    className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
-    onClick={handleKathmanduClick}
-  >
-    Try Example: Kathmandu Description
-  </button> */}
-                  </section>
+                  //                   {/* <button
+                  //   className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
+                  //   onClick={handleKathmanduClick}
+                  // >
+                  //   Try Example: Kathmandu Description
+                  // </button> */}
+                  //                 </section>
+                  <Hero
+                    logos={logos}
+                    logoSettings={logoSettings}
+                    handleKathmanduClick={handleKathmanduClick}
+                  />
                 )}
 
                 {/* From 100% AI to 0$ AI DETECTED ANIMATION and  down A meter animation from 100 to 0 animation*/}
@@ -358,25 +358,19 @@ export default function Home() {
                   </h2>
                 </section> */}
 
-                {/* <AIMeter /> */}
 
                 {/* AI Checker Showcase Section */}
                 {/* <AICheckerShowcase /> */}
 
                 {/* Animated Beam Demo Section */}
 
-                <AnimatedBeamMultipleOutputDemo/>
+                <AnimatedBeamMultipleOutputDemo />
 
+                <AIMeter />
 
-                
-                
 
                 {/* Feature Section */}
                 <SmartProcessingSection />
-
-
-
-
 
                 <CardSection />
 
@@ -401,11 +395,7 @@ export default function Home() {
                 {/* Elegant Footer Section */}
                 <ElegantFooter />
 
-                <div className="" >
-
-                </div>
-
-
+                <div className=""></div>
               </div>
             )}
 
@@ -432,8 +422,6 @@ export default function Home() {
           </animated.div>
         </main>
 
-        
-
         <Footer
           text={text}
           setText={setText}
@@ -454,8 +442,6 @@ export default function Home() {
         )}
         <ToastContainer position="bottom-right" />
       </div>
-
-
     </>
   );
 }

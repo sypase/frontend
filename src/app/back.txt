@@ -17,7 +17,7 @@ const Circle = forwardRef<
     <motion.div
       ref={ref}
       className={cn(
-        "z-10 flex w-16 h-16 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
+        "z-10 flex w-12 h-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
         className
       )}
       style={{ borderColor: color }}
@@ -35,41 +35,39 @@ export function AnimatedBeamMultipleOutputDemo({
   className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const detectorsRef = useRef<HTMLDivElement>(null);
-  const openaiRef = useRef<HTMLDivElement>(null);
-  const noaigptRef = useRef<HTMLDivElement>(null);
-  const noaigptContainerRef = useRef<HTMLDivElement>(null);
-  const detectorRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+  const div1Ref = useRef<HTMLDivElement>(null);
+  const div2Ref = useRef<HTMLDivElement>(null);
+  const div3Ref = useRef<HTMLDivElement>(null);
+  const div4Ref = useRef<HTMLDivElement>(null);
+  const div5Ref = useRef<HTMLDivElement>(null);
+  const div6Ref = useRef<HTMLDivElement>(null);
+  const div7Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    const noaigptContainer = noaigptContainerRef.current;
-    const detectors = detectorRefs.map(ref => ref.current);
-    const openai = openaiRef.current;
+    const openai = div6Ref.current;
+    const noaigpt = div7Ref.current;
+    const detectors = [div1Ref, div2Ref, div3Ref, div4Ref, div5Ref].map(ref => ref.current);
 
-    gsap.set(noaigptContainer, { opacity: 0 });
+    gsap.set(noaigpt, { opacity: 0, scale: 0.8, x: -50 });
     gsap.set(detectors, { borderColor: "#FF0000" });
-    gsap.set(openai, { borderColor: "#FF0000" });
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: container,
-        start: "top 10%",
-        end: "bottom 70%",
+        start: "top 40%", // Adjusted to start later
+        end: "bottom 60%", // Adjusted to end later
         scrub: 1,
       },
     });
 
-    tl.to(noaigptContainer, { 
-      opacity: 1, 
-      duration: 0.2,
-      ease: "power2.in"
-    })
-      .to([openai, ...detectors], { 
+    tl.to(openai, { opacity: 0, scale: 0.8, x: 50, duration: 0.3 })
+      .to(noaigpt, { opacity: 1, scale: 1, x: 0, duration: 0.3 }, "-=0.3")
+      .to(detectors, { 
         borderColor: "#00FF00", 
-        duration: 0.1,
-        stagger: 0.02
-      }, "-=0.1");
+        duration: 0.6, // Slowed down the green transition
+        stagger: 0.1 // Added stagger for a more dynamic effect
+      }, "-=0.3");
 
     return () => {
       tl.kill();
@@ -85,79 +83,266 @@ export function AnimatedBeamMultipleOutputDemo({
       ref={containerRef}
     >
       <motion.div className="text-center max-w-xl mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <h3 className="text-3xl font-medium mb-6">AI Content Detection Challenge</h3>
+        <h3 className="text-3xl font-medium mb-6">Problem</h3>
         <p className="text-xl leading-relaxed mb-8">
-          AI-generated content is becoming increasingly detectable. NoAIGPT acts as a mediator to maintain authenticity.
+          AI-generated content is becoming increasingly detectable, posing challenges for writers, marketers, and content creators who want to leverage AI while maintaining authenticity.
         </p>
       </motion.div>
 
-      <div className="flex justify-between items-center w-full max-w-3xl mb-12">
-        <div className="flex items-center space-x-20">
-          <div className="flex flex-col items-center">
-            <Circle ref={openaiRef} color="#FF0000">
-              <Icons.openai />
-            </Circle>
-            <p className="text-sm mt-2 text-center">OpenAI</p>
-          </div>
-
-          <div ref={noaigptContainerRef} className="flex flex-col items-center">
-            <Circle ref={noaigptRef} color="#00FF00">
-              <Icons.noaigpt />
-            </Circle>
-            <p className="text-sm mt-2 text-center">NoAIGPT</p>
-          </div>
+      <div className="flex w-full max-w-lg flex-row items-stretch justify-between gap-10 mb-12">
+        <div className="flex flex-col justify-center">
+          <Circle ref={div7Ref} color="#00FF00">
+            <Icons.noaigpt />
+          </Circle>
+          <p className="text-sm mt-2 text-center">NoAIGPT</p>
         </div>
-
-        <div ref={detectorsRef} className="flex flex-col gap-4 mt-8">
-          {(['gptzero', 'zerogpt', 'turnitin', 'messenger', 'undetectableai'] as const).map((icon, index) => (
-            <Circle key={icon} ref={detectorRefs[index]} className="detector-circle w-12 h-12" color="#FF0000">
-              {React.createElement(Icons[icon])}
-            </Circle>
-          ))}
+        <div className="flex flex-col justify-center">
+          <Circle ref={div6Ref} className="w-16 h-16" color="#FF0000">
+            <Icons.openai />
+          </Circle>
+          <p className="text-sm mt-2 text-center">OpenAI</p>
+        </div>
+        <div className="flex flex-col justify-center gap-2">
+          <Circle ref={div1Ref} color="#FF0000">
+            <Icons.gptzero />
+          </Circle>
+          <Circle ref={div2Ref} color="#FF0000">
+            <Icons.zerogpt />
+          </Circle>
+          <Circle ref={div3Ref} color="#FF0000">
+            <Icons.turnitin />
+          </Circle>
+          <Circle ref={div4Ref} color="#FF0000">
+            <Icons.messenger />
+          </Circle>
+          <Circle ref={div5Ref} color="#FF0000">
+            <Icons.undetectableai />
+          </Circle>
           <p className="text-sm mt-2 text-center">AI Detectors</p>
         </div>
       </div>
 
       <motion.div className="text-center max-w-xl" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
         <p className="text-xl leading-relaxed">
-          NoAIGPT transforms AI-generated content into human-like text that passes detection tests, allowing content creators to leverage AI while maintaining authenticity.
+          AI detectors are becoming more sophisticated, making it difficult for content creators to use AI-generated text without being flagged. This creates a need for a solution that can transform AI-generated content into human-like text that passes detection tests.
         </p>
       </motion.div>
 
       {/* AnimatedBeams */}
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={openaiRef}
-        toRef={noaigptRef}
+        fromRef={div1Ref}
+        toRef={div6Ref}
         duration={3}
-        curvature={0}
-        pathWidth={3}
-        pathOpacity={0.6}
-        gradientStartColor="#FF0000"
-        gradientStopColor="#00FF00"
-        startXOffset={20}
-        startYOffset={0}
-        endXOffset={-20}
-        endYOffset={0}
       />
-      {detectorRefs.map((ref, index) => (
-        <AnimatedBeam
-          key={index}
-          containerRef={containerRef}
-          fromRef={noaigptRef}
-          toRef={ref}
-          duration={3}
-          curvature={10}
-          pathOpacity={0.4}
-          startXOffset={20}
-          startYOffset={0}
-          endXOffset={-12}
-          endYOffset={0}
-        />
-      ))}
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div2Ref}
+        toRef={div6Ref}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div3Ref}
+        toRef={div6Ref}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div4Ref}
+        toRef={div6Ref}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div5Ref}
+        toRef={div6Ref}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div6Ref}
+        toRef={div7Ref}
+        duration={3}
+      />
     </div>
   );
 }
+
+
+"use client";
+
+import React, { forwardRef, useRef, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { AnimatedBeam } from "@/components/ui/animated-beam";
+import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const Circle = forwardRef<
+  HTMLDivElement,
+  { className?: string; children?: React.ReactNode; color: string }
+>(({ className, children, color }, ref) => {
+  return (
+    <motion.div
+      ref={ref}
+      className={cn(
+        "z-10 flex w-12 h-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
+        className
+      )}
+      style={{ borderColor: color }}
+    >
+      {children}
+    </motion.div>
+  );
+});
+
+Circle.displayName = "Circle";
+
+export function AnimatedBeamMultipleOutputDemo({
+  className,
+}: {
+  className?: string;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const div1Ref = useRef<HTMLDivElement>(null);
+  const div2Ref = useRef<HTMLDivElement>(null);
+  const div3Ref = useRef<HTMLDivElement>(null);
+  const div4Ref = useRef<HTMLDivElement>(null);
+  const div5Ref = useRef<HTMLDivElement>(null);
+  const openaiRef = useRef<HTMLDivElement>(null);
+  const noaigptRef = useRef<HTMLDivElement>(null);
+  const openaiTextRef = useRef<HTMLParagraphElement>(null);
+  const noaigptTextRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const openai = openaiRef.current;
+    const noaigpt = noaigptRef.current;
+    const openaiText = openaiTextRef.current;
+    const noaigptText = noaigptTextRef.current;
+    const detectors = [div1Ref, div2Ref, div3Ref, div4Ref, div5Ref].map(ref => ref.current);
+
+    gsap.set(noaigpt, { opacity: 0, scale: 0.8 });
+    gsap.set(noaigptText, { opacity: 0 });
+    gsap.set(detectors, { borderColor: "#FF0000" });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 20%",
+        end: "bottom 40%",
+        scrub: 1,
+      },
+    });
+
+    tl.to(openai, { opacity: 0, scale: 0.8, duration: 0.3 })
+      .to(openaiText, { opacity: 0, duration: 0.3 }, "<")
+      .to(noaigpt, { opacity: 1, scale: 1, duration: 0.3 }, "-=0.1")
+      .to(noaigptText, { opacity: 1, duration: 0.3 }, "<")
+      .to(detectors, { 
+        borderColor: "#00FF00", 
+        duration: 0.3, // Faster color change
+        stagger: 0.05 // Reduced stagger for faster overall effect
+      }, "-=0.2");
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  return (
+    <div
+      className={cn(
+        "relative flex min-h-[100vh] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-white p-10 md:shadow-l",
+        className
+      )}
+      ref={containerRef}
+    >
+      <motion.div className="text-center max-w-xl mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <h3 className="text-3xl font-medium mb-6">Problem</h3>
+        <p className="text-xl leading-relaxed mb-8">
+          AI-generated content is becoming increasingly detectable, posing challenges for writers, marketers, and content creators who want to leverage AI while maintaining authenticity.
+        </p>
+      </motion.div>
+
+      <div className="flex w-full max-w-lg flex-row items-stretch justify-between gap-10 mb-12">
+        <div className="flex flex-col justify-center gap-2">
+          <Circle ref={div1Ref} color="#FF0000">
+            <Icons.gptzero />
+          </Circle>
+          <Circle ref={div2Ref} color="#FF0000">
+            <Icons.zerogpt />
+          </Circle>
+          <p className="text-sm mt-2 text-center">AI Detectors</p>
+        </div>
+        <div className="flex flex-col justify-center relative w-16 h-16">
+          <Circle ref={openaiRef} className="w-16 h-16 absolute top-0 left-0" color="#FF0000">
+            <Icons.openai />
+          </Circle>
+          <Circle ref={noaigptRef} className="w-16 h-16 absolute top-0 left-0" color="#00FF00">
+            <Icons.noaigpt />
+          </Circle>
+          <p ref={openaiTextRef} className="text-sm mt-20 text-center absolute w-full">OpenAI</p>
+          <p ref={noaigptTextRef} className="text-sm mt-20 text-center absolute w-full">NoAIGPT</p>
+        </div>
+        <div className="flex flex-col justify-center gap-2">
+          <Circle ref={div3Ref} color="#FF0000">
+            <Icons.turnitin />
+          </Circle>
+          <Circle ref={div4Ref} color="#FF0000">
+            <Icons.messenger />
+          </Circle>
+          <Circle ref={div5Ref} color="#FF0000">
+            <Icons.undetectableai />
+          </Circle>
+          <p className="text-sm mt-2 text-center">AI Detectors</p>
+        </div>
+      </div>
+
+      <motion.div className="text-center max-w-xl" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
+        <p className="text-xl leading-relaxed">
+          AI detectors are becoming more sophisticated, making it difficult for content creators to use AI-generated text without being flagged. This creates a need for a solution that can transform AI-generated content into human-like text that passes detection tests.
+        </p>
+      </motion.div>
+
+      {/* AnimatedBeams */}
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div1Ref}
+        toRef={openaiRef}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div2Ref}
+        toRef={openaiRef}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div3Ref}
+        toRef={openaiRef}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div4Ref}
+        toRef={openaiRef}
+        duration={3}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div5Ref}
+        toRef={openaiRef}
+        duration={3}
+      />
+    </div>
+  );
+}
+
 const Icons = {
   noaigpt: () => (
     <svg
