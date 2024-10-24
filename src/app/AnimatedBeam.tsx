@@ -117,11 +117,13 @@ export function AnimatedBeamMultipleOutputDemo({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h3 className="text-4xl font-bold mb-6">
-          The AI Content Detection Challenge
-        </h3>
+        <h6>Problem</h6>
+        <h3 className="text-4xl font-bold mb-6">The AI Content Detected</h3>
         <p className="text-xl leading-relaxed mb-8">
-          As AI-generated content becomes increasingly sophisticated, the line between human and machine-written text is blurring. AI detectors are struggling to keep pace with rapid advancements in language models, creating a new challenge for content creators and publishers.
+          As AI-generated content becomes increasingly sophisticated, the line
+          between human and machine-written text is blurring. AI detectors are
+          struggling to keep pace with rapid advancements in language models,
+          creating a new challenge for content creators and publishers.
         </p>
       </motion.div>
 
@@ -176,8 +178,14 @@ export function AnimatedBeamMultipleOutputDemo({
         transition={{ duration: 0.5, delay: 0.2 }}
       >
         <div className="mt-4">
-          <div className="text-4xl font-bold tracking-tighter mb-6">
-            Introducing NoAIGPT: Your Solution to Undetectable AI Content
+          <div className="text-3xl font-semibold tracking-tighter mb-6">
+            Don't worry, We got yout back!{" "}
+          </div>
+          <div className="text-5xl font-bold tracking-tighter mb-6">
+            Introducing NoAIGPT:
+          </div>
+          <div className="text-5xl font-bold tracking-tighter mb-6">
+            Your Solution to Undetectable AI Content
           </div>
           <div className="text-3xl font-medium tracking-tighter mb-8">
             Transform Your Content from 0% to{" "}
@@ -187,10 +195,18 @@ export function AnimatedBeamMultipleOutputDemo({
           </div>
         </div>
         <p className="text-xl leading-relaxed mb-8">
-          NoAIGPT is a groundbreaking tool that revolutionizes AI-generated content. Our advanced algorithms analyze and rewrite your text, preserving its meaning while introducing the subtle nuances and imperfections characteristic of human writing. The result? Content that seamlessly passes even the most rigorous AI detection tests.
+          NoAIGPT is a groundbreaking tool that revolutionizes AI-generated
+          content. Our advanced algorithms analyze and rewrite your text,
+          preserving its meaning while introducing the subtle nuances and
+          imperfections characteristic of human writing. The result? Content
+          that seamlessly passes even the most rigorous AI detection tests.
         </p>
         <p className="text-xl leading-relaxed">
-          Whether you're a blogger, marketer, or journalist, NoAIGPT empowers you to harness the efficiency of AI without compromising authenticity. Focus on crafting compelling narratives that resonate with your audience, confident that your AI-assisted content remains undetectable and true to your voice.
+          Whether you're a blogger, marketer, or journalist, NoAIGPT empowers
+          you to harness the efficiency of AI without compromising authenticity.
+          Focus on crafting compelling narratives that resonate with your
+          audience, confident that your AI-assisted content remains undetectable
+          and true to your voice.
         </p>
       </motion.div>
 

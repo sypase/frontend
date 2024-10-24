@@ -40,6 +40,7 @@ import {CompareDemo} from "./CompareDemo";
 import {BentoDemo} from "./BeatTurnitinCard"
 import {TabsDemo} from "./humnaizedshowcase"
 import Tweeter from "./howtouse"
+import ReviewCard from "./joinwrites"
 
 interface Message {
   id: number;
@@ -376,6 +377,7 @@ export default function Home() {
 
                 <CompareDemo />
                 <TabsDemo />
+                <ReviewCard />
 
 
 
