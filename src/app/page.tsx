@@ -22,18 +22,24 @@ import Header from "./header";
 // Import the l-grid component
 import { grid } from "ldrs";
 import AIMeter from "./AIMeter";
-import SmartProcessingSection from "./SmartProcessingSection";
+// import { StickyScrollRevealDemo } from "./SmartProcessingSection";
 import CardSection from "./CardSection";
 import ProdashBoard from "./ProdashBoard";
 import TopGrammarScore from "./TopGrammarScore";
 import NoSubscription from "./NoSubscription";
 import ZeroPlagiarism from "./ZeroPlagiarism";
 import QuestionsList from "./QuestionsList";
-import FAQ from "./FAQ";
+import { AccordionDemo } from "./FAQ";
 import ElegantFooter from "./last";
 import AICheckerShowcase from "./AICheckerShowcase";
+import { StickyScrollRevealDemo } from "./FeatureShowcase";
 import { AnimatedBeamMultipleOutputDemo } from "./AnimatedBeam";
 import Hero from "./hero";
+import ClientTweetCard from "./howtouse";
+import {CompareDemo} from "./CompareDemo";
+import {BentoDemo} from "./BeatTurnitinCard"
+import {TabsDemo} from "./humnaizedshowcase"
+import Tweeter from "./howtouse"
 
 interface Message {
   id: number;
@@ -230,7 +236,10 @@ export default function Home() {
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        {/* <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+         */}
+
+        <div>Stay Unique, Stay Undetectable</div>
       </div>
     );
   }
@@ -358,7 +367,6 @@ export default function Home() {
                   </h2>
                 </section> */}
 
-
                 {/* AI Checker Showcase Section */}
                 {/* <AICheckerShowcase /> */}
 
@@ -366,31 +374,58 @@ export default function Home() {
 
                 <AnimatedBeamMultipleOutputDemo />
 
-                <AIMeter />
+                <CompareDemo />
+                <TabsDemo />
 
+
+
+
+
+                {/* <AIMeter /> */}
+
+                {/* Feature Showcase Section */}
+                {/* <StickyScrollRevealDemo /> */}
 
                 {/* Feature Section */}
-                <SmartProcessingSection />
 
-                <CardSection />
+                {/* <CardSection /> */}
 
                 {/* Pro Dashboard Section */}
-                <ProdashBoard />
+                {/* <ProdashBoard /> */}
 
                 {/* Top Grammar Score Section */}
                 <TopGrammarScore />
 
                 {/* Zero Plagiarism Section */}
                 <ZeroPlagiarism />
+                <Tweeter />
 
-                {/* No Subscription Section */}
-                <NoSubscription />
+
+                <BentoDemo />
+
+
+
+                {/* how to use */}
+                {/* review and rating  */}
+
 
                 {/* Questions List Section */}
-                <QuestionsList />
+                {/* <ClientTweetCard /> */}
 
                 {/* FAQ Section */}
-                <FAQ />
+
+                {/* <StickyScrollRevealDemo /> */}
+
+                {/* No Subscription Section */}
+                {/* <NoSubscription /> */}
+
+                {/* Questions List Section */}
+                {/* <QuestionsList /> */}
+
+                
+
+                {/* FAQ Section */}
+                <AccordionDemo />
 
                 {/* Elegant Footer Section */}
                 <ElegantFooter />

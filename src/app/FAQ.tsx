@@ -1,57 +1,37 @@
-// components/FAQ.tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
-import React, { useState } from 'react';
-import { gsap } from 'gsap';
-
-const faqData = [
-  {
-    question: "How do I bypass AI detection systems?",
-    answer: "By using advanced techniques to modify AI-generated content, you can reduce the likelihood of detection.",
-  },
-  {
-    question: "What's the easiest way to avoid AI content filters?",
-    answer: "The easiest way is to manually review and adjust the content to ensure it aligns with human writing patterns.",
-  },
-  {
-    question: "How can I make AI-generated text seem human-written?",
-    answer: "Incorporate natural language nuances and contextually relevant information to make AI-generated text more human-like.",
-  },
-  // Add more FAQs as needed...
-];
-
-const FAQ = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const toggleAnswer = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
+export function AccordionDemo() {
   return (
-    <section className="max-w-2xl mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Frequently Asked Questions</h1>
-      <div className="space-y-4">
-        {faqData.map((faq, index) => (
-          <div key={index} className="bg-white shadow-md rounded-lg overflow-hidden">
-            <button
-              className="w-full text-left p-4 focus:outline-none"
-              onClick={() => toggleAnswer(index)}
-            >
-              <h2 className="text-xl font-semibold text-gray-800">{faq.question}</h2>
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                activeIndex === index ? 'max-h-screen' : 'max-h-0'
-              }`}
-            >
-              <div className="p-4 border-t border-gray-200">
-                <p className="text-gray-700">{faq.answer}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+    <section className="flex items-center justify-center h-[50vh]">
+      <div className="w-[60%]">
+        <h2 className="text-xl font-bold mb-4 text-center">Frequently Asked Questions</h2>
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Is it styled?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It comes with default styles that match the other
+              components&apos; aesthetic.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Is it animated?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It's animated by default, but you can disable it if you prefer.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </section>
-  );
-};
-
-export default FAQ; 
+  )
+}

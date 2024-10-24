@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import Slider from 'react-slick';
+import React from "react";
+import Slider from "react-slick";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AnimatedGradientText from "@/components/ui/animated-gradient-text";
@@ -24,7 +24,7 @@ const AnimatedGradientTextDemo: React.FC = () => {
         🎉 <hr className="mx-4 h-6 w-px shrink-0 bg-gray-300" />{" "}
         <span
           className={cn(
-            `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent px-2`,
+            `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent px-2`
           )}
         >
           Introducing NoaiGPT
@@ -39,15 +39,33 @@ export function SparklesTextDemo() {
   return <SparklesText text="Human Writing" />;
 }
 
+const stats = [
+  {
+      data: "35K",
+      title: "Customers"
+  },
+  {
+      data: "10K+",
+      title: "Downloads"
+  },
+  {
+      data: "40+",
+      title: "Countries"
+  },
+  {
+      data: "30M+",
+      title: "Total revenue"
+  },
+]
 export function BorderBeamDemo() {
   return (
     <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-      <iframe 
-        width="800" 
-        height="450" 
-        // src="https://www.youtube.com/embed/GDlkCkcIqTasds?autoplay=1&controls=0&mute=1" 
-        title="YouTube video player" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      <iframe
+        width="800"
+        height="450"
+        // src="https://www.youtube.com/embed/GDlkCkcIqTasds?autoplay=1&controls=0&mute=1"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         className="w-full h-full rounded-lg"
       ></iframe>
       <BorderBeam size={250} duration={12} delay={9} />
@@ -55,28 +73,35 @@ export function BorderBeamDemo() {
   );
 }
 
-const Hero: React.FC<HeroProps> = ({ logos, logoSettings, handleKathmanduClick }) => {
+const Hero: React.FC<HeroProps> = ({
+  logos,
+  logoSettings,
+  handleKathmanduClick,
+}) => {
   return (
     <section
       className="text-center py-8 px-4 md:px-8"
       style={{ minHeight: "100vh", backgroundColor: "#f9fafb" }}
     >
       <AnimatedGradientTextDemo />
-      
+
       <h2 className="text-4xl md:text-5xl font-bold mb-4 mt-6">
         Transform AI Text into Natural
       </h2>
-      
+
       <div className="my-6">
         <SparklesTextDemo />
       </div>
 
       <p className="text-lg mb-8 text-gray-700 max-w-2xl mx-auto">
-        Effortlessly bypass AI detectors with our cutting-edge
-        tool, ensuring a natural flow and undetectable AI traces.
+        Effortlessly bypass AI detectors with our cutting-edge tool, ensuring a
+        natural flow and undetectable AI traces.
       </p>
 
-      <Slider {...logoSettings} className="mb-12 w-full md:w-3/4 lg:w-1/2 mx-auto">
+      <Slider
+        {...logoSettings}
+        className="mb-12 w-full md:w-3/4 lg:w-1/2 mx-auto"
+      >
         {logos.map((logo: string, index: number) => (
           <div key={index} className="flex justify-center px-4">
             <img
@@ -91,6 +116,32 @@ const Hero: React.FC<HeroProps> = ({ logos, logoSettings, handleKathmanduClick }
       <div className="flex justify-center mb-12 max-w-4xl mx-auto">
         <BorderBeamDemo />
       </div>
+
+      <section className="py-14">
+            <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
+                <div className="max-w-2xl mx-auto text-center">
+                    <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+                       Join Thoudsands of Writers across the world
+                    </h3>
+                    <p className="mt-3">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis sollicitudin quam ut tincidunt.
+                    </p>
+                </div>
+                <div className="mt-12">
+                    <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x">
+                        {
+                            stats.map((item, idx) => (
+                                <li key={idx} className="text-center px-12 md:px-16">
+                                    <h4 className="text-4xl text-indigo-600 font-semibold">{item.data}</h4>
+                                    <p className="mt-3 font-medium">{item.title}</p>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        </section>
+
 
     </section>
   );

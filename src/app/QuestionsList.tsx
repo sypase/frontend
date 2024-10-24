@@ -341,11 +341,11 @@ const QuestionsCarousel = () => {
   return (
     <section className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8 overflow-hidden space-y-8">
       {/* Fixed Center Text */}
-      <div className=" top-1/4 flex items-center justify-center z-10">
+      {/* <div className=" top-1/4 flex items-center justify-center z-10">
         <h1 className="text-5xl font-bold text-gray-800">
           NOAIGPT IS THE ULTIMATE SOLUTION
         </h1>
-      </div>
+      </div> */}
 
       {/* Carousel Rows */}
       {rowRefs.map((ref, rowIndex) => (

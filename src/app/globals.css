@@ -3,18 +3,44 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --radius: 0.5rem
-  ;
+    --radius: 0.5rem;
     --color-1: 0 100% 63%;
     --color-2: 270 100% 63%;
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
-    --color-5: 90 100% 63%}
+    --color-5: 90 100% 63%;
+  }
   .dark {
     --color-1: 0 100% 63%;
     --color-2: 270 100% 63%;
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
-    --color-5: 90 100% 63%
+    --color-5: 90 100% 63%;
   }
+}
+
+.no-visible-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-visible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+@keyframes scroll-x {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-horizontal {
+  animation: scroll-x 40s linear infinite;
+}
+
+.animate-scroll-horizontal:hover {
+  animation-play-state: paused;
 }

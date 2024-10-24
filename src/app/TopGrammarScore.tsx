@@ -3,26 +3,49 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { BorderBeam } from "@/components/ui/border-beam";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const TopGrammarScore = () => {
-  const textRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (textRef.current) {
+    const section = sectionRef.current;
+    const text = textRef.current;
+    const image = imageRef.current;
+
+    if (section && text && image) {
       gsap.fromTo(
-        textRef.current.children,
-        { opacity: 0, x: -50 },
+        text.children,
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
-          x: 0,
-          stagger: 0.3,
+          y: 0,
+          stagger: 0.2,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 60%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+
+      gsap.fromTo(
+        image,
+        { opacity: 0, scale: 0.95 },
+        {
+          opacity: 1,
+          scale: 1,
           duration: 1,
           ease: 'power2.out',
           scrollTrigger: {
-            trigger: textRef.current,
-            start: 'top 80%',
+            trigger: section,
+            start: 'top 60%',
             toggleActions: 'play none none reverse',
           },
         }
@@ -31,21 +54,33 @@ const TopGrammarScore = () => {
   }, []);
 
   return (
-    <section className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-white p-8">
-      {/* Text Content on the Left */}
-      <div ref={textRef} className="w-full md:w-1/2 p-4">
-        <h1 className="text-4xl font-bold mb-4 text-gray-800">Top Grammar Score</h1>
-        <p className="text-lg text-gray-700 mb-2">
-          Our tool consistently scores an average of 90 to 100 in Grammarly and QuillBot grammar checks.
-        </p>
-        <p className="text-lg text-gray-700">
-          We ensure high accuracy without relying on emojis or fancy strings, providing clear and precise content.
-        </p>
-      </div>
-
-      {/* Image on the Right */}
-      <div className="w-full md:w-1/2 h-full flex items-center justify-center p-4">
-        <img src="/assets/grammercheck.png" alt="Grammar Check" className="w-full h-auto max-w-md" />
+    <section ref={sectionRef} className="h-[90vh] flex items-center justify-center py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div ref={textRef} className="space-y-6 lg:space-y-8">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              Elevate Your Writing
+            </h2>
+            <p className="text-lg lg:text-xl text-gray-700 leading-relaxed">
+              Experience unparalleled grammar accuracy with our advanced tool. Consistently achieving top scores in Grammarly and QuillBot checks, we ensure your content shines with clarity and precision.
+            </p>
+            <div className="flex items-center space-x-2 text-gray-600">
+              <span className="text-3xl font-bold text-green-500">95+</span>
+              <span className="text-lg">Average Grammar Score</span>
+            </div>
+          </div>
+          <div ref={imageRef} className="relative">
+            <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br0"></div>
+              <img 
+                src="/assets/grammercheck.png" 
+                alt="Grammar Check" 
+                className="w-full h-full object-cover"
+              />
+              <BorderBeam size={500} duration={10} delay={5} borderWidth={4}  className="opacity-50" />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

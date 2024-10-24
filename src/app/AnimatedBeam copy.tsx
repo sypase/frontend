@@ -40,19 +40,13 @@ export function AnimatedBeamMultipleOutputDemo({
   const openaiRef = useRef<HTMLDivElement>(null);
   const noaigptRef = useRef<HTMLDivElement>(null);
   const noaigptContainerRef = useRef<HTMLDivElement>(null);
-  const detectorRefs = [
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ];
+  const detectorRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
   const numberTickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
     const noaigptContainer = noaigptContainerRef.current;
-    const detectors = detectorRefs.map((ref) => ref.current);
+    const detectors = detectorRefs.map(ref => ref.current);
     const openai = openaiRef.current;
     const numberTicker = numberTickerRef.current;
 
@@ -70,33 +64,25 @@ export function AnimatedBeamMultipleOutputDemo({
       },
     });
 
-    tl.to(noaigptContainer, {
-      opacity: 1,
+    tl.to(noaigptContainer, { 
+      opacity: 1, 
       duration: 0.2,
-      ease: "power2.in",
+      ease: "power2.in"
     })
-      .to(
-        [openai, ...detectors],
-        {
-          borderColor: "#00FF00",
-          duration: 0.1,
-          stagger: 0.02,
-        },
-        "-=0.1"
-      )
-      .to(
-        numberTicker,
-        {
-          innerText: 100,
-          duration: 1,
-          snap: { innerText: 1 },
-          color: "#00FF00",
-          onComplete: () => {
-            gsap.set(numberTicker, { innerText: "100% Human" });
-          },
-        },
-        "-=0.1"
-      );
+      .to([openai, ...detectors], { 
+        borderColor: "#00FF00", 
+        duration: 0.1,
+        stagger: 0.02
+      }, "-=0.1")
+      .to(numberTicker, {
+        innerText: 100,
+        duration: 1,
+        snap: { innerText: 1 },
+        color: "#00FF00",
+        onComplete: () => {
+          gsap.set(numberTicker, { innerText: "100% Human" });
+        }
+      }, "-=0.1");
 
     return () => {
       tl.kill();
@@ -111,17 +97,10 @@ export function AnimatedBeamMultipleOutputDemo({
       )}
       ref={containerRef}
     >
-      <motion.div
-        className="text-center max-w-xl mb-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h3 className="text-4xl font-bold mb-6">
-          The AI Content Detection Challenge
-        </h3>
+      <motion.div className="text-center max-w-xl mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <h3 className="text-3xl font-medium mb-6">AI Content Detection Challenge</h3>
         <p className="text-xl leading-relaxed mb-8">
-          As AI-generated content becomes increasingly sophisticated, the line between human and machine-written text is blurring. AI detectors are struggling to keep pace with rapid advancements in language models, creating a new challenge for content creators and publishers.
+          AI-generated content is becoming increasingly detectable. NoAIGPT acts as a mediator to maintain authenticity.
         </p>
       </motion.div>
 
@@ -142,55 +121,24 @@ export function AnimatedBeamMultipleOutputDemo({
           </div>
         </div>
 
-        <div
-          ref={detectorsRef}
-          className="flex flex-col items-center gap-4 mt-8"
-        >
-          {(
-            [
-              "gptzero",
-              "zerogpt",
-              "turnitin",
-              "messenger",
-              "undetectableai",
-            ] as const
-          ).map((icon, index) => (
-            <Circle
-              key={icon}
-              ref={detectorRefs[index]}
-              className="detector-circle w-12 h-12"
-              color="#FF0000"
-            >
+        <div ref={detectorsRef} className="flex flex-col items-center gap-4 mt-8">
+          {(['gptzero', 'zerogpt', 'turnitin', 'messenger', 'undetectableai'] as const).map((icon, index) => (
+            <Circle key={icon} ref={detectorRefs[index]} className="detector-circle w-12 h-12" color="#FF0000">
               {React.createElement(Icons[icon])}
             </Circle>
           ))}
-
+          <div className="mt-4">
+            <div ref={numberTickerRef} className="text-4xl font-medium tracking-tighter">
+              <NumberTicker value={0} />
+            </div>
+          </div>
           <p className="text-sm mt-2 text-center">AI Detectors</p>
         </div>
       </div>
 
-      <motion.div
-        className="text-center max-w-xl"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <div className="mt-4">
-          <div className="text-4xl font-bold tracking-tighter mb-6">
-            Introducing NoAIGPT: Your Solution to Undetectable AI Content
-          </div>
-          <div className="text-3xl font-medium tracking-tighter mb-8">
-            Transform Your Content from 0% to{" "}
-            <span className="font-bold ">
-              <NumberTicker value={100} direction="up" />% Human
-            </span>
-          </div>
-        </div>
-        <p className="text-xl leading-relaxed mb-8">
-          NoAIGPT is a groundbreaking tool that revolutionizes AI-generated content. Our advanced algorithms analyze and rewrite your text, preserving its meaning while introducing the subtle nuances and imperfections characteristic of human writing. The result? Content that seamlessly passes even the most rigorous AI detection tests.
-        </p>
+      <motion.div className="text-center max-w-xl" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
         <p className="text-xl leading-relaxed">
-          Whether you're a blogger, marketer, or journalist, NoAIGPT empowers you to harness the efficiency of AI without compromising authenticity. Focus on crafting compelling narratives that resonate with your audience, confident that your AI-assisted content remains undetectable and true to your voice.
+          NoAIGPT transforms AI-generated content into human-like text that passes detection tests, allowing content creators to leverage AI while maintaining authenticity.
         </p>
       </motion.div>
 
