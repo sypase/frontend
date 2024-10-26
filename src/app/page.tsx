@@ -36,11 +36,11 @@ import { StickyScrollRevealDemo } from "./FeatureShowcase";
 import { AnimatedBeamMultipleOutputDemo } from "./AnimatedBeam";
 import Hero from "./hero";
 import ClientTweetCard from "./howtouse";
-import {CompareDemo} from "./CompareDemo";
-import {BentoDemo} from "./BeatTurnitinCard"
-import {TabsDemo} from "./humnaizedshowcase"
-import Tweeter from "./howtouse"
-import ReviewCard from "./joinwrites"
+import { CompareDemo } from "./CompareDemo";
+import { BentoDemo } from "./BeatTurnitinCard";
+import { TabsDemo } from "./humnaizedshowcase";
+import Tweeter from "./howtouse";
+import ReviewCard from "./joinwrites";
 
 interface Message {
   id: number;
@@ -243,8 +243,6 @@ export default function Home() {
       </div>
     );
   }
-  
-  
 
   return (
     <>
@@ -380,10 +378,6 @@ export default function Home() {
                 <TabsDemo />
                 <ReviewCard />
 
-
-
-
-
                 {/* <AIMeter /> */}
 
                 {/* Feature Showcase Section */}
@@ -403,14 +397,10 @@ export default function Home() {
                 <ZeroPlagiarism />
                 <Tweeter />
 
-
                 <BentoDemo />
-
-
 
                 {/* how to use */}
                 {/* review and rating  */}
-
 
                 {/* Questions List Section */}
                 {/* <ClientTweetCard /> */}
@@ -424,8 +414,6 @@ export default function Home() {
 
                 {/* Questions List Section */}
                 {/* <QuestionsList /> */}
-
-                
 
                 {/* FAQ Section */}
                 <AccordionDemo />
