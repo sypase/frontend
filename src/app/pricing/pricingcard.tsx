@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { BorderBeam } from "@/components/ui/border-beam";
 
@@ -17,6 +17,7 @@ interface PricingCardsProps {
   country: string;
   isLoggedIn: boolean;
   setShowSignupForm: (show: boolean) => void;
+  setSelectedItem: (item: PricingItem) => void; // Added prop for setting selected item
 }
 
 const PricingCards: React.FC<PricingCardsProps> = ({
@@ -24,8 +25,19 @@ const PricingCards: React.FC<PricingCardsProps> = ({
   country,
   isLoggedIn,
   setShowSignupForm,
+  setSelectedItem, // Destructure the new prop
 }) => {
   const cardsRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectPlan = (item: PricingItem) => {
+    if (isLoggedIn) {
+      setSelectedItem(item); // Set the selected item
+      // Open payment method modal
+      document.getElementById("paymentmethod_modal")?.click();
+    } else {
+      setShowSignupForm(true);
+    }
+  };
 
   return (
     <div
@@ -68,7 +80,7 @@ const PricingCards: React.FC<PricingCardsProps> = ({
                 ))}
               </ul>
               <button
-                onClick={() => !isLoggedIn && setShowSignupForm(true)}
+                onClick={() => handleSelectPlan(item)} // Use the new function here
                 className="mt-auto px-4 py-2 bg-white text-black border border-gray-300 font-semibold text-lg rounded-lg shadow hover:bg-gray-100 transition duration-300 w-full"
               >
                 {isLoggedIn ? "Choose Plan" : "Sign Up to Choose Plan"}

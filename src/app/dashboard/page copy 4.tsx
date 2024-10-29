@@ -21,8 +21,6 @@ import { jelly } from "ldrs";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Header from "./Header";
-import { MultiStepLoader } from "../../components/ui/multi-step-loader";
-import { IconSquareRoundedX } from "@tabler/icons-react";
 
 // Register the ScrollToPlugin with GSAP
 gsap.registerPlugin(ScrollToPlugin);
@@ -36,16 +34,69 @@ interface Message {
   variantIndex: number;
 }
 
-const loadingStates = [
-  { text: "Buying a condo" },
-  { text: "Travelling in a flight" },
-  { text: "Meeting Tyler Durden" },
-  { text: "He makes soap" },
-  { text: "We goto a bar" },
-  { text: "Start a fight" },
-  { text: "We like it" },
-  { text: "Welcome to F**** C***" },
+const steps = [
+  "Processing your request...",
+  "Humanizing content...",
+  "Checking grammar...",
+  "Verifying AI-free content...",
+  "Finalizing response...",
 ];
+
+const LoadingSteps: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const stepsRef = useRef<(HTMLParagraphElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      gsap.to(containerRef.current, {
+        y: -currentStep * 40,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
+
+    stepsRef.current.forEach((step, index) => {
+      if (step) {
+        gsap.to(step, {
+          opacity: index === currentStep ? 1 : 0.5,
+          scale: index === currentStep ? 1.1 : 1,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
+    });
+  }, [currentStep]);
+
+  return (
+    <div className="h-40 overflow-hidden relative w-full">
+      <div
+        ref={containerRef}
+        className="absolute left-0 right-0 transition-all duration-500"
+      >
+        {steps.map((step, index) => (
+          <p
+            key={index}
+            ref={(el) => (stepsRef.current[index] = el)}
+            className={`text-center text-sm font-medium mb-8 transition-all duration-300 ${
+              index === currentStep ? "text-indigo-600" : "text-gray-400"
+            }`}
+          >
+            {step}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const TypewriterEffect: React.FC<{ messages: string[] }> = ({ messages }) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -76,7 +127,7 @@ const TypewriterEffect: React.FC<{ messages: string[] }> = ({ messages }) => {
   }, [currentText, currentMessageIndex, messages]);
 
   return (
-    <div className="text-gray-400">
+    <div className="text-gray-600">
       {displayedMessages.map((msg, index) => (
         <p key={index}>{msg}</p>
       ))}
@@ -281,21 +332,21 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-black text-white">
+    <div className="flex flex-col h-screen bg-gradient-to-br">
       <Header isLoggedIn={isLoggedIn} user={user} rewriteCount={rewriteCount} />
 
-      <main className="flex-grow flex px-4 py-2 overflow-hidden mt-28">
+      <main className="flex-grow flex px-4 py-2 overflow-hidden">
         <div className="max-w-7xl w-full mx-auto flex space-x-4">
           {/* Left side - Input messages */}
-          <div className="flex flex-col w-[45%] rounded-lg bg-gray-1000 shadow-md border border-gray-800">
+          <div className="flex flex-col w-[45%] rounded-lg bg-white shadow-md">
             <div
               ref={inputContainerRef}
               className="flex-grow overflow-y-auto p-4"
             >
               {messages.length === 0 && text.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full">
-                  <l-jelly size="40" speed="0.9" color="#4B5563"></l-jelly>
-                  <p className="mt-4 text-gray-400">Waiting for input...</p>
+                  <l-jelly size="40" speed="0.9" color="black"></l-jelly>
+                  <p className="mt-4 text-gray-600">Waiting for input...</p>
                 </div>
               ) : (
                 messages
@@ -303,16 +354,16 @@ export default function Home() {
                   .map((message) => (
                     <div
                       key={message.id}
-                      className="p-3 rounded-lg bg-gray-800 shadow-sm mb-3"
+                      className="p-3 rounded-lg bg-indigo-50 shadow-sm mb-3"
                     >
-                      <p className="text-sm text-gray-300 leading-relaxed">
+                      <p className="text-sm text-gray-800 leading-relaxed">
                         {message.text}
                       </p>
                     </div>
                   ))
               )}
             </div>
-            <div className="p-4 border-t border-gray-800">
+            <div className="p-4 border-t">
               <Footer
                 text={text}
                 setText={setText}
@@ -326,18 +377,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right side - Output messages
-          <div className="w-[55%] rounded-lg shadow-md border border-gray-800">
+          {/* Right side - Output messages */}
+          <div className="w-[55%] bg-white rounded-lg shadow-md">
             <div className="h-full flex flex-col">
               <div className="flex-grow p-4 overflow-y-auto">
                 {loading ? (
-                  <div className="flex items-center justify-center h-full">
+                  <div className="h-full flex flex-col justify-center items-center">
                     <div className="w-full max-w-md">
-                      <Loader
-                        loadingStates={loadingStates}
-                        loading={loading}
-                        duration={2000}
-                      />
+                      <LoadingSteps />
                     </div>
                   </div>
                 ) : messages.length === 0 ? (
@@ -347,7 +394,7 @@ export default function Home() {
                 ) : (
                   <textarea
                     ref={outputContainerRef}
-                    className="w-full h-full resize-none text-sm text-gray-300 leading-relaxed focus:outline-none bg-black"
+                    className="w-full h-full resize-none text-sm text-gray-800 leading-relaxed focus:outline-none"
                     value={messages[messages.length - 1].text}
                     readOnly
                   />
@@ -355,16 +402,14 @@ export default function Home() {
               </div>
               {messages.length > 0 &&
                 messages[messages.length - 1].variants && (
-                  <div className="p-4 border-t border-gray-800 flex justify-between items-center">
+                  <div className="p-4 border-t flex justify-between items-center">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-sm font-medium text-gray-400">
-                        Human
-                      </span>
+                      <span className="text-sm font-medium">Human</span>
                     </div>
                     <div className="flex items-center space-x-4">
                       <button
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300 disabled:opacity-50"
+                        className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-all duration-300 disabled:opacity-50"
                         onClick={() => {
                           const lastMessage = messages[messages.length - 1];
                           const newIndex =
@@ -388,12 +433,12 @@ export default function Home() {
                       >
                         &lt;
                       </button>
-                      <span className="text-gray-400">
+                      <span>
                         Variant {messages[messages.length - 1].variantIndex + 1}{" "}
                         / {messages[messages.length - 1].variants!.length}
                       </span>
                       <button
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300 disabled:opacity-50"
+                        className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-all duration-300 disabled:opacity-50"
                         onClick={() => {
                           const lastMessage = messages[messages.length - 1];
                           const newIndex =
@@ -413,114 +458,9 @@ export default function Home() {
                           messages[messages.length - 1].variantIndex ===
                           messages[messages.length - 1].variants!.length - 1
                         }
-                      >
-                        &gt;
-                      </button>
+                      ></button>
                       <button
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300"
-                        onClick={() =>
-                          copyToClipboard(messages[messages.length - 1].text)
-                        }
-                      >
-                        Copy
-                        <FiCopy className="inline ml-2" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-            </div>
-          </div> */}
-
-          {/* Right side - Output messages */}
-          <div className="w-[55%] rounded-lg shadow-md border border-gray-800">
-            <div className="h-full flex flex-col">
-              <div className="flex-grow p-4 overflow-y-auto relative">
-                {loading ? (
-                  <div className="absolute inset-0">
-                    <MultiStepLoader
-                      loadingStates={loadingStates}
-                      loading={loading}
-                      duration={2000}
-                    />
-                  </div>
-                ) : messages.length === 0 ? (
-                  <div className="flex items-center justify-center h-full">
-                    <TypewriterEffect messages={welcomeMessages} />
-                  </div>
-                ) : (
-                  <textarea
-                    ref={outputContainerRef}
-                    className="w-full h-full resize-none text-sm text-gray-300 leading-relaxed focus:outline-none bg-black"
-                    value={messages[messages.length - 1].text}
-                    readOnly
-                  />
-                )}
-              </div>
-              {messages.length > 0 &&
-                messages[messages.length - 1].variants && (
-                  <div className="p-4 border-t border-gray-800 flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-sm font-medium text-gray-400">
-                        Human
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <button
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300 disabled:opacity-50"
-                        onClick={() => {
-                          const lastMessage = messages[messages.length - 1];
-                          const newIndex =
-                            (lastMessage.variantIndex -
-                              1 +
-                              lastMessage.variants!.length) %
-                            lastMessage.variants!.length;
-                          setMessages((prev) => {
-                            const newMessages = [...prev];
-                            newMessages[newMessages.length - 1] = {
-                              ...lastMessage,
-                              text: lastMessage.variants![newIndex].text,
-                              variantIndex: newIndex,
-                            };
-                            return newMessages;
-                          });
-                        }}
-                        disabled={
-                          messages[messages.length - 1].variantIndex === 0
-                        }
-                      >
-                        &lt;
-                      </button>
-                      <span className="text-gray-400">
-                        Variant {messages[messages.length - 1].variantIndex + 1}{" "}
-                        / {messages[messages.length - 1].variants!.length}
-                      </span>
-                      <button
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300 disabled:opacity-50"
-                        onClick={() => {
-                          const lastMessage = messages[messages.length - 1];
-                          const newIndex =
-                            (lastMessage.variantIndex + 1) %
-                            lastMessage.variants!.length;
-                          setMessages((prev) => {
-                            const newMessages = [...prev];
-                            newMessages[newMessages.length - 1] = {
-                              ...lastMessage,
-                              text: lastMessage.variants![newIndex].text,
-                              variantIndex: newIndex,
-                            };
-                            return newMessages;
-                          });
-                        }}
-                        disabled={
-                          messages[messages.length - 1].variantIndex ===
-                          messages[messages.length - 1].variants!.length - 1
-                        }
-                      >
-                        &gt;
-                      </button>
-                      <button
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300"
+                        className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-all duration-300"
                         onClick={() =>
                           copyToClipboard(messages[messages.length - 1].text)
                         }
