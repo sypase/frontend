@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -36,8 +36,7 @@ const aiDetectors: { title: string; href: string; description: string }[] = [
   {
     title: "Turnitin",
     href: "/turnitin",
-    description:
-      "Industry-standard plagiarism detection tool used by educational institutions.",
+    description: "Industry-standard plagiarism detection tool used by educational institutions.",
   },
   {
     title: "GPTZero",
@@ -47,20 +46,17 @@ const aiDetectors: { title: string; href: string; description: string }[] = [
   {
     title: "ZeroGPT",
     href: "/zerogpt",
-    description:
-      "Open-source AI content detector for identifying AI-generated text.",
+    description: "Open-source AI content detector for identifying AI-generated text.",
   },
   {
     title: "Crossplag",
     href: "/crossplag",
-    description:
-      "Cross-language plagiarism detection tool for academic and professional use.",
+    description: "Cross-language plagiarism detection tool for academic and professional use.",
   },
   {
     title: "Undetectable.ai",
     href: "/undetectable-ai",
-    description:
-      "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
+    description: "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
   },
 ];
 
@@ -139,16 +135,12 @@ const Header: React.FC<HeaderProps> = ({
               </Badge>
             </h1>
             <div className="ml-4 flex items-center">
-              <span className="text-green-500 text-sm font-medium">
-                Humanizer
-              </span>
+              <span className="text-green-500 text-sm font-medium">Humanizer</span>
               <span className="mx-2 text-neutral-500">|</span>
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
-                      AI Detector
-                    </NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">AI Detector</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                         <li className="row-span-3">
@@ -161,8 +153,7 @@ const Header: React.FC<HeaderProps> = ({
                                 AI Detectors
                               </div>
                               <p className="text-sm leading-tight text-neutral-400">
-                                Compare various AI detection tools and see how
-                                they perform.
+                                Compare various AI detection tools and see how they perform.
                               </p>
                             </a>
                           </NavigationMenuLink>
@@ -207,42 +198,43 @@ const Header: React.FC<HeaderProps> = ({
                     {user?.name || "Dashboard"}
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-neutral-950 bg-opacity-90 rounded-md shadow-lg">
-                  <DropdownMenuLabel className="text-neutral-400">
+                <DropdownMenuContent className="w-64 bg-neutral-800 rounded-md shadow-lg">
+                  <DropdownMenuLabel className="text-neutral-300">
                     My Account
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-neutral-800" />
+                  <DropdownMenuSeparator className="bg-neutral-700" />
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
-                      <button
-                        onClick={() => (window.location.href = "/profile")}
-                        className="w-full text-left  flex items-center"
+                      <Link
+                        href="/profile"
+                        className="flex items-center text-neutral-300 hover:text-neutral-50"
                       >
                         <FiUser className="mr-2" /> Profile
-                      </button>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href="/shop"
+                        className="flex items-center text-neutral-300 hover:text-neutral-50"
+                      >
+                        <ShoppingCart className="mr-2" /> Shop
+                      </Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
-                  <DropdownMenuSeparator className="bg-neutral-800" />
+                  <DropdownMenuSeparator className="bg-neutral-700" />
                   <DropdownMenuItem>
                     <div className="px-4 py-2 text-sm text-neutral-300">
                       Credits: {rewriteCount || 0}
                     </div>
                   </DropdownMenuItem>
-
-                  <DropdownMenuItem>
-                    <div className="px-4 py-2 text-sm text-neutral-300">
-                      Daily Free: {rewriteCount || 0}
-                    </div>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuSeparator className="bg-neutral-800" />
+                  <DropdownMenuSeparator className="bg-neutral-700" />
                   <DropdownMenuItem>
                     <button
                       onClick={() => {
                         localStorage.clear();
                         window.location.href = "/";
                       }}
-                      className="w-full text-left text-red-400  hover:text-red-400 flex items-center"
+                      className="w-full text-left text-red-400 hover:bg-neutral-700 flex items-center"
                     >
                       <LogOut className="mr-2" /> Logout
                     </button>
@@ -279,7 +271,7 @@ const ListItem = React.forwardRef<
         </a>
       </NavigationMenuLink>
     </li>
-  );
+  )
 });
 ListItem.displayName = "ListItem";
 

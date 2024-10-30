@@ -14,7 +14,7 @@ interface BorderBeamProps {
 export const BorderBeam = ({
   className,
   size = 200,
-  duration = 15,
+  duration = 2,
   anchor = 90,
   borderWidth = 1.5,
   colorFrom = "#ffaa40",

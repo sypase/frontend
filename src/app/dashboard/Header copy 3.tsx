@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -36,8 +36,7 @@ const aiDetectors: { title: string; href: string; description: string }[] = [
   {
     title: "Turnitin",
     href: "/turnitin",
-    description:
-      "Industry-standard plagiarism detection tool used by educational institutions.",
+    description: "Industry-standard plagiarism detection tool used by educational institutions.",
   },
   {
     title: "GPTZero",
@@ -47,20 +46,17 @@ const aiDetectors: { title: string; href: string; description: string }[] = [
   {
     title: "ZeroGPT",
     href: "/zerogpt",
-    description:
-      "Open-source AI content detector for identifying AI-generated text.",
+    description: "Open-source AI content detector for identifying AI-generated text.",
   },
   {
     title: "Crossplag",
     href: "/crossplag",
-    description:
-      "Cross-language plagiarism detection tool for academic and professional use.",
+    description: "Cross-language plagiarism detection tool for academic and professional use.",
   },
   {
     title: "Undetectable.ai",
     href: "/undetectable-ai",
-    description:
-      "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
+    description: "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
   },
 ];
 
@@ -123,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       )}
       <header
-        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
+        className={`fixed left-0 right-0 z-40 bg-gray-900 bg-opacity-50 backdrop-blur-lg border-b border-gray-800 ${
           showAnnouncement ? "top-10" : "top-0"
         }`}
       >
@@ -133,36 +129,31 @@ const Header: React.FC<HeaderProps> = ({
               NoaiGPT
               <Badge
                 variant="outline"
-                className="ml-2 text-neutral-300 border-neutral-600"
+                className="ml-2 text-gray-300 border-gray-600"
               >
                 Beta
               </Badge>
             </h1>
             <div className="ml-4 flex items-center">
-              <span className="text-green-500 text-sm font-medium">
-                Humanizer
-              </span>
-              <span className="mx-2 text-neutral-500">|</span>
+              <span className="text-green-500 text-sm font-medium">Humanizer</span>
+              <span className="mx-2 text-gray-500">|</span>
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
-                      AI Detector
-                    </NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="text-white text-sm font-medium bg-transparent">AI Detector</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                         <li className="row-span-3">
                           <NavigationMenuLink asChild>
                             <a
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-neutral-800/50 to-neutral-800 p-6 no-underline outline-none focus:shadow-md"
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                               href="/ai-detectors"
                             >
                               <div className="mb-2 mt-4 text-lg font-medium">
                                 AI Detectors
                               </div>
-                              <p className="text-sm leading-tight text-neutral-400">
-                                Compare various AI detection tools and see how
-                                they perform.
+                              <p className="text-sm leading-tight text-muted-foreground">
+                                Compare various AI detection tools and see how they perform.
                               </p>
                             </a>
                           </NavigationMenuLink>
@@ -187,7 +178,7 @@ const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-3">
             <Link
               href="/pricing"
-              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300"
+              className="px-4 py-1.5 text-sm font-medium text-gray-300 bg-transparent border border-gray-700 rounded hover:bg-gray-800 hover:text-white transition-all duration-300"
             >
               Pricing
             </Link>
@@ -195,7 +186,7 @@ const Header: React.FC<HeaderProps> = ({
             {!isLoggedIn && (
               <button
                 onClick={onShowSignupForm}
-                className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+                className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-gray-200 transition-all duration-300"
               >
                 Try for Free
               </button>
@@ -203,46 +194,47 @@ const Header: React.FC<HeaderProps> = ({
             {isLoggedIn && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300">
+                  <button className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-gray-200 transition-all duration-300">
                     {user?.name || "Dashboard"}
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-neutral-950 bg-opacity-90 rounded-md shadow-lg">
-                  <DropdownMenuLabel className="text-neutral-400">
+                <DropdownMenuContent className="w-64 bg-gray-800 rounded-md shadow-lg">
+                  <DropdownMenuLabel className="text-gray-300">
                     My Account
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-neutral-800" />
+                  <DropdownMenuSeparator className="bg-gray-700" />
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
-                      <button
-                        onClick={() => (window.location.href = "/profile")}
-                        className="w-full text-left  flex items-center"
+                      <Link
+                        href="/profile"
+                        className="flex items-center text-gray-300 hover:text-white"
                       >
                         <FiUser className="mr-2" /> Profile
-                      </button>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href="/shop"
+                        className="flex items-center text-gray-300 hover:text-white"
+                      >
+                        <ShoppingCart className="mr-2" /> Shop
+                      </Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
-                  <DropdownMenuSeparator className="bg-neutral-800" />
+                  <DropdownMenuSeparator className="bg-gray-700" />
                   <DropdownMenuItem>
-                    <div className="px-4 py-2 text-sm text-neutral-300">
+                    <div className="px-4 py-2 text-sm text-gray-300">
                       Credits: {rewriteCount || 0}
                     </div>
                   </DropdownMenuItem>
-
-                  <DropdownMenuItem>
-                    <div className="px-4 py-2 text-sm text-neutral-300">
-                      Daily Free: {rewriteCount || 0}
-                    </div>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuSeparator className="bg-neutral-800" />
+                  <DropdownMenuSeparator className="bg-gray-700" />
                   <DropdownMenuItem>
                     <button
                       onClick={() => {
                         localStorage.clear();
                         window.location.href = "/";
                       }}
-                      className="w-full text-left text-red-400  hover:text-red-400 flex items-center"
+                      className="w-full text-left text-red-400 hover:bg-gray-700 flex items-center"
                     >
                       <LogOut className="mr-2" /> Logout
                     </button>
@@ -267,19 +259,19 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700 hover:text-neutral-50 focus:bg-neutral-700 focus:text-neutral-50",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}
         >
           <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-neutral-400">
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
         </a>
       </NavigationMenuLink>
     </li>
-  );
+  )
 });
 ListItem.displayName = "ListItem";
 

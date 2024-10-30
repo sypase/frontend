@@ -8,6 +8,8 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { serverURL } from "@/utils/utils";
+import jwt from "jsonwebtoken";
+
 import gsap from "gsap";
 
 interface SignupFormProps {
@@ -19,7 +21,9 @@ export default function SignupForm({ onClose }: SignupFormProps) {
   const formRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const referral = new URLSearchParams(window.location.search).get("referral");
+    const referral = new URLSearchParams(window.location.search).get(
+      "referral"
+    );
     if (referral) {
       setReferralCode(referral);
     }
@@ -35,7 +39,20 @@ export default function SignupForm({ onClose }: SignupFormProps) {
 
   const handleGoogleSuccess = async (response: CredentialResponse) => {
     try {
+      console.log(response);
       const tokenId = response.credential;
+
+      // Decode the JWT token
+      if (!tokenId) {
+        throw new Error("Token ID is undefined");
+      }
+
+      const profileObj = jwt.decode(tokenId) as unknown as { picture: string };
+
+      // Log the URL of the user's profile picture
+      const profilePicture = profileObj?.picture;
+      console.log("User Profile Picture:", profilePicture);
+
       const config = {
         method: "POST",
         url: `${serverURL}/users/google-auth`,
@@ -51,6 +68,8 @@ export default function SignupForm({ onClose }: SignupFormProps) {
       };
 
       const res = await axios(config);
+
+      console.log(res);
 
       if (res.status === 200) {
         const { token, user } = res.data;
@@ -92,13 +111,27 @@ export default function SignupForm({ onClose }: SignupFormProps) {
               <div className="group bg-white/40 p-3.5 rounded-xl backdrop-blur-sm border border-white/60 shadow-sm hover:bg-white/60 transition-all duration-300">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <svg
+                      className="w-4 h-4 text-blue-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-800">1000 Free Words Daily</h3>
-                    <p className="text-xs text-gray-500">Fresh credits every day</p>
+                    <h3 className="text-sm font-medium text-gray-800">
+                      1000 Free Words Daily
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      Fresh credits every day
+                    </p>
                   </div>
                 </div>
               </div>
@@ -106,13 +139,27 @@ export default function SignupForm({ onClose }: SignupFormProps) {
               <div className="group bg-white/40 p-3.5 rounded-xl backdrop-blur-sm border border-white/60 shadow-sm hover:bg-white/60 transition-all duration-300">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
-                    <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    <svg
+                      className="w-4 h-4 text-indigo-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                      />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-800">Refer & Earn +500</h3>
-                    <p className="text-xs text-gray-500">Bonus words per referral</p>
+                    <h3 className="text-sm font-medium text-gray-800">
+                      Refer & Earn +500
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      Bonus words per referral
+                    </p>
                   </div>
                 </div>
               </div>
@@ -120,20 +167,36 @@ export default function SignupForm({ onClose }: SignupFormProps) {
               <div className="group bg-white/40 p-3.5 rounded-xl backdrop-blur-sm border border-white/60 shadow-sm hover:bg-white/60 transition-all duration-300">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
-                    <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    <svg
+                      className="w-4 h-4 text-purple-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-800">Undetectable AI</h3>
-                    <p className="text-xs text-gray-500">100% human-like content</p>
+                    <h3 className="text-sm font-medium text-gray-800">
+                      Undetectable AI
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      100% human-like content
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             {/* New tagline */}
             <div className="mt-6 text-center">
-              <h4 className="text-lg font-semibold text-gray-800">Stay unique, stay undetectable</h4>
+              <h4 className="text-lg font-semibold text-gray-800">
+                Stay unique, stay undetectable
+              </h4>
             </div>
           </div>
         </div>
@@ -142,7 +205,9 @@ export default function SignupForm({ onClose }: SignupFormProps) {
         <div className="md:w-5/12 p-8 bg-white/60 backdrop-blur-sm flex flex-col justify-center items-center">
           <div className="w-full max-w-sm space-y-6">
             <div className="text-center space-y-1.5">
-              <h3 className="text-lg font-semibold text-gray-800">Get Started</h3>
+              <h3 className="text-lg font-semibold text-gray-800">
+                Get Started
+              </h3>
               <p className="text-xs text-gray-500">
                 Join in seconds • No credit card needed
               </p>
@@ -172,8 +237,8 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                   className="text-blue-600 hover:text-blue-700"
                 >
                   Privacy Policy
-                </a>
-                {" "}and{" "}
+                </a>{" "}
+                and{" "}
                 <a
                   href="/assets/terms-of-service.txt"
                   target="_blank"

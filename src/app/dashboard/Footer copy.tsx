@@ -25,7 +25,6 @@ const Footer: React.FC<FooterProps> = ({
   textareaRef,
 }) => {
   const [gradientPosition, setGradientPosition] = useState(0);
-  const [textareaHeight, setTextareaHeight] = useState('80px');
 
   useEffect(() => {
     let animationFrame: number;
@@ -43,15 +42,6 @@ const Footer: React.FC<FooterProps> = ({
       }
     };
   }, []);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = '80px';
-      const scrollHeight = textareaRef.current.scrollHeight;
-      textareaRef.current.style.height = scrollHeight + 'px';
-      setTextareaHeight(scrollHeight + 'px');
-    }
-  }, [text]);
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(90deg, #ffaa40, #9c40ff, #ffaa40)`,
@@ -71,12 +61,8 @@ const Footer: React.FC<FooterProps> = ({
           <div className="flex items-end w-full bg-black rounded-lg">
             <textarea
               ref={textareaRef}
-              className="flex-1 p-3 bg-transparent border-none focus:ring-0 focus:outline-none resize-none text-gray-300 placeholder-gray-500 overflow-y-auto custom-scrollbar"
-              style={{ 
-                minHeight: "80px",
-                height: textareaHeight,
-                maxHeight: "300px"
-              }}
+              className="flex-1 p-3 bg-transparent border-none focus:ring-0 focus:outline-none resize-none text-gray-300 placeholder-gray-500 max-h-40 overflow-y-auto"
+              style={{ minHeight: "40px" }}
               value={text}
               onChange={handleTextAreaChange}
               onKeyDown={handleKeyDown}
@@ -101,23 +87,6 @@ const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
       </div>
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: #1a1a1a;
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #333;
-          border-radius: 4px;
-          border: 2px solid #1a1a1a;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background-color: #555;
-        }
-      `}</style>
     </div>
   );
 };
