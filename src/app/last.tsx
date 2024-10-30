@@ -44,7 +44,7 @@ const ElegantFooter = () => {
     ];
 
     return (
-        <footer className="relative text-gray-800 py-12 w-full font-sans overflow-hidden">
+        <footer className="relative bg-black text-gray-200 py-12 w-full font-sans overflow-hidden"> {/* Dark background for the footer */}
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-start">
                     <div className="footer-item mb-8 md:mb-0 md:w-1/3">
@@ -65,7 +65,7 @@ const ElegantFooter = () => {
                                         <li key={itemIdx} className="mb-2">
                                             <a
                                                 href={item.href}
-                                                className="hover:text-gray-600 transition duration-300 ease-in-out"
+                                                className="hover:text-gray-400 transition duration-300 ease-in-out" // Lighter color on hover
                                             >
                                                 {item.name}
                                             </a>

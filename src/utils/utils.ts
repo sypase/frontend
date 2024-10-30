@@ -1,7 +1,7 @@
 // const serverURL = "https://116.203.47.54:8080/"
 // const serverURL = "https://noaigptserver.xyz"
 // const serverURL = "http://localhost:8089"
-const serverURL = "http://192.168.1.90:8080"
+const serverURL = "http://localhost:8080"
 // const serverURL = "https://development.noaigpt.com"
 
 const currencySymbol = "₹";
