@@ -1,3 +1,5 @@
+// components/ZeroPlagiarism.tsx
+
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -52,7 +54,7 @@ const ZeroPlagiarism = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="h-auto min-h-[80vh] flex items-center justify-center py-20 bg-black"> {/* Adjusted height and padding for spacing */}
+    <section ref={sectionRef} className="h-[90vh] flex items-center justify-center  pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div ref={imageRef} className="relative w-full h-full">
@@ -66,13 +68,13 @@ const ZeroPlagiarism = () => {
             </div>
           </div>
           <div ref={textRef} className="space-y-6 lg:space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-100 leading-tight">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
               Zero Plagiarism
             </h2>
-            <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
+            <p className="text-lg lg:text-xl text-gray-700 leading-relaxed">
               Ensure the originality of your content with our advanced plagiarism detection tools. Our system provides reliable checks to maintain the integrity of your work, guaranteeing 100% unique content.
             </p>
-            <div className="flex items-center space-x-2 text-gray-400">
+            <div className="flex items-center space-x-2 text-gray-600">
               <span className="text-3xl font-bold text-green-500">100%</span>
               <span className="text-lg">Original Content</span>
             </div>

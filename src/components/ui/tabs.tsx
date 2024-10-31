@@ -68,13 +68,8 @@ export const Tabs = ({
               />
             )}
 
-      <span
-      className={cn(
-        "relative block", 
-        { "text-black": active.value === tab.value, "text-white": active.value !== tab.value }
-      )}
-    >
-      {tab.title}
+            <span className="relative block text-black dark:text-white">
+              {tab.title}
             </span>
           </button>
         ))}
