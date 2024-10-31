@@ -18,7 +18,7 @@ interface HeroProps {
 
 const AnimatedGradientTextDemo: React.FC = () => {
   return (
-    <div className="z-10 flex items-center justify-center py-4">
+    <div className="z-10 flex items-center justify-center py-4 ">
       <AnimatedGradientText>
         🎉 <hr className="mx-4 h-6 w-px shrink-0 bg-gray-600" />{" "}
         <span
