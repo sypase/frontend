@@ -16,44 +16,10 @@ interface Sparkle {
 }
 
 interface SparklesTextProps {
-  /**
-   * @default <div />
-   * @type ReactElement
-   * @description
-   * The component to be rendered as the text
-   * */
   as?: ReactElement;
-
-  /**
-   * @default ""
-   * @type string
-   * @description
-   * The className of the text
-   */
   className?: string;
-
-  /**
-   * @required
-   * @type string
-   * @description
-   * The text to be displayed
-   * */
   text: string;
-
-  /**
-   * @default 10
-   * @type number
-   * @description
-   * The count of sparkles
-   * */
   sparklesCount?: number;
-
-  /**
-   * @default "{first: '#9E7AFF', second: '#FE8BBB'}"
-   * @type string
-   * @description
-   * The colors of the sparkles
-   * */
   colors?: {
     first: string;
     second: string;
@@ -62,7 +28,7 @@ interface SparklesTextProps {
 
 const SparklesText: React.FC<SparklesTextProps> = ({
   text,
-  colors = { first: "#9E7AFF", second: "#FE8BBB" },
+  colors = { first: "#e5e7eb", second: "#4b5563" },
   className,
   sparklesCount = 10,
   ...props
@@ -94,7 +60,7 @@ const SparklesText: React.FC<SparklesTextProps> = ({
           } else {
             return { ...star, lifespan: star.lifespan - 0.1 };
           }
-        }),
+        })
       );
     };
 
@@ -119,7 +85,9 @@ const SparklesText: React.FC<SparklesTextProps> = ({
         {sparkles.map((sparkle) => (
           <Sparkle key={sparkle.id} {...sparkle} />
         ))}
-        <strong>{text}</strong>
+        <strong className="bg-gradient-to-b from-gray-200 to-gray-600 bg-clip-text text-transparent">
+          {text}
+        </strong>
       </span>
     </div>
   );
