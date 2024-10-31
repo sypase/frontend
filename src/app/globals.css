@@ -106,8 +106,6 @@
   animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-
-
 /* Global scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px; /* Adjust width as needed */
@@ -124,4 +122,11 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* Scrollbar color on hover */
+}
+
+@media (max-width: 639px) {
+  .custom-logo-slider .slick-slide > div {
+    display: flex;
+    justify-content: center;
+  }
 }
