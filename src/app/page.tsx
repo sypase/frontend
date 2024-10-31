@@ -21,26 +21,19 @@ import Header from "./header";
 
 // Import the l-grid component
 import { grid } from "ldrs";
-import AIMeter from "./AIMeter";
 // import { StickyScrollRevealDemo } from "./SmartProcessingSection";
-import CardSection from "./CardSection";
-import ProdashBoard from "./ProdashBoard";
+
 import TopGrammarScore from "./TopGrammarScore";
-import NoSubscription from "./NoSubscription";
 import ZeroPlagiarism from "./ZeroPlagiarism";
-import QuestionsList from "./QuestionsList";
 import { AccordionDemo } from "./FAQ";
 import ElegantFooter from "./last";
-import AICheckerShowcase from "./AICheckerShowcase";
-import { StickyScrollRevealDemo } from "./FeatureShowcase";
 import { AnimatedBeamMultipleOutputDemo } from "./AnimatedBeam";
 import Hero from "./hero";
-import ClientTweetCard from "./howtouse";
-import { CompareDemo } from "./CompareDemo";
-import { BentoDemo } from "./BeatTurnitinCard";
-import { TabsDemo } from "./humnaizedshowcase";
-import Tweeter from "./howtouse";
-import ReviewCard from "./joinwrites";
+import {CompareDemo} from "./CompareDemo";
+import {BentoDemo} from "./BeatTurnitinCard"
+import {TabsDemo} from "./humnaizedshowcase"
+import Tweeter from "./howtouse"
+import ReviewCard from "./joinwrites"
 
 interface Message {
   id: number;
@@ -236,13 +229,14 @@ export default function Home() {
 
   if (!isLoaded) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-        <div className="text-4xl font-semibold text-gray-800 transition-transform transform hover:scale-105">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+        <div className="text-4xl font-semibold text-center text-transparent bg-gradient-to-b from-gray-200 to-gray-600 bg-clip-text transition-transform transform hover:scale-105">
           Stay Unique, Stay Undetectable
         </div>
       </div>
     );
   }
+  
 
   return (
     <>
@@ -286,26 +280,27 @@ export default function Home() {
         onShowSignupForm={() => setShowSignupForm(true)}
       ></Header>
 
-      <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
-        <animated.div
-          style={{
-            ...backgroundAnimation,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background:
-              "linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(240, 240, 240, 0.8))",
-            backdropFilter: "blur(10px)",
-            backgroundSize: "400% 400%",
-          }}
-        />
+<div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
+  <animated.div
+    style={{
+      ...backgroundAnimation,
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background:
+        "black", // Darker gradient background
+      backdropFilter: "blur(10px)",
+      backgroundSize: "400% 400%",
+    }}
+  />
 
-        <main className="flex-grow mt-24 px-4 overflow-y-auto overflow-x-hidden relative z-30 pb-24 bg-gray-10 ">
-          <animated.div style={fadeIn} className="max-w-1xl mx-auto">
-            {showLanding && (
-              <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
+  <main className="flex-grow mt-24 px-4 overflow-y-auto overflow-x-hidden relative z-30 pb-24 bg-black"> {/* Dark background for main content */}
+    <animated.div style={fadeIn} className="max-w-1xl mx-auto text-white"> {/* White text for visibility */}
+      {showLanding && (
+        <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden bg-black">
+
                 {/* Landing Section */}
                 {showLanding && (
                   //                 <section
@@ -357,20 +352,6 @@ export default function Home() {
                   />
                 )}
 
-                {/* From 100% AI to 0$ AI DETECTED ANIMATION and  down A meter animation from 100 to 0 animation*/}
-                {/* <section
-                  style={{ height: "90vh" }}
-                  className="flex items-center justify-center bg-gray-100 w-full"
-                >
-                  <h2 className="text-center text-xl font-bold mb-4">
-                    
-                  </h2>
-                </section> */}
-
-                {/* AI Checker Showcase Section */}
-                {/* <AICheckerShowcase /> */}
-
-                {/* Animated Beam Demo Section */}
 
                 <AnimatedBeamMultipleOutputDemo />
 
@@ -378,47 +359,26 @@ export default function Home() {
                 <TabsDemo />
                 <ReviewCard />
 
-                {/* <AIMeter /> */}
 
-                {/* Feature Showcase Section */}
-                {/* <StickyScrollRevealDemo /> */}
 
-                {/* Feature Section */}
 
-                {/* <CardSection /> */}
 
-                {/* Pro Dashboard Section */}
-                {/* <ProdashBoard /> */}
 
-                {/* Top Grammar Score Section */}
                 <TopGrammarScore />
 
-                {/* Zero Plagiarism Section */}
+
                 <ZeroPlagiarism />
                 <Tweeter />
 
+
                 <BentoDemo />
 
-                {/* how to use */}
-                {/* review and rating  */}
 
-                {/* Questions List Section */}
-                {/* <ClientTweetCard /> */}
 
-                {/* FAQ Section */}
 
-                {/* <StickyScrollRevealDemo /> */}
-
-                {/* No Subscription Section */}
-                {/* <NoSubscription /> */}
-
-                {/* Questions List Section */}
-                {/* <QuestionsList /> */}
-
-                {/* FAQ Section */}
                 <AccordionDemo />
 
-                {/* Elegant Footer Section */}
+
                 <ElegantFooter />
 
                 <div className=""></div>
