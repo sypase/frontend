@@ -323,7 +323,7 @@ export default function Home() {
           {/* Right side - Output messages */}
           <div className="w-[55%] rounded-lg shadow-md border border-gray-800">
             <div className="h-full flex flex-col">
-              <div className="flex-grow p-4 overflow-y-auto relative">
+              <div className="flex-grow p-4  relative">
                 {loading ? (
                   <div className="absolute inset-0">
                     <MultiStepLoader

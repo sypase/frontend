@@ -1,20 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { X, Sparkles, FileUser, LogOut, ShoppingCart } from "lucide-react";
 import { FiUser } from "react-icons/fi";
+import { FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -71,6 +63,23 @@ const Header: React.FC<HeaderProps> = ({
   onShowSignupForm,
 }) => {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
     <>
@@ -123,12 +132,12 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       )}
       <header
-        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
+        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800  ${
           showAnnouncement ? "top-10" : "top-0"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          <Link href="/" className="flex items-center">
+          <Link href="/dashboard" className="flex items-center">
             <h1 className="text-xl font-bold tracking-tight text-white flex items-center">
               NoaiGPT
               <Badge
@@ -167,6 +176,7 @@ const Header: React.FC<HeaderProps> = ({
                             </a>
                           </NavigationMenuLink>
                         </li>
+
                         {aiDetectors.map((detector) => (
                           <ListItem
                             key={detector.title}
@@ -191,6 +201,20 @@ const Header: React.FC<HeaderProps> = ({
             >
               Pricing
             </Link>
+            <Link
+              href="/earn"
+              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300"
+            >
+              Earn
+            </Link>
+            <a
+              href="https://discord.gg/your-discord-invite-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-neutral-200 transition-colors duration-200"
+            >
+              <FaDiscord className="h-5 w-5" />
+            </a>
 
             {!isLoggedIn && (
               <button
@@ -201,54 +225,45 @@ const Header: React.FC<HeaderProps> = ({
               </button>
             )}
             {isLoggedIn && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300">
-                    {user?.name || "Dashboard"}
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-neutral-950 bg-opacity-90 rounded-md shadow-lg">
-                  <DropdownMenuLabel className="text-neutral-400">
-                    My Account
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-neutral-800" />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem>
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={toggleDropdown}
+                  className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+                >
+                  {user?.name || "Dashboard"}
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
+                    <div className="py-1">
+                      <div className="px-4 py-2 text-sm text-neutral-400">My Account</div>
+                      <div className="border-t border-neutral-800"></div>
                       <button
                         onClick={() => (window.location.href = "/profile")}
-                        className="w-full text-left  flex items-center"
+                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
                       >
-                        <FiUser className="mr-2" /> Profile
+                        <FiUser className="inline-block mr-2" /> Profile
                       </button>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator className="bg-neutral-800" />
-                  <DropdownMenuItem>
-                    <div className="px-4 py-2 text-sm text-neutral-300">
-                      Credits: {rewriteCount || 0}
+                      <div className="border-t border-neutral-800"></div>
+                      <div className="px-4 py-2 text-sm text-neutral-300">
+                        Credits: {rewriteCount || 0}
+                      </div>
+                      <div className="px-4 py-2 text-sm text-neutral-300">
+                        Daily Free: {rewriteCount || 0}
+                      </div>
+                      <div className="border-t border-neutral-800"></div>
+                      <button
+                        onClick={() => {
+                          localStorage.clear();
+                          window.location.href = "/";
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
+                      >
+                        <LogOut className="inline-block mr-2" /> Logout
+                      </button>
                     </div>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem>
-                    <div className="px-4 py-2 text-sm text-neutral-300">
-                      Daily Free: {rewriteCount || 0}
-                    </div>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuSeparator className="bg-neutral-800" />
-                  <DropdownMenuItem>
-                    <button
-                      onClick={() => {
-                        localStorage.clear();
-                        window.location.href = "/";
-                      }}
-                      className="w-full text-left text-red-400  hover:text-red-400 flex items-center"
-                    >
-                      <LogOut className="mr-2" /> Logout
-                    </button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
