@@ -1,23 +1,27 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { serverURL, frontendURL } from "@/utils/utils";
 
 interface PricingItem {
+  _id: string;
   title: string;
   currency: string;
   price: number;
   rewriteLimit: number;
   features: string[];
+  country: string;
+  enable: boolean;
 }
 
 interface PricingCardsProps {
-  pricingData: { [key: string]: PricingItem[] };
+  pricingData: PricingItem[];
   country: string;
   isLoggedIn: boolean;
   setShowSignupForm: (show: boolean) => void;
-  setSelectedItem: (item: PricingItem) => void; // Added prop for setting selected item
+  paymentMethods: any;
 }
 
 const PricingCards: React.FC<PricingCardsProps> = ({
@@ -25,15 +29,20 @@ const PricingCards: React.FC<PricingCardsProps> = ({
   country,
   isLoggedIn,
   setShowSignupForm,
-  setSelectedItem, // Destructure the new prop
+  paymentMethods,
 }) => {
   const cardsRef = useRef<HTMLDivElement>(null);
 
   const handleSelectPlan = (item: PricingItem) => {
+    console.log("Selected item:", item);
     if (isLoggedIn) {
-      setSelectedItem(item); // Set the selected item
-      // Open payment method modal
-      document.getElementById("paymentmethod_modal")?.click();
+      if (country === "NP" && paymentMethods?.imepay?.enabled) {
+        window.location.href = `${frontendURL}/shop/payment?item=${item._id}&method=imepay`;
+      } else if (paymentMethods?.stripe?.enabled) {
+        window.location.href = `${frontendURL}/shop/payment?item=${item._id}&method=stripe`;
+      } else {
+        alert("No payment method available");
+      }
     } else {
       setShowSignupForm(true);
     }
@@ -44,7 +53,7 @@ const PricingCards: React.FC<PricingCardsProps> = ({
       ref={cardsRef}
       className="w-full flex-grow flex items-stretch justify-center flex-wrap"
     >
-      {pricingData[country].map((item, i) => (
+      {pricingData.map((item, i) => (
         <div key={i} className="relative w-full max-w-xs m-4">
           <div
             className={`relative rounded-2xl shadow-xl h-full overflow-hidden transition-all duration-300 
@@ -80,7 +89,7 @@ const PricingCards: React.FC<PricingCardsProps> = ({
                 ))}
               </ul>
               <button
-                onClick={() => handleSelectPlan(item)} // Use the new function here
+                onClick={() => handleSelectPlan(item)}
                 className="mt-auto px-4 py-2 bg-white text-black border border-gray-300 font-semibold text-lg rounded-lg shadow hover:bg-gray-100 transition duration-300 w-full"
               >
                 {isLoggedIn ? "Choose Plan" : "Sign Up to Choose Plan"}

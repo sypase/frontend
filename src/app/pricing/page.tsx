@@ -8,7 +8,6 @@ import SignupForm from "../signup/SignupForm";
 import ElegantFooter from "../last";
 import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
-import Image from "next/image";
 import PricingCards from "./pricingcard";
 
 interface Item {
@@ -34,7 +33,6 @@ export default function UnifiedPricingShop() {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethods | null>(
     null
   );
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [currency, setCurrency] = useState<"USD" | "NPR">("USD");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignupForm, setShowSignupForm] = useState(false);
@@ -57,7 +55,7 @@ export default function UnifiedPricingShop() {
         },
       });
       const { items, paymentMethods } = response.data;
-      setItems(items.filter((item: Item) => item.currency === currency));
+      setItems(items.filter((item: Item) => item.currency === currency && item.enable));
       setPaymentMethods(paymentMethods);
     } catch (error) {
       console.error("Error fetching items:", error);
@@ -73,12 +71,6 @@ export default function UnifiedPricingShop() {
   useEffect(() => {
     fetchItems();
   }, [currency]);
-
-  useEffect(() => {
-    if (selectedItem && currency === "NPR" && paymentMethods?.imepay.enabled) {
-      window.location.href = `/shop/payment?item=${selectedItem._id}&method=imepay`;
-    }
-  }, [selectedItem, paymentMethods, currency]);
 
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-background text-foreground overflow-hidden">
@@ -105,14 +97,14 @@ export default function UnifiedPricingShop() {
       </div>
 
       <PricingCards
-        pricingData={{ [currency]: items }}
-        country={currency}
+        pricingData={items}
+        country={currency === "NPR" ? "NP" : "US"}
         isLoggedIn={isLoggedIn}
         setShowSignupForm={setShowSignupForm}
-        setSelectedItem={(item) => setSelectedItem(item as Item)}
+        paymentMethods={paymentMethods}
       />
 
-      {!paymentMethods?.imepay.enabled && currency === "NPR" && (
+      {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
         <p className="text-center mb-10 text-destructive">
           No payment method available for NPR
         </p>
