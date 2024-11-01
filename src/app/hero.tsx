@@ -84,7 +84,7 @@ const Hero: React.FC<HeroProps> = ({
       <h2 className="text-4xl md:text-5xl font-bold mb-4 mt-6 bg-gradient-to-b from-gray-200 to-gray-600 bg-clip-text text-transparent">
         Transform AI Text into Natural
       </h2>
-      <h1 className="text-6xl md:text-[21px] font-bold mb-4 mt-6 bg-gradient-to-b from-gray-200 to-gray-600 bg-clip-text text-transparent leading-tight">
+      <h1 className="text-4xl md:text-5xl font-bold mb-4 mt-6 bg-gradient-to-b from-gray-200 to-gray-600 bg-clip-text text-transparent leading-tight">
         Human Writing
       </h1>
       <p className="text-lg mb-8 text-gray-300 max-w-2xl mx-auto">
