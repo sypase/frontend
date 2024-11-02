@@ -232,9 +232,6 @@ export default function ProfilePage() {
                     <p className="text-lg text-neutral-400 text-center sm:text-left">
                       Available Credits
                     </p>
-                    <p className="text-lg text-neutral-400 text-center sm:text-left mt-2">
-                      Daily Free Credits Left: {user.dailyFreeWords}
-                    </p>
                   </div>
                   <Link href="/pricing" passHref>
                     <RainbowButton>Add Credits</RainbowButton>

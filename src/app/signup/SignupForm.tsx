@@ -93,7 +93,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
       <div
         ref={formRef}
-        className="bg-white/90 backdrop-blur-lg rounded-3xl max-w-2xl w-full shadow-2xl flex flex-col md:flex-row overflow-hidden border border-white/20"
+        className="bg-neutral-900 backdrop-blur-lg rounded-3xl max-w-2xl w-full shadow-2xl flex flex-col md:flex-row overflow-hidden border border-white/20"
       >
         {/* Left Section */}
         <div className="md:w-7/12 p-8 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-purple-500/5">
