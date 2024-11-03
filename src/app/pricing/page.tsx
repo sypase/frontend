@@ -1,3 +1,4 @@
+// pages/UnifiedPricingShop.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -9,6 +10,7 @@ import ElegantFooter from "../last";
 import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
+import { usePaddle } from "@/hooks/usePaddle";
 
 interface Item {
   _id: string;
@@ -19,6 +21,7 @@ interface Item {
   currency: string;
   price: number;
   features: string[];
+  paddleProductId: string | null; // Add this line
 }
 
 interface PaymentMethods {
@@ -36,6 +39,7 @@ export default function UnifiedPricingShop() {
   const [currency, setCurrency] = useState<"USD" | "NPR">("USD");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignupForm, setShowSignupForm] = useState(false);
+  const paddle = usePaddle();
 
   const detectLocation = async () => {
     try {
@@ -52,10 +56,14 @@ export default function UnifiedPricingShop() {
       const response = await axios.get(`${serverURL}/shop`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "ngrok-skip-browser-warning": "true", // Value set to "true" to bypass the warning
+          "User-Agent": "CustomUserAgent/1.0",
         },
       });
       const { items, paymentMethods } = response.data;
-      setItems(items.filter((item: Item) => item.currency === currency && item.enable));
+      setItems(
+        items.filter((item: Item) => item.currency === currency && item.enable)
+      );
       setPaymentMethods(paymentMethods);
     } catch (error) {
       console.error("Error fetching items:", error);
@@ -102,6 +110,7 @@ export default function UnifiedPricingShop() {
         isLoggedIn={isLoggedIn}
         setShowSignupForm={setShowSignupForm}
         paymentMethods={paymentMethods}
+        paddle={paddle}
       />
 
       {!paymentMethods?.imepay?.enabled && currency === "NPR" && (

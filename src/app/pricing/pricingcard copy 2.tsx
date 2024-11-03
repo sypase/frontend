@@ -1,11 +1,9 @@
-// components/PricingCards.tsx
 "use client";
 
 import React, { useRef } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { BorderBeam } from "@/components/ui/border-beam";
-import { frontendURL } from "@/utils/utils";
-import { Paddle } from "@paddle/paddle-js";
+import { serverURL, frontendURL } from "@/utils/utils";
 
 interface PricingItem {
   _id: string;
@@ -16,7 +14,6 @@ interface PricingItem {
   features: string[];
   country: string;
   enable: boolean;
-  paddleProductId: string | null;
 }
 
 interface PricingCardsProps {
@@ -25,7 +22,6 @@ interface PricingCardsProps {
   isLoggedIn: boolean;
   setShowSignupForm: (show: boolean) => void;
   paymentMethods: any;
-  paddle: Paddle | undefined;
 }
 
 const PricingCards: React.FC<PricingCardsProps> = ({
@@ -34,42 +30,16 @@ const PricingCards: React.FC<PricingCardsProps> = ({
   isLoggedIn,
   setShowSignupForm,
   paymentMethods,
-  paddle,
 }) => {
   const cardsRef = useRef<HTMLDivElement>(null);
 
-  const handleSelectPlan = async (item: PricingItem) => {
+  const handleSelectPlan = (item: PricingItem) => {
     console.log("Selected item:", item);
     if (isLoggedIn) {
       if (country === "NP" && paymentMethods?.imepay?.enabled) {
         window.location.href = `${frontendURL}/shop/payment?item=${item._id}&method=imepay`;
-      } else if (paddle && item.paddleProductId) {
-        try {
-          console.log("Opening paddle checkout...");
-          await paddle.Checkout.open({
-            settings: {
-              displayMode: "overlay",
-              theme: "light",
-              locale: "en",
-              allowLogout: false,
-              successUrl: `${frontendURL}/shop/payment/success`,
-            },
-            items: [
-              {
-                priceId: item.paddleProductId,
-                quantity: 1,
-              },
-            ],
-            customer: {
-              email: "test@gmail.com",
-            },
-            customData: {
-              itemId: item._id,
-            },
-          });
-        } catch (error) {
-          console.error("Paddle checkout error:", error);
-        }
+      } else if (paymentMethods?.stripe?.enabled) {
+        window.location.href = `${frontendURL}/shop/payment?item=${item._id}&method=stripe`;
       } else {
         alert("No payment method available");
       }
@@ -121,13 +91,8 @@ const PricingCards: React.FC<PricingCardsProps> = ({
               <button
                 onClick={() => handleSelectPlan(item)}
                 className="mt-auto px-4 py-2 bg-white text-black border border-gray-300 font-semibold text-lg rounded-lg shadow hover:bg-gray-100 transition duration-300 w-full"
-                disabled={!item.enable}
               >
-                {isLoggedIn 
-                  ? (item.enable 
-                    ? "Choose Plan" 
-                    : "Currently Unavailable")
-                  : "Sign Up to Choose Plan"}
+                {isLoggedIn ? "Choose Plan" : "Sign Up to Choose Plan"}
               </button>
             </div>
           </div>
