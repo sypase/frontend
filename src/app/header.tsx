@@ -1,32 +1,140 @@
+"use client";
+
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { X, Sparkles } from "lucide-react";
+import {
+  X,
+  Sparkles,
+  FileUser,
+  LogOut,
+  ShoppingCart,
+  Menu,
+} from "lucide-react";
+import { FiUser } from "react-icons/fi";
+import { FaDiscord } from "react-icons/fa";
+import { cn } from "@/lib/utils";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 interface HeaderProps {
   isLoggedIn: boolean;
-  onShowSignupForm: () => void;
+  user?: any;
+  rewriteCount?: number;
+  onShowSignupForm?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
+const aiDetectors: { title: string; href: string; description: string }[] = [
+  {
+    title: "Turnitin",
+    href: "/turnitin",
+    description:
+      "Industry-standard plagiarism detection tool used by educational institutions.",
+  },
+  {
+    title: "GPTZero",
+    href: "/gptzero",
+    description: "AI-powered tool designed to detect machine-generated text.",
+  },
+  {
+    title: "ZeroGPT",
+    href: "/zerogpt",
+    description:
+      "Open-source AI content detector for identifying AI-generated text.",
+  },
+  {
+    title: "Crossplag",
+    href: "/crossplag",
+    description:
+      "Cross-language plagiarism detection tool for academic and professional use.",
+  },
+  {
+    title: "Undetectable.ai",
+    href: "/undetectable-ai",
+    description:
+      "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
+  },
+];
+
+const Header: React.FC<HeaderProps> = ({
+  isLoggedIn,
+  user,
+  rewriteCount,
+  onShowSignupForm,
+}) => {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
     <>
       {showAnnouncement && (
-        <div className="bg-gradient-to-r from-neutral-800 via-neutral-900 to-neutral-700 text-white text-center py-2.5 px-4 fixed top-0 left-0 right-0 z-50 border-b border-gray-700">
+        <div className="bg-gradient-to-r from-[#ffaa40] to-[#9c40ff] text-white text-center py-1.5 px-3 fixed top-0 left-0 right-0 z-50 border-b border-[#ffaa40]">
           <div className="max-w-7xl mx-auto relative flex items-center justify-center gap-2">
-            <div className="flex items-center gap-1.5">
-              <span className="bg-gray-600 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full border border-gray-500">NEW</span>
-              <Sparkles className="h-4 w-4 text-purple-400" />
-              <p className="text-sm font-medium">
-                <span className="font-semibold">NoaiGPT Model Update:</span>
-                <span className="mx-1.5">Now with Enhanced Turnitin Compatibility</span>
+            <div className="flex items-center gap-1">
+              <span className="bg-[#ffaa40] text-white text-xs font-semibold px-2 py-0.5 rounded-full border border-[#ffaa40]">
+                NEW
+              </span>
+              <Sparkles className="h-3 w-3 text-[#9c40ff]" />
+              <p className="text-xs font-medium">
+                <span className="font-semibold text-white">
+                  NoaiGPT Model Update:
+                </span>
+                <span className="mx-1 text-white">
+                  Now with Enhanced Turnitin Compatibility
+                </span>
                 <span className="inline-flex items-center">
-                  <Link href="/learn-more" className="inline-flex items-center ml-2 text-purple-400 hover:text-purple-500 font-medium group">
+                  <Link
+                    href="/learn-more"
+                    className="inline-flex items-center ml-2 text-white hover:text-[#ffaa40] font-medium group"
+                  >
                     Learn more
-                    <svg className="w-4 h-4 ml-0.5 transform transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                    <svg
+                      className="w-3.5 h-3.5 ml-0.5 transform transition-transform group-hover:translate-x-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </Link>
                 </span>
@@ -34,57 +142,252 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
             </div>
             <button
               onClick={() => setShowAnnouncement(false)}
-              className="absolute right-0 p-1 text-gray-300 hover:text-white hover:bg-gray-600 rounded-full transition-all duration-200"
+              className="absolute right-0 p-1 text-white hover:text-[#ffaa40] hover:bg-[#9c40ff] rounded-full transition-all duration-200"
               aria-label="Close announcement"
             >
-              <X size={16} />
+              <X className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>
       )}
-      <header 
-        className={`fixed left-0 right-0 z-40 bg-neutral-900 bg-opacity-80 border-b border-gray-700 ${
-          showAnnouncement ? 'top-10' : 'top-0'
+      <header
+        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
+          showAnnouncement ? "top-10" : "top-0"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          <Link href="/" className="flex items-center">
-            <h1 className="text-xl font-bold tracking-tight text-white">
+          <Link href="/dashboard" className="flex items-center">
+            <h1 className="text-xl font-bold tracking-tight text-white flex items-center mr-3">
               NoaiGPT
+              <Badge
+                variant="outline"
+                className="ml-2 text-neutral-300 border-neutral-600"
+              >
+                Beta
+              </Badge>
             </h1>
-            <Badge variant="outline" className="ml-2 bg-gray-700 text-white">Beta</Badge>
+            <span className="text-green-500 text-sm font-medium">
+              Humanizer
+            </span>
           </Link>
 
-          <div className="flex space-x-3">
+          <div className="hidden md:flex items-center space-x-3">
+            <div className="flex items-center">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
+                      AI Detector
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                        <li className="row-span-3">
+                          <NavigationMenuLink asChild>
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-neutral-800/50 to-neutral-800 p-6 no-underline outline-none focus:shadow-md"
+                              href="/ai-detectors"
+                            >
+                              <div className="mb-2 mt-4 text-lg font-medium">
+                                AI Detectors
+                              </div>
+                              <p className="text-sm leading-tight text-neutral-400">
+                                Compare various AI detection tools and see how
+                                they perform.
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                        {aiDetectors.map((detector) => (
+                          <ListItem
+                            key={detector.title}
+                            href={detector.href}
+                            title={detector.title}
+                          >
+                            {detector.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
+            <Link
+              href="/pricing"
+              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/earn"
+              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300"
+            >
+              Earn
+            </Link>
+            <a
+              href="https://discord.gg/your-discord-invite-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-neutral-200 transition-colors duration-200"
+            >
+              <FaDiscord className="h-5 w-5" />
+            </a>
+
             {!isLoggedIn && (
-              <>
-                <Link
-                  href="/pricing"
-                  className="px-4 py-1.5 text-sm font-medium text-gray-300 bg-transparent border border-gray-600 rounded hover:bg-gray-700 hover:text-white transition-all duration-300"
+              <button
+                onClick={onShowSignupForm}
+                className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+              >
+                Try for Free
+              </button>
+            )}
+            {isLoggedIn && (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={toggleDropdown}
+                  className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
                 >
-                  Pricing
-                </Link>
+                  {user?.name || "Dashboard"}
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
+                    <div className="py-1">
+                      <div className="px-4 py-2 text-sm text-neutral-400">
+                        My Account
+                      </div>
+                      <div className="border-t border-neutral-800"></div>
+                      <button
+                        onClick={() => (window.location.href = "/profile")}
+                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                      >
+                        <FiUser className="inline-block mr-2" /> Profile
+                      </button>
+                      <div className="border-t border-neutral-800"></div>
+                      <div className="px-4 py-2 text-sm text-neutral-300">
+                        Credits: {rewriteCount || 0}
+                      </div>
+                      <div className="px-4 py-2 text-sm text-neutral-300">
+                        Daily Free: {rewriteCount || 0}
+                      </div>
+                      <div className="border-t border-neutral-800"></div>
+                      <button
+                        onClick={() => {
+                          localStorage.clear();
+                          window.location.href = "/";
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
+                      >
+                        <LogOut className="inline-block mr-2" /> Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="text-white hover:text-neutral-200 transition-colors duration-200"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div
+            ref={mobileMenuRef}
+            className="md:hidden bg-neutral-950 bg-opacity-95 backdrop-blur-lg"
+          >
+            <div className="px-4 pt-2 pb-3 space-y-1">
+              <Link
+                href="/pricing"
+                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/earn"
+                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
+              >
+                Earn
+              </Link>
+              <a
+                href="https://discord.gg/your-discord-invite-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
+              >
+                Discord
+              </a>
+              {!isLoggedIn && (
                 <button
                   onClick={onShowSignupForm}
-                  className="px-4 py-1.5 text-sm font-medium text-white bg-gray-800 border border-transparent rounded hover:bg-gray-700 transition-all duration-300"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-neutral-800 hover:bg-neutral-700"
                 >
                   Try for Free
                 </button>
-              </>
-            )}
-            {isLoggedIn && (
-              <Link
-                href="/dashboard"
-                className="px-4 py-1.5 text-sm font-medium text-white bg-gray-800 border border-transparent rounded hover:bg-gray-700 transition-all duration-300"
-              >
-                Dashboard
-              </Link>
-            )}
+              )}
+              {isLoggedIn && (
+                <>
+                  <button
+                    onClick={() => (window.location.href = "/profile")}
+                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
+                  >
+                    Profile
+                  </button>
+                  <div className="px-3 py-2 text-sm text-neutral-400">
+                    Credits: {rewriteCount || 0}
+                  </div>
+                  <div className="px-3 py-2 text-sm text-neutral-400">
+                    Daily Free: {rewriteCount || 0}
+                  </div>
+                  <button
+                    onClick={() => {
+                      localStorage.clear();
+                      window.location.href = "/";
+                    }}
+                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-neutral-800"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </header>
     </>
   );
 };
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700 hover:text-neutral-50 focus:bg-neutral-700 focus:text-neutral-50",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-neutral-400">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";
 
 export default Header;

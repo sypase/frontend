@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { X, Sparkles, FileUser, LogOut, ShoppingCart } from "lucide-react";
+import { X, Sparkles, LogOut } from "lucide-react";
 import { FiUser } from "react-icons/fi";
 import { FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
@@ -19,17 +19,22 @@ import {
 
 interface HeaderProps {
   isLoggedIn: boolean;
-  user?: any;
+  user?: {
+    name: string;
+    email: string;
+    credits: number;
+    dailyFreeWords: number;
+    referralCode: string;
+  };
   rewriteCount?: number;
   onShowSignupForm?: () => void;
 }
 
-const aiDetectors: { title: string; href: string; description: string }[] = [
+const aiDetectors = [
   {
     title: "Turnitin",
     href: "/turnitin",
-    description:
-      "Industry-standard plagiarism detection tool used by educational institutions.",
+    description: "Industry-standard plagiarism detection tool used by educational institutions.",
   },
   {
     title: "GPTZero",
@@ -39,29 +44,21 @@ const aiDetectors: { title: string; href: string; description: string }[] = [
   {
     title: "ZeroGPT",
     href: "/zerogpt",
-    description:
-      "Open-source AI content detector for identifying AI-generated text.",
+    description: "Open-source AI content detector for identifying AI-generated text.",
   },
   {
     title: "Crossplag",
     href: "/crossplag",
-    description:
-      "Cross-language plagiarism detection tool for academic and professional use.",
+    description: "Cross-language plagiarism detection tool for academic and professional use.",
   },
   {
     title: "Undetectable.ai",
     href: "/undetectable-ai",
-    description:
-      "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
+    description: "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
   },
 ];
 
-const Header: React.FC<HeaderProps> = ({
-  isLoggedIn,
-  user,
-  rewriteCount,
-  onShowSignupForm,
-}) => {
+const Header: React.FC<HeaderProps> = ({ isLoggedIn, user, rewriteCount, onShowSignupForm }) => {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -92,12 +89,8 @@ const Header: React.FC<HeaderProps> = ({
               </span>
               <Sparkles className="h-3 w-3 text-[#9c40ff]" />
               <p className="text-xs font-medium">
-                <span className="font-semibold text-white">
-                  NoaiGPT Model Update:
-                </span>
-                <span className="mx-1 text-white">
-                  Now with Enhanced Turnitin Compatibility
-                </span>
+                <span className="font-semibold text-white">NoaiGPT Model Update:</span>
+                <span className="mx-1 text-white">Now with Enhanced Turnitin Compatibility</span>
                 <span className="inline-flex items-center">
                   <Link
                     href="/learn-more"
@@ -110,12 +103,7 @@ const Header: React.FC<HeaderProps> = ({
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 5l7 7-7 7"
-                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                     </svg>
                   </Link>
                 </span>
@@ -132,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       )}
       <header
-        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800  ${
+        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
           showAnnouncement ? "top-10" : "top-0"
         }`}
       >
@@ -140,17 +128,12 @@ const Header: React.FC<HeaderProps> = ({
           <Link href="/dashboard" className="flex items-center">
             <h1 className="text-xl font-bold tracking-tight text-white flex items-center">
               NoaiGPT
-              <Badge
-                variant="outline"
-                className="ml-2 text-neutral-300 border-neutral-600"
-              >
+              <Badge variant="outline" className="ml-2 text-neutral-300 border-neutral-600">
                 Beta
               </Badge>
             </h1>
             <div className="ml-4 flex items-center">
-              <span className="text-green-500 text-sm font-medium">
-                Humanizer
-              </span>
+              <span className="text-green-500 text-sm font-medium">Humanizer</span>
               <span className="mx-2 text-neutral-500">|</span>
               <NavigationMenu>
                 <NavigationMenuList>
@@ -166,23 +149,16 @@ const Header: React.FC<HeaderProps> = ({
                               className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-neutral-800/50 to-neutral-800 p-6 no-underline outline-none focus:shadow-md"
                               href="/ai-detectors"
                             >
-                              <div className="mb-2 mt-4 text-lg font-medium">
-                                AI Detectors
-                              </div>
+                              <div className="mb-2 mt-4 text-lg font-medium">AI Detectors</div>
                               <p className="text-sm leading-tight text-neutral-400">
-                                Compare various AI detection tools and see how
-                                they perform.
+                                Compare various AI detection tools and see how they perform.
                               </p>
                             </a>
                           </NavigationMenuLink>
                         </li>
 
                         {aiDetectors.map((detector) => (
-                          <ListItem
-                            key={detector.title}
-                            href={detector.href}
-                            title={detector.title}
-                          >
+                          <ListItem key={detector.title} href={detector.href} title={detector.title}>
                             {detector.description}
                           </ListItem>
                         ))}
@@ -224,13 +200,13 @@ const Header: React.FC<HeaderProps> = ({
                 Try for Free
               </button>
             )}
-            {isLoggedIn && (
+            {isLoggedIn && user && (
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={toggleDropdown}
                   className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
                 >
-                  {user?.name || "Dashboard"}
+                  {user.name || "Dashboard"}
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
@@ -244,12 +220,8 @@ const Header: React.FC<HeaderProps> = ({
                         <FiUser className="inline-block mr-2" /> Profile
                       </button>
                       <div className="border-t border-neutral-800"></div>
-                      <div className="px-4 py-2 text-sm text-neutral-300">
-                        Credits: {rewriteCount || 0}
-                      </div>
-                      <div className="px-4 py-2 text-sm text-neutral-300">
-                        Daily Free: {rewriteCount || 0}
-                      </div>
+                      <div className="px-4 py-2 text-sm text-neutral-300">Credits: {user.credits}</div>
+                      <div className="px-4 py-2 text-sm text-neutral-300">Daily Free: {user.dailyFreeWords}</div>
                       <div className="border-t border-neutral-800"></div>
                       <button
                         onClick={() => {
@@ -272,30 +244,27 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700 hover:text-neutral-50 focus:bg-neutral-700 focus:text-neutral-50",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-neutral-400">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
+const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
+  ({ className, title, children, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700 hover:text-neutral-50 focus:bg-neutral-700 focus:text-neutral-50",
+              className
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-neutral-400">{children}</p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    );
+  }
+);
 ListItem.displayName = "ListItem";
 
 export default Header;

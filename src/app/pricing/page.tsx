@@ -1,3 +1,4 @@
+// pages/UnifiedPricingShop.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -8,8 +9,8 @@ import SignupForm from "../signup/SignupForm";
 import ElegantFooter from "../last";
 import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
-import Image from "next/image";
 import PricingCards from "./pricingcard";
+import { usePaddle } from "@/hooks/usePaddle";
 
 interface Item {
   _id: string;
@@ -20,6 +21,7 @@ interface Item {
   currency: string;
   price: number;
   features: string[];
+  paddleProductId: string | null; // Add this line
 }
 
 interface PaymentMethods {
@@ -34,10 +36,10 @@ export default function UnifiedPricingShop() {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethods | null>(
     null
   );
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [currency, setCurrency] = useState<"USD" | "NPR">("USD");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignupForm, setShowSignupForm] = useState(false);
+  const paddle = usePaddle();
 
   const detectLocation = async () => {
     try {
@@ -54,10 +56,14 @@ export default function UnifiedPricingShop() {
       const response = await axios.get(`${serverURL}/shop`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "ngrok-skip-browser-warning": "true", // Value set to "true" to bypass the warning
+          "User-Agent": "CustomUserAgent/1.0",
         },
       });
       const { items, paymentMethods } = response.data;
-      setItems(items.filter((item: Item) => item.currency === currency));
+      setItems(
+        items.filter((item: Item) => item.currency === currency && item.enable)
+      );
       setPaymentMethods(paymentMethods);
     } catch (error) {
       console.error("Error fetching items:", error);
@@ -73,12 +79,6 @@ export default function UnifiedPricingShop() {
   useEffect(() => {
     fetchItems();
   }, [currency]);
-
-  useEffect(() => {
-    if (selectedItem && currency === "NPR" && paymentMethods?.imepay.enabled) {
-      window.location.href = `/shop/payment?item=${selectedItem._id}&method=imepay`;
-    }
-  }, [selectedItem, paymentMethods, currency]);
 
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-background text-foreground overflow-hidden">
@@ -105,14 +105,15 @@ export default function UnifiedPricingShop() {
       </div>
 
       <PricingCards
-        pricingData={{ [currency]: items }}
-        country={currency}
+        pricingData={items}
+        country={currency === "NPR" ? "NP" : "US"}
         isLoggedIn={isLoggedIn}
         setShowSignupForm={setShowSignupForm}
-        setSelectedItem={(item) => setSelectedItem(item as Item)}
+        paymentMethods={paymentMethods}
+        paddle={paddle}
       />
 
-      {!paymentMethods?.imepay.enabled && currency === "NPR" && (
+      {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
         <p className="text-center mb-10 text-destructive">
           No payment method available for NPR
         </p>
