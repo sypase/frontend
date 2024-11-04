@@ -1,11 +1,10 @@
-// components/PricingCards.tsx
+// components/pricingcard.tsx
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { frontendURL } from "@/utils/utils";
-import { Paddle } from "@paddle/paddle-js";
 
 interface PricingItem {
   _id: string;
@@ -25,7 +24,7 @@ interface PricingCardsProps {
   isLoggedIn: boolean;
   setShowSignupForm: (show: boolean) => void;
   paymentMethods: any;
-  paddle: Paddle | null;
+  openCheckout: (priceId: string) => Promise<void>;
 }
 
 const PricingCards: React.FC<PricingCardsProps> = ({
@@ -34,38 +33,20 @@ const PricingCards: React.FC<PricingCardsProps> = ({
   isLoggedIn,
   setShowSignupForm,
   paymentMethods,
-  paddle,
+  openCheckout,
 }) => {
   const handleSelectPlan = async (item: PricingItem) => {
     console.log("Selected item:", item);
     if (isLoggedIn) {
       if (country === "NP" && paymentMethods?.imepay?.enabled) {
         window.location.href = `${frontendURL}/shop/payment?item=${item._id}&method=imepay`;
-      } else if (paddle && item.paddleProductId) {
+      } else if (item.paddleProductId) {
         try {
           console.log("Opening paddle checkout...");
-          await paddle.Checkout.open({
-            settings: {
-              displayMode: "overlay",
-              theme: "light",
-              locale: "en",
-              successUrl: `${frontendURL}/shop/payment/success`,
-            },
-            items: [
-              {
-                priceId: item.paddleProductId,
-                quantity: 1,
-              },
-            ],
-            customer: {
-              email: "test@gmail.com", // Replace with actual user email
-            },
-            customData: {
-              itemId: item._id,
-            },
-          });
+          await openCheckout(item.paddleProductId);
         } catch (error) {
           console.error("Paddle checkout error:", error);
+          alert('Something went wrong. Please try again later. If the issue persists, you can contact our support team.');
         }
       } else {
         alert("No payment method available");

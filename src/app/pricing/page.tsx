@@ -1,16 +1,16 @@
-// pages/UnifiedPricingShop.tsx
+// pages/UnifiedPricingShop.tsx (or page.tsx)
 "use client";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { serverURL } from "@/utils/utils";
+import { serverURL, frontendURL } from "@/utils/utils";
 import Header from "../header";
 import SignupForm from "../signup/SignupForm";
 import ElegantFooter from "../last";
 import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
-import usePaddle from "@/hooks/usePaddle";
+import { initializePaddle } from '@paddle/paddle-js';
 
 interface Item {
   _id: string;
@@ -37,7 +37,7 @@ export default function UnifiedPricingShop() {
   const [currency, setCurrency] = useState<"USD" | "NPR">("USD");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignupForm, setShowSignupForm] = useState(false);
-  const paddle = usePaddle() || null;
+  const [paddleLoaded, setPaddleLoaded] = useState(false);
 
   const detectLocation = async () => {
     try {
@@ -55,10 +55,10 @@ export default function UnifiedPricingShop() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "ngrok-skip-browser-warning": "true",
-          "User-Agent": "CustomUserAgent/1.0",
         },
       });
       const { items, paymentMethods } = response.data;
+      console.log("Fetched items:", items);
       setItems(items.filter((item: Item) => item.currency === currency && item.enable));
       setPaymentMethods(paymentMethods);
     } catch (error) {
@@ -70,11 +70,58 @@ export default function UnifiedPricingShop() {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
     detectLocation();
+
+    const initPaddle = async () => {
+      try {
+        const paddleInstance = await initializePaddle({
+          token: 'test_0592d7578edf803262da4c97ccf',
+          environment: 'sandbox',
+          checkout: {
+            settings: {
+              frameTarget: 'self',
+              frameInitialHeight: 450,
+              frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;'
+            }
+          }
+        });
+        console.log('Paddle initialized');
+        setPaddleLoaded(true);
+      } catch (error) {
+        console.error('Failed to initialize Paddle:', error);
+      }
+    };
+
+    initPaddle();
   }, []);
 
   useEffect(() => {
     fetchItems();
   }, [currency]);
+
+  const openCheckout = async (priceId: string) => {
+    if (paddleLoaded && typeof window !== 'undefined' && window.Paddle) {
+      try {
+        console.log("Opening paddle checkout...");
+        console.log("priceId:", priceId);
+        const checkout = await window.Paddle.Checkout.open({
+          items: [{ priceId, quantity: 1 }],
+          settings: {
+            frameTarget: 'self',
+            frameInitialHeight: 450,
+            frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;',
+            theme: 'dark',
+          }
+        });
+        console.log('Checkout completed', checkout);
+      } catch (error) {
+        console.error('Checkout failed:', error);
+        alert('Something went wrong. Please try again later. If the issue persists, you can contact our support team.');
+      }
+    } else {
+      console.error('Paddle is not initialized');
+      alert('Payment system is not ready. Please try again later.');
+    }
+  };
 
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-background text-foreground overflow-hidden">
@@ -106,7 +153,7 @@ export default function UnifiedPricingShop() {
         isLoggedIn={isLoggedIn}
         setShowSignupForm={setShowSignupForm}
         paymentMethods={paymentMethods}
-        paddle={paddle}
+        openCheckout={openCheckout}
       />
 
       {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
