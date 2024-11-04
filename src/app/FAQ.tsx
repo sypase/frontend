@@ -8,16 +8,16 @@ import {
 export function AccordionDemo() {
   return (
     <section className="flex items-center justify-center h-[100vh] bg-black"> {/* Dark background for the section */}
-      <div className="w-[60%] p-4">
-        <h2 className="text-xl font-bold mb-4 text-center text-gray-200">Frequently Asked Questions</h2>
-        <Accordion type="single" collapsible>
-          {accordionData.map(({ id, question, answer }) => (
-            <AccordionItem key={id} value={`item-${id}`} className="border-b border-neutral-700"> {/* Border for each item */}
-              <AccordionTrigger className=" text-gray-200">{question}</AccordionTrigger>
-              <AccordionContent className=" text-gray-300">{answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      <div className="container w-[60%] p-4">
+      <h2 className="text-xl font-bold mb-4 text-center text-gray-200">Frequently Asked Questions</h2>
+      <Accordion type="single" collapsible>
+        {accordionData.map(({ id, question, answer }) => (
+        <AccordionItem key={id} value={`item-${id}`} className="border-b border-neutral-700"> {/* Border for each item */}
+          <AccordionTrigger className=" text-gray-200">{question}</AccordionTrigger>
+          <AccordionContent className=" text-gray-300">{answer}</AccordionContent>
+        </AccordionItem>
+        ))}
+      </Accordion>
       </div>
     </section>
   );
