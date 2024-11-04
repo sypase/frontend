@@ -398,7 +398,7 @@ export default function Home() {
               {loading && (
                 <div className="flex items-center p-4 rounded-lg bg-gray max-w-[50%]">
                   <l-grid size="30" speed="1.0" color="green"></l-grid>
-                  <p className="ml-4 text-black text-lg">
+                  <p className="ml-4 text-gray-200 text-lg">
                     {phrases[currentPhraseIndex]}
                   </p>
                 </div>

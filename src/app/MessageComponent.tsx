@@ -60,8 +60,8 @@ const MessageComponent: React.FC<MessageComponentProps> = ({
       transition={{ duration: 0.3 }}
       className={`p-4 rounded-xl ${
         message.sender === "user"
-          ? "bg-gradient-to-r  text-black ml-auto"
-          : "bg-gray-100  border-2	"
+          ? "bg-gradient-to-r  text-gray-200 ml-auto"
+          : "bg-gray-200  border-2	text-neutral-800"
       } max-w-[90%] w-full overflow-hidden`}
     >
       {message.sender === "bot" &&
@@ -95,7 +95,7 @@ const MessageComponent: React.FC<MessageComponentProps> = ({
                           : "text-red-500"
                       }`}
                     >
-                      Human: {message.variants[localVariantIndex]?.score}%
+                      Human: {100-message.variants[localVariantIndex]?.score}%
                     </span>
                   </div>
                 )}

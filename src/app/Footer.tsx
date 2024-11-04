@@ -71,7 +71,7 @@ const Footer: React.FC<FooterProps> = ({
         >
           <textarea
             ref={textareaRef}
-            className="flex-1 p-3 bg-transparent border-none focus:ring-0 focus:outline-none resize-none text-gray-900 placeholder-gray-500 max-h-40 overflow-y-auto"
+            className="flex-1 p-3 bg-transparent border-none focus:ring-0 focus:outline-none resize-none text-gray-900 placeholder-neutral-900 max-h-40 overflow-y-auto"
             style={{ minHeight: "40px" }}
             value={text}
             onChange={handleTextAreaChange}
