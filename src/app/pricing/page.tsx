@@ -21,7 +21,7 @@ interface Item {
   currency: string;
   price: number;
   features: string[];
-  paddleProductId: string | null; // Add this line
+  paddleProductId: string | null;
 }
 
 interface PaymentMethods {
@@ -33,13 +33,11 @@ interface PaymentMethods {
 
 export default function UnifiedPricingShop() {
   const [items, setItems] = useState<Item[]>([]);
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethods | null>(
-    null
-  );
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethods | null>(null);
   const [currency, setCurrency] = useState<"USD" | "NPR">("USD");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignupForm, setShowSignupForm] = useState(false);
-  const paddle = usePaddle();
+  const paddle = usePaddle() || null;
 
   const detectLocation = async () => {
     try {
@@ -56,14 +54,12 @@ export default function UnifiedPricingShop() {
       const response = await axios.get(`${serverURL}/shop`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "ngrok-skip-browser-warning": "true", // Value set to "true" to bypass the warning
+          "ngrok-skip-browser-warning": "true",
           "User-Agent": "CustomUserAgent/1.0",
         },
       });
       const { items, paymentMethods } = response.data;
-      setItems(
-        items.filter((item: Item) => item.currency === currency && item.enable)
-      );
+      setItems(items.filter((item: Item) => item.currency === currency && item.enable));
       setPaymentMethods(paymentMethods);
     } catch (error) {
       console.error("Error fetching items:", error);

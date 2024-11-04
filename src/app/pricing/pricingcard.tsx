@@ -1,7 +1,7 @@
 // components/PricingCards.tsx
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { frontendURL } from "@/utils/utils";
@@ -25,7 +25,7 @@ interface PricingCardsProps {
   isLoggedIn: boolean;
   setShowSignupForm: (show: boolean) => void;
   paymentMethods: any;
-  paddle: Paddle | undefined;
+  paddle: Paddle | null;
 }
 
 const PricingCards: React.FC<PricingCardsProps> = ({
@@ -36,8 +36,6 @@ const PricingCards: React.FC<PricingCardsProps> = ({
   paymentMethods,
   paddle,
 }) => {
-  const cardsRef = useRef<HTMLDivElement>(null);
-
   const handleSelectPlan = async (item: PricingItem) => {
     console.log("Selected item:", item);
     if (isLoggedIn) {
@@ -51,7 +49,6 @@ const PricingCards: React.FC<PricingCardsProps> = ({
               displayMode: "overlay",
               theme: "light",
               locale: "en",
-              allowLogout: false,
               successUrl: `${frontendURL}/shop/payment/success`,
             },
             items: [
@@ -61,7 +58,7 @@ const PricingCards: React.FC<PricingCardsProps> = ({
               },
             ],
             customer: {
-              email: "test@gmail.com",
+              email: "test@gmail.com", // Replace with actual user email
             },
             customData: {
               itemId: item._id,
@@ -79,10 +76,7 @@ const PricingCards: React.FC<PricingCardsProps> = ({
   };
 
   return (
-    <div
-      ref={cardsRef}
-      className="w-full flex-grow flex items-stretch justify-center flex-wrap"
-    >
+    <div className="w-full flex-grow flex items-stretch justify-center flex-wrap">
       {pricingData.map((item, i) => (
         <div key={i} className="relative w-full max-w-xs m-4">
           <div
