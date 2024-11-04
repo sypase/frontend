@@ -10,7 +10,7 @@ import ElegantFooter from "../last";
 import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
-import { usePaddle } from "@/hooks/usePaddle";
+import usePaddle from "@/hooks/usePaddle";
 
 interface Item {
   _id: string;
