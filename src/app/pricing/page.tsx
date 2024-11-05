@@ -74,13 +74,19 @@ export default function UnifiedPricingShop() {
     const initPaddle = async () => {
       try {
         const paddleInstance = await initializePaddle({
-          token: 'test_0592d7578edf803262da4c97ccf',
-          environment: 'sandbox',
+          token: 'test_0592d7578edf803262da4c97ccf', // Replace with your actual client-side token
+          environment: 'sandbox', // Change to 'production' for live environment
           checkout: {
             settings: {
               frameTarget: 'self',
               frameInitialHeight: 450,
               frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;'
+            }
+          },
+          eventCallback: function(event) {
+            console.log('Paddle event:', event);
+            if (event.name === 'checkout.completed') {
+              handleSuccessfulPayment(event.data);
             }
           }
         });
@@ -97,6 +103,28 @@ export default function UnifiedPricingShop() {
   useEffect(() => {
     fetchItems();
   }, [currency]);
+
+  const handleSuccessfulPayment = async (data: any) => {
+    try {
+      const response = await axios.post(`${serverURL}/update-subscription`, {
+        transactionId: data.transactionId,
+        customerId: data.customerId,
+        subscriptionId: data.subscriptionId,
+        planId: data.planId
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+      console.log('Subscription updated:', response.data);
+      alert('Payment successful! Your account has been upgraded.');
+      // Optionally, refresh the page or update the UI
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to update subscription:', error);
+      alert('Payment was successful, but we encountered an error updating your account. Please contact support.');
+    }
+  };
 
   const openCheckout = async (priceId: string) => {
     if (paddleLoaded && typeof window !== 'undefined' && window.Paddle) {
@@ -124,23 +152,23 @@ export default function UnifiedPricingShop() {
   };
 
   return (
-    <main className="relative flex flex-col w-full min-h-screen bg-background text-foreground overflow-hidden">
+    <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
       <Header
         isLoggedIn={isLoggedIn}
         onShowSignupForm={() => setShowSignupForm(true)}
       />
 
       <div className="flex flex-col items-center mt-40 mb-12 px-4">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-black p-4">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-white p-4">
           Stay Unique, Stay Undetectable
         </h1>
-        <p className="text-lg text-muted-foreground text-center max-w-xl">
+        <p className="text-lg text-gray-300 text-center max-w-xl">
           Choose the perfect{" "}
-          <span className="font-bold italic text-primary hover:text-primary/80 transition duration-300">
+          <span className="font-bold italic text-blue-400 hover:text-blue-300 transition duration-300">
             top-up
           </span>{" "}
           plan that fits your needs. Enjoy unlimited word usage with{" "}
-          <span className="font-bold italic text-primary hover:text-primary/80 transition duration-300">
+          <span className="font-bold italic text-blue-400 hover:text-blue-300 transition duration-300">
             no expiration
           </span>
           .
@@ -157,7 +185,7 @@ export default function UnifiedPricingShop() {
       />
 
       {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
-        <p className="text-center mb-10 text-destructive">
+        <p className="text-center mb-10 text-red-500">
           No payment method available for NPR
         </p>
       )}
@@ -165,9 +193,9 @@ export default function UnifiedPricingShop() {
       <div className="fixed bottom-4 right-4 z-50">
         <button
           onClick={() => setCurrency(currency === "USD" ? "NPR" : "USD")}
-          className="flex items-center space-x-2 px-4 py-2 bg-card text-card-foreground border-2 border-primary font-semibold rounded-full shadow-md hover:bg-accent transition-all duration-300"
+          className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white border-2 border-blue-500 font-semibold rounded-full shadow-md hover:bg-gray-700 transition-all duration-300"
         >
-          <FiGlobe className="text-primary" />
+          <FiGlobe className="text-blue-400" />
           <span>{currency === "USD" ? "United States" : "Nepal"}</span>
         </button>
       </div>
