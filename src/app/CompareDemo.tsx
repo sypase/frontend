@@ -8,8 +8,8 @@ export function CompareDemo() {
       <div className="h-full w-full flex justify-center items-center">
         <div className="p-2 border rounded-3xl bg-neutral-800 border-neutral-700 w-full max-w-[120vh]"> {/* Dark background and border */}
           <Compare
-            firstImage="/assets/aitext1.png"
-            secondImage="/assets/humanizedtext.png"
+            firstImage="/assets/Bypass Photos/aitext.png"
+            secondImage="/assets/Bypass Photos/humanizedtext.png"
             firstImageClassName="object-cover object-top"
             secondImageClassname="object-cover object-top"
             className="w-full h-[60vh] md:h-[70vh] lg:h-[80vh] max-h-[100vh]"

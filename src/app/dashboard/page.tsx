@@ -550,10 +550,36 @@ export default function Home() {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
       () => {
-        toast.success("Copied to clipboard!");
-      },
-      (err) => {
-        toast.error("Failed to copy text.");
+        toast.success("Copied to clipboard!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
+            },
+            (err) => {
+        toast.error("Failed to copy text.", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
       }
     );
   };

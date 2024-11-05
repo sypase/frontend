@@ -2,11 +2,11 @@
 
 // List of logo image paths
 export const logos = [
-  "/assets/Writer.png",
-  "/assets/Gptzero.png",
-  "/assets/Crossplag.png",
-  "/assets/copyleaks.png",
-  "/assets/turnitin.png",
+  "/assets/logos/Writer.webp",
+  "/assets/logos/Gptzero.webp",
+  "/assets/logos/Crossplag.webp",
+  "/assets/logos/copyleaks.webp",
+  "/assets/logos/turnitin.webp",
 ];
 
 // // Slider settings for logo carousel
@@ -70,12 +70,12 @@ export const logoSettings = {
 };
 // List of logo image paths
 export const bypassScreenshot = [
-  "/assets/bypassexample1.png",
-  "/assets/bypassexample2.png",
-  "/assets/bypassexample3.png",
-  "/assets/bypassexample4.png",
-  "/assets/bypassexample5.jpg",
-  "/assets/bypassexample6.png",
+  "/assets/temp/bypassexample1.png",
+  "/assets/temp/bypassexample2.png",
+  "/assets/temp/bypassexample3.png",
+  "/assets/temp/bypassexample4.png",
+  "/assets/temp/bypassexample5.jpg",
+  "/assets/temp/bypassexample6.png",
 ];
 // Text for the Kathmandu example
 export const kathmanduText = `Kathmandu, the capital city of Nepal, is a vibrant and culturally rich metropolis nestled in the Kathmandu Valley. Known for its ancient temples, historical sites, and lively markets, Kathmandu is the heart of Nepal's cultural and political life. The city is home to UNESCO World Heritage Sites like Swayambhunath (the Monkey Temple), Boudhanath Stupa, Pashupatinath Temple, and Durbar Square, each showcasing the country's unique blend of Hindu and Buddhist traditions.

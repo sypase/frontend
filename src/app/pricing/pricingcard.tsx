@@ -84,15 +84,17 @@ const PricingCards: React.FC<PricingCardsProps> = ({
                   {item.rewriteLimit.toLocaleString()} words
                 </div>
               </div>
-              <p className="text-white font-semibold mb-2">Features:</p>
-              <ul className="text-gray-300 space-y-2 pl-4 mb-auto text-left">
-                {item.features.map((feature, index) => (
+                <div className="bg-gray-800 p-4 rounded-lg mb-4">
+                <p className="text-white font-semibold mb-2">Features:</p>
+                <ul className="text-gray-300 space-y-2 pl-4 mb-auto text-left">
+                  {item.features.map((feature, index) => (
                   <li key={index} className="flex items-center">
                     <FiCheckCircle className="mr-2 text-green-400" />
                     {feature}
                   </li>
-                ))}
-              </ul>
+                  ))}
+                </ul>
+                </div>
               <button
                 onClick={() => handleSelectPlan(item)}
                 className="mt-auto px-4 py-2 bg-blue-600 text-white border border-blue-500 font-semibold text-lg rounded-lg shadow hover:bg-blue-700 transition duration-300 w-full"

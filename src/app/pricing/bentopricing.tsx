@@ -27,7 +27,7 @@ export function BentoDemo() {
                 </div>
                 <div className="relative w-[40vh] h-[40vh] rounded-2xl overflow-hidden shadow-xl group/image">
                   <Image
-                    src="/assets/turnitin1.jpg"
+                    src="/assets/Bypass Photos/turnitin1.jpg"
                     alt="Turnitin"
                     fill
                     className="object-cover transition-transform duration-500 ease-out group-hover/image:scale-110"
