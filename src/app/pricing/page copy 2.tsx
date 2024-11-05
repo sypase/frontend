@@ -1,8 +1,9 @@
-// Import statements
+// pages/UnifiedPricingShop.tsx (or page.tsx)
 "use client";
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { serverURL } from "@/utils/utils";
+import { serverURL, frontendURL } from "@/utils/utils";
 import Header from "../header";
 import SignupForm from "../signup/SignupForm";
 import ElegantFooter from "../last";
@@ -30,12 +31,6 @@ interface PaymentMethods {
   khalti: { enabled: boolean; currencies: string[] };
 }
 
-interface User {
-  userId: string;
-  email: string;
-  // Add other user fields as necessary
-}
-
 export default function UnifiedPricingShop() {
   const [items, setItems] = useState<Item[]>([]);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethods | null>(
@@ -45,7 +40,6 @@ export default function UnifiedPricingShop() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignupForm, setShowSignupForm] = useState(false);
   const [paddleLoaded, setPaddleLoaded] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
 
   const detectLocation = async () => {
     try {
@@ -83,7 +77,7 @@ export default function UnifiedPricingShop() {
 
     const initPaddle = async () => {
       try {
-        await initializePaddle({
+        const paddleInstance = await initializePaddle({
           token: "test_0592d7578edf803262da4c97ccf", // Replace with your actual client-side token
           environment: "sandbox", // Change to 'production' for live environment
           checkout: {
@@ -93,7 +87,19 @@ export default function UnifiedPricingShop() {
               frameStyle:
                 "width: 100%; min-width: 312px; background-color: transparent; border: none;",
             },
+   
           },
+          
+          // eventCallback: function (event) {
+          //   console.log("Paddle event:", event);
+          //   handleSuccessfulPayment(event);
+          //   if (event.name === "checkout.completed") {
+          //     handleSuccessfulPayment(event.data);
+          //   }
+          // },
+
+          //send custom data 
+          
         });
         console.log("Paddle initialized");
         setPaddleLoaded(true);
@@ -106,23 +112,12 @@ export default function UnifiedPricingShop() {
   }, []);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        setUser(response.data.user);
-        console.log("Fetched user data:", response.data.user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
     fetchItems();
   }, [currency]);
 
   const handleSuccessfulPayment = async (data: any) => {
+    console.log("Payment data:", data);
+    console.log("asahdkhashdahsd", data);
     try {
       const response = await axios.post(
         `${serverURL}/payments/paddle`,
@@ -141,6 +136,7 @@ export default function UnifiedPricingShop() {
       );
       console.log("Subscription updated:", response.data);
       alert("Payment successful! Your account has been upgraded.");
+      // Optionally, refresh the page or update the UI
       window.location.reload();
     } catch (error) {
       console.error("Failed to update subscription:", error);
@@ -151,35 +147,18 @@ export default function UnifiedPricingShop() {
   };
 
   const openCheckout = async (priceId: string) => {
-    if (
-      paddleLoaded &&
-      typeof window !== "undefined" &&
-      window.Paddle &&
-      user
-    ) {
+    if (paddleLoaded && typeof window !== "undefined" && window.Paddle) {
       try {
         console.log("Opening paddle checkout...");
-        console.log(user.userId, user.email);
-
+        console.log("priceId:", priceId);
         const checkout = await window.Paddle.Checkout.open({
           items: [{ priceId, quantity: 1 }],
-          customer: {
-            email: user.email,
-          },
           settings: {
             frameTarget: "self",
             frameInitialHeight: 450,
             frameStyle:
               "width: 100%; min-width: 312px; background-color: transparent; border: none;",
             theme: "dark",
-          },
-          customData: {
-            utm_medium: "social",
-            utm_source: "linkedin",
-            utm_content: "launch-video",
-            integration_id: "AA-123",
-            userId: user.userId,
-            userEmail: user.email,
           },
         });
         console.log("Checkout completed", checkout);
@@ -190,7 +169,7 @@ export default function UnifiedPricingShop() {
         );
       }
     } else {
-      console.error("Paddle is not initialized or user is not logged in");
+      console.error("Paddle is not initialized");
       alert("Payment system is not ready. Please try again later.");
     }
   };
