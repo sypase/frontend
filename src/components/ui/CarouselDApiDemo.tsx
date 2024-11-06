@@ -9,6 +9,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 
+
 interface Variant {
   id: number
   text: string
@@ -36,7 +37,7 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
 
   return (
     <div className="mx-auto max-w-full overflow-hidden">
-      <Carousel setApi={setApi} className="w-full max-w-full bg-gray-900 text-white">
+      <Carousel setApi={setApi} className="w-full max-w-full bg-neutral-950 text-white">
         <CarouselContent className="flex">
           {variants.map((variant) => (
             <CarouselItem key={variant.id} className="flex-shrink-0 w-full">
@@ -54,6 +55,7 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
       <div className="py-2 text-center text-sm text-gray-400">
         Variant {current} of {count}
       </div>
+
     </div>
   )
 }

@@ -1,9 +1,13 @@
 "use client"
+import axios from "axios";
 import React, { useEffect, useState } from "react"
 import { CarouselDApiDemo } from "@/components/ui/CarouselDApiDemo"
 import { Card, CardContent } from "@/components/ui/card"
 import JSZip from "jszip"
 import { saveAs } from "file-saver"
+import Header from "../../header";
+import { serverURL } from "@/utils/utils";
+import { ToastContainer, toast } from "react-toastify";
 
 interface Variant {
   id: number
@@ -18,10 +22,27 @@ interface Message {
   variants: Variant[]
 }
 
+interface HeaderProps {
+  isLoggedIn: boolean;
+  user?: any;
+  rewriteCount?: number;
+  onShowSignupForm?: () => void;
+}
+interface User {
+  name: string;
+  email: string;
+  credits: number;
+  referralCode: string;
+}
+
 const HistoryPage: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [messages, setMessages] = useState<Message[]>([])
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false)
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
+  const [rewriteCount, setRewriteCount] = useState<number>(-1);
+
 
   useEffect(() => {
     const storedMessages = localStorage.getItem("messageHistory")
@@ -30,11 +51,41 @@ const HistoryPage: React.FC = () => {
     }
   }, [])
 
+  const getRewrites = async () => {
+    try {
+      const response = await axios.get(`${serverURL}/bypass/rewrites`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setRewriteCount(response.data.rewrites);
+    } catch (error) {
+      console.error("Error fetching rewrites:", error);
+      toast.error("Failed to load rewrite count.");
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        setUser(response.data.user);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to load user data.");
+        setLoading(false);
+      }
+    };
+    fetchUserData();
+    getRewrites();
+  }, []);
+
   const botMessages = Array.from(
     new Map(
       messages
         .filter((message) => message.sender === "bot")
-        .map((message) => [message.id, message]) // Map each message ID to the message
+        .map((message) => [message.id, message])
     ).values()
   ).sort((a, b) => (a.id < b.id ? -1 : 1))
 
@@ -53,11 +104,9 @@ const HistoryPage: React.FC = () => {
     const file = new Blob([exportText], { type: "text/plain" })
     element.href = URL.createObjectURL(file)
     element.download = `message_${message.id}.txt`
-    document.body.appendChild(element) // Required for this to work in FireFox
+    document.body.appendChild(element)
     element.click()
   }
-
-
 
   const exportAllMessages = async () => {
     const zip = new JSZip()
@@ -71,14 +120,12 @@ const HistoryPage: React.FC = () => {
     const content = await zip.generateAsync({ type: "blob" })
     saveAs(content, "all_messages.zip")
   }
-
-
   
   return (
-    
-    <div className="min-h-screen bg-black text-white p-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+    <main>      
+      <Header isLoggedIn={!!user} user={user} rewriteCount={rewriteCount} />
+      <div className="relative flex flex-col w-full min-h-screen bg-black text-white">  
+        <div className="flex justify-between items-center px-6 py-4 mt-40 ">
           <h1 className="text-4xl font-bold text-white">Documents History</h1>
           <div className="flex space-x-4">
             <button
@@ -110,96 +157,98 @@ const HistoryPage: React.FC = () => {
           </div>
         </div>
 
-        {botMessages.length === 0 ? (
-          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
-            <p className="font-bold">No messages found</p>
-            <p>There are no bot messages in the history.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {botMessages.map((message) => (
-              <div
-                key={message.id}
-                className="bg-gray-800 text-white shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition duration-300"
-                onClick={() => setSelectedMessage(message)}
-              >
-                <h2 className="text-lg font-semibold mb-2">
-                  {message.originalInput.slice(0, 30)}...
-                </h2>
-                <p className="text-gray-400 mb-2 line-clamp-3">{message.text}</p>
-                <p className="text-gray-500 text-sm italic">Click to see full details.</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {showConfirmation && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-gray-800 text-white p-6 rounded-lg max-w-sm w-full">
-              <h2 className="text-xl font-bold mb-4">Confirm Clear History</h2>
-              <p className="mb-6">
-                Are you sure you want to clear the bot message history? This action cannot be undone.
-              </p>
-              <div className="flex justify-end space-x-4">
-                <button
-                  onClick={() => setShowConfirmation(false)}
-                  className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-300"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={clearHistory}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
-                >
-                  Clear History
-                </button>
-              </div>
+        <div className="px-6">
+          {botMessages.length === 0 ? (
+            <div className="bg-[#1e2532] rounded-lg p-6" role="alert">
+              <p className="font-bold text-white text-xl mb-2">No messages found</p>
+              <p className="text-gray-400">There are no bot messages in the history.</p>
             </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {botMessages.map((message) => (
+                <div
+                  key={message.id}
+                  className="bg-gray-800 text-white shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition duration-300"
+                  onClick={() => setSelectedMessage(message)}
+                >
+                  <h2 className="text-lg font-semibold mb-2">
+                    {message.originalInput.slice(0, 30)}...
+                  </h2>
+                  <p className="text-gray-400 mb-2 line-clamp-3">{message.text}</p>
+                  <p className="text-gray-500 text-sm italic">Click to see full details.</p>
+                </div>
+              ))}
+            </div>
+          )}
           </div>
-        )}
 
-        {selectedMessage && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-gray-800 text-white rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col">
-              <div className="p-6 flex-grow overflow-y-auto">
-                <h2 className="text-2xl font-bold mb-4">Message Details</h2>
-                <div className="mb-4">
-                  <label className="block text-lg font-medium text-gray-300 mb-2">Original Input:</label>
-
-                      {/* <Carousel {selectedMessage.originalInput}/> */}
-                      <Card className="bg-gray-800 text-white shadow-lg rounded-md w-full">
-                <CardContent className="flex items-center justify-center p-2">
-                  <span className="text-lg m-0">{selectedMessage.originalInput}</span>
-                </CardContent>
-              </Card>
-
-                </div>
-                <div className="mb-4">
-                  <label className="block text-lg font-medium text-gray-300 mb-2">Variants:</label>
-                  <CarouselDApiDemo variants={selectedMessage.variants} />
-                </div>
-              </div>
-              <div className="p-6 border-t border-gray-700">
+          {showConfirmation && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+              <div className="bg-gray-800 text-white p-6 rounded-lg max-w-sm w-full">
+                <h2 className="text-xl font-bold mb-4">Confirm Clear History</h2>
+                <p className="mb-6">
+                  Are you sure you want to clear the bot message history? This action cannot be undone.
+                </p>
                 <div className="flex justify-end space-x-4">
                   <button
-                    onClick={() => setSelectedMessage(null)}
-                    className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+                    onClick={() => setShowConfirmation(false)}
+                    className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-300"
                   >
-                    Close
+                    Cancel
                   </button>
                   <button
-                    onClick={() => exportMessage(selectedMessage)}
-                    className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300"
+                    onClick={clearHistory}
+                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
                   >
-                    Export
+                    Clear History
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-    </div>
+          )}
+  
+          {selectedMessage && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 mt-20">
+              <div className="bg-gray-800 text-white rounded-lg w-full max-w-4xl max-h-[80vh] flex flex-col">
+                <div className="p-6 flex-grow overflow-y-auto">
+                  <h2 className="text-2xl font-bold mb-4">Message Details</h2>
+                  <div className="mb-4">
+                    <label className="block text-lg font-medium text-gray-300 mb-2">Original Input:</label>
+  
+                        {/* <Carousel {selectedMessage.originalInput}/> */}
+                        <Card className="bg-gray-800 text-white shadow-lg rounded-md w-full">
+                  <CardContent className="flex items-center justify-center p-2">
+                    <span className="text-lg m-0">{selectedMessage.originalInput}</span>
+                  </CardContent>
+                </Card>
+  
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-lg font-medium text-gray-300 mb-2">Variants:</label>
+                    <CarouselDApiDemo variants={selectedMessage.variants} />
+                  </div>
+                </div>
+                <div className="p-6 border-t border-gray-700">
+                  <div className="flex justify-end space-x-4">
+                    <button
+                      onClick={() => setSelectedMessage(null)}
+                      className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+                    >
+                      Close
+                    </button>
+                    <button
+                      onClick={() => exportMessage(selectedMessage)}
+                      className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300"
+                    >
+                      Export
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+    </main>
   )
 }
 

@@ -73,7 +73,20 @@ export default function SignupForm({ onClose }: SignupFormProps) {
 
       if (res.status === 200) {
         const { token, user } = res.data;
-        toast.success("Welcome to NoaiGPT! 🎉");
+        toast.success("Welcome to NoaiGPT! 🎉", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
         localStorage.setItem("token", token);
         window.location.href = user.type === "admin" ? "/admin" : "/";
       } else {
@@ -81,38 +94,73 @@ export default function SignupForm({ onClose }: SignupFormProps) {
       }
     } catch (error) {
       console.error("Google authentication error:", error);
-      toast.error("Oops! Something went wrong. Please try again.");
+      toast.error("Oops! Something went wrong. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
     }
   };
 
   const handleGoogleError = () => {
-    toast.error("Unable to sign in with Google. Please try again.");
+    toast.error("Unable to sign in with Google. Please try again.", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: {
+        backgroundColor: "#272727",
+        color: "#fff",
+        borderRadius: "8px",
+      },
+    });
+  };
+
+  const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
+    <div
+      className="fixed inset-0 bg-neutral-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4"
+      onClick={handleBackgroundClick}
+    >
       <div
         ref={formRef}
-        className="bg-white/90 backdrop-blur-lg rounded-3xl max-w-2xl w-full shadow-2xl flex flex-col md:flex-row overflow-hidden border border-white/20"
+        className="bg-neutral-800 text-white rounded-3xl max-w-2xl w-full shadow-2xl flex flex-col md:flex-row overflow-hidden border border-neutral-700"
       >
         {/* Left Section */}
-        <div className="md:w-7/12 p-8 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-purple-500/5">
+        <div className="md:w-7/12 p-8 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
           <div className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
                 NoaiGPT
               </h2>
-              <p className="text-sm text-gray-500 font-medium">
+              <p className="text-sm text-neutral-400 font-medium">
                 AI writing, reimagined
               </p>
             </div>
 
             <div className="space-y-3">
-              <div className="group bg-white/40 p-3.5 rounded-xl backdrop-blur-sm border border-white/60 shadow-sm hover:bg-white/60 transition-all duration-300">
+              <div className="group bg-neutral-800 p-3.5 rounded-xl backdrop-blur-sm border border-neutral-600 shadow-sm hover:bg-neutral-700 transition-all duration-300">
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
+                  <div className="p-2 bg-gradient-to-br from-blue-200 to-blue-100 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
                     <svg
-                      className="w-4 h-4 text-blue-600"
+                      className="w-4 h-4 text-blue-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -126,21 +174,21 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-800">
+                    <h3 className="text-sm font-medium text-neutral-200">
                       1000 Free Words Daily
                     </h3>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-neutral-400">
                       Fresh credits every day
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="group bg-white/40 p-3.5 rounded-xl backdrop-blur-sm border border-white/60 shadow-sm hover:bg-white/60 transition-all duration-300">
+              <div className="group bg-neutral-800 p-3.5 rounded-xl backdrop-blur-sm border border-neutral-600 shadow-sm hover:bg-neutral-700 transition-all duration-300">
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
+                  <div className="p-2 bg-gradient-to-br from-indigo-200 to-indigo-100 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
                     <svg
-                      className="w-4 h-4 text-indigo-600"
+                      className="w-4 h-4 text-indigo-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -154,21 +202,21 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-800">
+                    <h3 className="text-sm font-medium text-neutral-200">
                       Refer & Earn +500
                     </h3>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-neutral-400">
                       Bonus words per referral
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="group bg-white/40 p-3.5 rounded-xl backdrop-blur-sm border border-white/60 shadow-sm hover:bg-white/60 transition-all duration-300">
+              <div className="group bg-neutral-800 p-3.5 rounded-xl backdrop-blur-sm border border-neutral-600 shadow-sm hover:bg-neutral-700 transition-all duration-300">
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
+                  <div className="p-2 bg-gradient-to-br from-purple-200 to-purple-100 rounded-lg shrink-0 group-hover:scale-95 transition-transform duration-300">
                     <svg
-                      className="w-4 h-4 text-purple-600"
+                      className="w-4 h-4 text-purple-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -182,10 +230,10 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-800">
+                    <h3 className="text-sm font-medium text-neutral-200">
                       Undetectable AI
                     </h3>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-neutral-400">
                       100% human-like content
                     </p>
                   </div>
@@ -194,7 +242,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
             </div>
             {/* New tagline */}
             <div className="mt-6 text-center">
-              <h4 className="text-lg font-semibold text-gray-800">
+              <h4 className="text-lg font-semibold text-neutral-200">
                 Stay unique, stay undetectable
               </h4>
             </div>
@@ -202,13 +250,13 @@ export default function SignupForm({ onClose }: SignupFormProps) {
         </div>
 
         {/* Right Section */}
-        <div className="md:w-5/12 p-8 bg-white/60 backdrop-blur-sm flex flex-col justify-center items-center">
+        <div className="md:w-5/12 p-8 bg-neutral-900 flex flex-col justify-center items-center">
           <div className="w-full max-w-sm space-y-6">
             <div className="text-center space-y-1.5">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h3 className="text-lg font-semibold text-neutral-200">
                 Get Started
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-neutral-400">
                 Join in seconds • No credit card needed
               </p>
             </div>
@@ -228,13 +276,13 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                 </div>
               </GoogleOAuthProvider>
 
-              <div className="text-xs text-gray-400 text-center px-6">
+              <div className="text-xs text-neutral-400 text-center px-6">
                 By continuing, you agree to our{" "}
                 <a
                   href="/assets/Privacy%20Policy%20for%20NoaiGPT%20-%20TermsFeed.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700"
+                  className="text-blue-400 hover:text-blue-500"
                 >
                   Privacy Policy
                 </a>{" "}
@@ -243,7 +291,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                   href="/assets/terms-of-service.txt"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700"
+                  className="text-blue-400 hover:text-blue-500"
                 >
                   Terms
                 </a>

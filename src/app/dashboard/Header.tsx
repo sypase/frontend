@@ -133,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({
       )}
       <header
         className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800  ${
-          showAnnouncement ? "top-10" : "top-0"
+          showAnnouncement ? "top-8" : "top-0"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">

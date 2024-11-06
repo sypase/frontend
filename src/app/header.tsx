@@ -3,15 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import {
-  X,
-  Sparkles,
-  FileUser,
-  LogOut,
-  ShoppingCart,
-  Menu,
-} from "lucide-react";
+import { X, Sparkles, FileUser, LogOut, ShoppingCart } from "lucide-react";
 import { FiUser } from "react-icons/fi";
+import { FiArchive, FiBook, FiBookOpen } from "react-icons/fi";
 import { FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import {
@@ -71,23 +65,12 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
-      }
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target as Node)
-      ) {
-        setIsMobileMenuOpen(false);
       }
     };
 
@@ -98,7 +81,6 @@ const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
     <>
@@ -151,13 +133,13 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       )}
       <header
-        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
+        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800  ${
           showAnnouncement ? "top-8" : "top-0"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          <Link href="/dashboard" className="flex items-center">
-            <h1 className="text-xl font-bold tracking-tight text-white flex items-center mr-3">
+          <Link href="/" className="flex items-center">
+            <h1 className="text-xl font-bold tracking-tight text-white flex items-center">
               NoaiGPT
               <Badge
                 variant="outline"
@@ -166,13 +148,11 @@ const Header: React.FC<HeaderProps> = ({
                 Beta
               </Badge>
             </h1>
-            <span className="text-green-500 text-sm font-medium">
-              Humanizer
-            </span>
-          </Link>
-
-          <div className="hidden md:flex items-center space-x-3">
-            <div className="flex items-center">
+            <div className="ml-4 flex items-center">
+              <span className="text-green-500 text-sm font-medium">
+                Humanizer
+              </span>
+              <span className="mx-2 text-neutral-500">|</span>
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
@@ -197,6 +177,7 @@ const Header: React.FC<HeaderProps> = ({
                             </a>
                           </NavigationMenuLink>
                         </li>
+
                         {aiDetectors.map((detector) => (
                           <ListItem
                             key={detector.title}
@@ -212,6 +193,9 @@ const Header: React.FC<HeaderProps> = ({
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
+          </Link>
+
+          <div className="flex items-center space-x-3">
             <Link
               href="/pricing"
               className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300"
@@ -252,15 +236,26 @@ const Header: React.FC<HeaderProps> = ({
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
                     <div className="py-1">
-                      <div className="px-4 py-2 text-sm text-neutral-400">
-                        My Account
-                      </div>
+                      <div className="px-4 py-2 text-sm text-neutral-400">My Account</div>
                       <div className="border-t border-neutral-800"></div>
                       <button
                         onClick={() => (window.location.href = "/profile")}
                         className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
                       >
                         <FiUser className="inline-block mr-2" /> Profile
+                      </button>
+                      <button
+                        onClick={() => (window.location.href = "/dashboard")}
+                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                      >
+                        <FiBook className="inline-block mr-2" /> Dashboard
+                      </button>
+                      
+                      <button
+                        onClick={() => (window.location.href = "/dashboard/history")}
+                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                      >
+                        <FiArchive className="inline-block mr-2" /> History
                       </button>
                       <div className="border-t border-neutral-800"></div>
                       <div className="px-4 py-2 text-sm text-neutral-300">
@@ -285,80 +280,7 @@ const Header: React.FC<HeaderProps> = ({
               </div>
             )}
           </div>
-
-          <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="text-white hover:text-neutral-200 transition-colors duration-200"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
-          </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div
-            ref={mobileMenuRef}
-            className="md:hidden bg-neutral-950 bg-opacity-95 backdrop-blur-lg"
-          >
-            <div className="px-4 pt-2 pb-3 space-y-1">
-              <Link
-                href="/pricing"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-              >
-                Pricing
-              </Link>
-              <Link
-                href="/earn"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-              >
-                Earn
-              </Link>
-              <a
-                href="https://discord.gg/your-discord-invite-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-              >
-                Discord
-              </a>
-              {!isLoggedIn && (
-                <button
-                  onClick={onShowSignupForm}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-neutral-800 hover:bg-neutral-700"
-                >
-                  Try for Free
-                </button>
-              )}
-              {isLoggedIn && (
-                <>
-                  <button
-                    onClick={() => (window.location.href = "/profile")}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-                  >
-                    Profile
-                  </button>
-                  <div className="px-3 py-2 text-sm text-neutral-400">
-                    Credits: {rewriteCount || 0}
-                  </div>
-                  <div className="px-3 py-2 text-sm text-neutral-400">
-                    Daily Free: {rewriteCount || 0}
-                  </div>
-                  <button
-                    onClick={() => {
-                      localStorage.clear();
-                      window.location.href = "/";
-                    }}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-neutral-800"
-                  >
-                    Logout
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
       </header>
     </>
   );

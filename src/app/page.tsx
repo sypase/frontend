@@ -44,6 +44,13 @@ interface Message {
   variantIndex?: number;
 }
 
+interface User {
+  name: string;
+  email: string;
+  credits: number;
+  referralCode: string;
+}
+
 export default function Home() {
   const [text, setText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -58,6 +65,9 @@ export default function Home() {
   const [isAdvancedMode, setIsAdvancedMode] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [rewriteCount, setRewriteCount] = useState<number>(-1);
+
 
   const phrases = ["Bypassing AI", "Checking Grammar", "Checking AI"];
 
@@ -133,6 +143,38 @@ export default function Home() {
       }
     }
   };
+
+  const getRewrites = async () => {
+    try {
+      const response = await axios.get(`${serverURL}/bypass/rewrites`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setRewriteCount(response.data.rewrites);
+    } catch (error) {
+      console.error("Error fetching rewrites:", error);
+      toast.error("Failed to load rewrite count.");
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const fetchUserData = async () => {
+        try {
+          const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          });
+          setUser(response.data.user);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          toast.error("Failed to load user data.");
+          setLoading(false);
+        }
+      };
+      fetchUserData();
+      getRewrites();
+    }
+  }, [isLoggedIn]);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
@@ -276,9 +318,9 @@ export default function Home() {
       </Head>
 
       <Header
-        isLoggedIn={isLoggedIn}
-        onShowSignupForm={() => setShowSignupForm(true)}
-      ></Header>
+      isLoggedIn={!!user} user={user} rewriteCount={rewriteCount}  
+      onShowSignupForm={() => setShowSignupForm(true)}
+/>
 
 <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden">
   <animated.div
@@ -419,7 +461,7 @@ export default function Home() {
           textareaRef={textareaRef}
           isAdvancedMode={isAdvancedMode} // Added this line
           toggleAdvancedMode={toggleAdvancedMode} // Added this line
-        />
+          />  
         {showSignupForm && (
           <SignupForm onClose={() => setShowSignupForm(false)} />
         )}
