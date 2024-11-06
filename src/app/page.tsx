@@ -391,6 +391,8 @@ export default function Home() {
                     logos={logos}
                     logoSettings={logoSettings}
                     handleKathmanduClick={handleKathmanduClick}
+                    isLoggedIn={!!user}
+                    
                   />
                 )}
 

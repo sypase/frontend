@@ -5,8 +5,8 @@ import Slider from "react-slick";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AnimatedGradientText from "@/components/ui/animated-gradient-text";
-
 import { BorderBeam } from "@/components/ui/border-beam";
+import { useState } from "react";
 
 interface HeroProps {
   logos: string[];
@@ -14,6 +14,7 @@ interface HeroProps {
     [key: string]: any;
   };
   handleKathmanduClick: () => void;
+  isLoggedIn: boolean;
 }
 
 const AnimatedGradientTextDemo: React.FC = () => {
@@ -74,13 +75,19 @@ export function BorderBeamDemo() {
 const Hero: React.FC<HeroProps> = ({
   logos,
   logoSettings,
-  handleKathmanduClick,
+  handleKathmanduClick, isLoggedIn
 }) => {
+
   return (
     <section className="text-center py-8 px-4 md:px-8 bg-black min-h-screen">
       {" "}
-      {/* Updated background color */}
-      <AnimatedGradientTextDemo />
+      {isLoggedIn ? (
+        <a href="/dashboard">
+        <AnimatedGradientTextDemo />
+        </a>
+      ) : (
+        <AnimatedGradientTextDemo />
+      )}
       <h2 className="text-4xl md:text-5xl font-bold mb-4 mt-6 bg-gradient-to-b from-gray-200 to-gray-600 bg-clip-text text-transparent">
         Transform AI Text into Natural
       </h2>
@@ -110,7 +117,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className="flex justify-center mb-12 max-w-4xl mx-auto">
         <BorderBeamDemo />
       </div>
-      <section className="py-14">
+      <section className="py-</section>14">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-400 md:px-8">
           {" "}
           {/* Text color updated */}
