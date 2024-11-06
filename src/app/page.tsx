@@ -427,23 +427,23 @@ export default function Home() {
               </div>
             )}
 
-            <div className="space-y-4 max-w-2xl">
+            <div className="flex flex-col items-center space-y-4 max-w-6xl mx-auto">
               {messages.map((message, index) => (
-                <MessageComponent
-                  key={index}
-                  message={message}
-                  copyToClipboard={copyToClipboard}
-                  redoMessage={redoMessage}
-                  onVariantChange={handleVariantChange}
-                />
+              <MessageComponent
+                key={index}
+                message={message}
+                copyToClipboard={copyToClipboard}
+                redoMessage={redoMessage}
+                onVariantChange={handleVariantChange}
+              />
               ))}
               {loading && (
-                <div className="flex items-center p-4 rounded-lg bg-gray max-w-[50%]">
-                  <l-grid size="30" speed="1.0" color="green"></l-grid>
-                  <p className="ml-4 text-gray-200 text-lg">
-                    {phrases[currentPhraseIndex]}
-                  </p>
-                </div>
+              <div className="flex items-center p-4 rounded-lg bg-gray max-w-[50%]">
+                <l-grid size="30" speed="1.0" color="green"></l-grid>
+                <p className="ml-4 text-gray-200 text-lg">
+                {phrases[currentPhraseIndex]}
+                </p>
+              </div>
               )}
               <div ref={messagesEndRef} />
             </div>
