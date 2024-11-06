@@ -1,3 +1,4 @@
+import React from 'react';
 import { FiArrowRight, FiZap, FiCheckCircle } from "react-icons/fi";
 
 interface FooterProps {
@@ -13,6 +14,7 @@ interface FooterProps {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
   isAdvancedMode: boolean;
   toggleAdvancedMode: () => void;
+  isLoggedIn: boolean;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -26,48 +28,56 @@ const Footer: React.FC<FooterProps> = ({
   textareaRef,
   isAdvancedMode,
   toggleAdvancedMode,
+  isLoggedIn
 }) => {
+
+  // New function to handle sending message and redirecting without useNavigate
+  const handleSendMessage = () => {
+    // Save text to localStorage
+    localStorage.setItem('sharedText', text);
+  
+    // Set a flag indicating the redirect from app/Footer.tsx
+    localStorage.setItem('fromFooterPage', 'true');
+  
+    // Redirect to dashboard
+    window.location.href = '/dashboard';
+  };
+
+  // Handle action for both Enter key and button click
+  const handleAction = (
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (isLoggedIn) {
+      // If logged in, prevent default behavior (button or Enter key press) and send message
+      if (event.key === 'Enter' || event.type === 'click') {
+        event.preventDefault();
+        if (text.trim().length > 0 && wordCount >= 100) {
+          handleSendMessage(); // Send the message if conditions are met
+        }
+      }
+    } else {
+      // If not logged in, use sendMessage for Enter key or button click
+      if (event.key === 'Enter' || event.type === 'click') {
+        event.preventDefault(); // Prevent default behavior
+        if (text.trim().length > 0 && wordCount >= 100) {
+          sendMessage(); // Call sendMessage directly for non-logged-in users
+        }
+      }
+    }
+  };
+
   return (
-    <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-40 ">
+    <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-40">
       <div className="max-w-2xl mx-auto relative">
         <div className="absolute top-[-40px] right-0">
           <div className="flex items-center cursor-pointer relative">
             <div className="group flex items-center relative">
-              {/* <div
-                className={`w-12 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out ${
-                  isAdvancedMode
-                    ? "bg-gradient-to-r from-green-400 via-blue-500 to-purple-600"
-                    : "bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600"
-                }`}
-              >
-                <div
-                  className={`bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out ${
-                    isAdvancedMode ? "translate-x-6" : ""
-                  }`}
-                ></div>
-              </div> */}
-              <div className="absolute bottom-12 left-[-80px] bg-white text-gray-700 text-sm p-4 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-72 flex flex-col items-start pointer-events-none">
-                <div className="flex items-center mb-2">
-                  <FiZap className="mr-2 text-blue-500" />
-                  <span className="font-bold">Pro Mode Features</span>
-                </div>
-                <p className="mb-2 flex items-center">
-                  <FiCheckCircle className="mr-2 text-green-500" />
-                  Advanced AI checking for superior content quality.
-                </p>
-                <p className="mb-2">
-                  🚀 Enhanced grammar and advanced model for higher accuracy and natural language flow.
-                </p>
-                <p className="text-orange-500 font-semibold">
-                  ⚠️ You need to sign in to use Pro Mode.
-                </p>
-              </div>
+              {/* Advanced mode toggle, etc. */}
             </div>
           </div>
         </div>
         <div
           className="flex items-end rounded-lg overflow-hidden bg-white bg-opacity-50 shadow-lg transition-all duration-300 hover:shadow-xl relative border border-gray-500"
-
         >
           <textarea
             ref={textareaRef}
@@ -75,7 +85,7 @@ const Footer: React.FC<FooterProps> = ({
             style={{ minHeight: "40px" }}
             value={text}
             onChange={handleTextAreaChange}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleAction} // Use handleAction for key press events
             placeholder="Enter your AI-generated text here..."
           />
           <div className="absolute top-2 right-2 text-sm text-gray-600">
@@ -85,7 +95,7 @@ const Footer: React.FC<FooterProps> = ({
             className={`p-3 text-blue-500 hover:text-blue-600 focus:outline-none transition-all duration-300 ${
               loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"
             }`}
-            onClick={sendMessage}
+            onClick={handleAction} // Use handleAction for button click
             disabled={loading || text.trim().length < 3 || wordCount < 100}
           >
             {loading ? (

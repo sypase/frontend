@@ -20,7 +20,7 @@ import {
   FiArrowRight,
 } from "react-icons/fi";
 import MinidenticonImg from "./MinidenticonImg";
-import Header from "../dashboard/Header";
+import Header from "../header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {

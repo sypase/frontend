@@ -58,8 +58,8 @@ export default function CleanLayout() {
             </div>
 
             {/* Tweet Section */}
-            <div className="lg:w-1/2 flex items-center justify-center">
-              <div className="bg-neutral-800 rounded-3xl shadow-[0_0_30px_rgba(255,255,255,0.1)] p-10 w-full max-w-xl">
+            <div className="flex items-center justify-center w-full lg:w-1/2">
+              <div className="bg-neutral-800 rounded-3xl shadow-[0_0_30px_rgba(255,255,255,0.1)] p-10 w-full max-w-xl flex items-center justify-center">
                 <Tweet id="1732824684683784516" />
               </div>
             </div>

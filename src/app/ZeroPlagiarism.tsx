@@ -58,7 +58,7 @@ const ZeroPlagiarism = () => {
           <div ref={imageRef} className="relative w-full h-full">
             <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl">
               <img 
-                src="/assets/grammercheck.png" 
+                src="/assets/temp/grammercheck.png" 
                 alt="Zero Plagiarism" 
                 className="w-full h-full object-cover"
               />

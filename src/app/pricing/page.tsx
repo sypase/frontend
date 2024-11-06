@@ -197,9 +197,9 @@ export default function UnifiedPricingShop() {
 
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
-      <Header
-        isLoggedIn={isLoggedIn}
-        onShowSignupForm={() => setShowSignupForm(true)}
+      <Header 
+      isLoggedIn={!!user} user={user}
+      onShowSignupForm={() => setShowSignupForm(true)}
       />
 
       <div className="flex flex-col items-center mt-40 mb-12 px-4">

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FiArrowRight } from "react-icons/fi";
 
 interface FooterProps {
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
-  wordCount: number;
   loading: boolean;
   sendMessage: () => void;
   handleTextAreaChange: (
@@ -17,7 +16,6 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({
   text,
   setText,
-  wordCount,
   loading,
   sendMessage,
   handleTextAreaChange,
@@ -26,6 +24,50 @@ const Footer: React.FC<FooterProps> = ({
 }) => {
   const [gradientPosition, setGradientPosition] = useState(0);
   const [textareaHeight, setTextareaHeight] = useState('80px');
+  const [wordCount, setWordCount] = useState(0); // State for word count
+
+  useEffect(() => {
+    // Retrieve text from localStorage if it exists
+    const savedText = localStorage.getItem('sharedText');
+    if (savedText) {
+      setText(savedText);  // Set the text value
+    }
+
+    // Check if the redirect happened from app/Footer.tsx
+    const fromFooterPage = localStorage.getItem('fromFooterPage');
+    if (fromFooterPage === 'true') {
+      // Focus the textarea if redirected from app/Footer.tsx
+      if (textareaRef.current) {
+        textareaRef.current.focus();  // Focus the textarea
+      }
+
+      // Simulate button click
+      const button = document.querySelector('button.p-3.text-purple-400');
+      if (button) {
+        button.click();
+      }
+
+      // Reset sharedText in localStorage
+      const waitForButtonClick = () => {
+        return new Promise<void>((resolve) => {
+          const button = document.querySelector('button.p-3.text-purple-400');
+          if (button) {
+        button.addEventListener('click', () => {
+          resolve();
+        }, { once: true });
+          } else {
+        resolve();
+          }
+        });
+      };
+
+      waitForButtonClick().then(() => {
+        localStorage.removeItem('sharedText');
+        localStorage.removeItem('fromFooterPage');
+        setText('');
+      });
+    }
+  }, [setText, sendMessage, text, wordCount]);
 
   useEffect(() => {
     let animationFrame: number;
@@ -44,7 +86,11 @@ const Footer: React.FC<FooterProps> = ({
     };
   }, []);
 
+  // Update word count whenever text changes
   useEffect(() => {
+    const updatedWordCount = text.split(/\s+/).filter(Boolean).length;
+    setWordCount(updatedWordCount); // Update state with the new word count
+
     if (textareaRef.current) {
       textareaRef.current.style.height = '80px';
       const scrollHeight = textareaRef.current.scrollHeight;
@@ -72,7 +118,7 @@ const Footer: React.FC<FooterProps> = ({
             <textarea
               ref={textareaRef}
               className="flex-1 p-3 bg-transparent border-none focus:ring-0 focus:outline-none resize-none text-gray-300 placeholder-gray-500 overflow-y-auto custom-scrollbar"
-              style={{ 
+              style={{
                 minHeight: "80px",
                 height: textareaHeight,
                 maxHeight: "300px"
@@ -86,9 +132,7 @@ const Footer: React.FC<FooterProps> = ({
               {wordCount} words
             </div>
             <button
-              className={`p-3 text-purple-400 hover:text-purple-300 focus:outline-none transition-all duration-300 ${
-                loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"
-              }`}
+              className={`p-3 text-purple-400 hover:text-purple-300 focus:outline-none transition-all duration-300 ${loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"}`}
               onClick={sendMessage}
               disabled={loading || text.trim().length < 3 || wordCount < 100}
             >
