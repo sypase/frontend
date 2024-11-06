@@ -463,6 +463,7 @@ export default function Home() {
           textareaRef={textareaRef}
           isAdvancedMode={isAdvancedMode} // Added this line
           toggleAdvancedMode={toggleAdvancedMode} // Added this line
+          isLoggedIn={!!user}
           />  
         {showSignupForm && (
           <SignupForm onClose={() => setShowSignupForm(false)} />
