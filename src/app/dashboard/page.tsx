@@ -320,7 +320,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-black text-white">
-      <Header isLoggedIn={isLoggedIn} user={user} rewriteCount={rewriteCount} />
+      <Header isLoggedIn={isLoggedIn} />
 
       <main
         className="flex-grow flex px-4 py-2 overflow-hidden mt-20 pt-16"
@@ -358,7 +358,6 @@ export default function Home() {
               <Footer
                 text={text}
                 setText={setText}
-                wordCount={wordCount}
                 loading={loading}
                 sendMessage={rewrite}
                 handleTextAreaChange={handleTextAreaChange}

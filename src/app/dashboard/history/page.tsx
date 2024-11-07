@@ -24,8 +24,6 @@ interface Message {
 
 interface HeaderProps {
   isLoggedIn: boolean;
-  user?: any;
-  rewriteCount?: number;
   onShowSignupForm?: () => void;
 }
 interface User {
@@ -123,7 +121,7 @@ const HistoryPage: React.FC = () => {
   
   return (
     <main>      
-      <Header isLoggedIn={!!user} user={user} rewriteCount={rewriteCount} />
+      <Header isLoggedIn={!!user} />
       <div className="relative flex flex-col w-full min-h-screen bg-black text-white">  
         <div className="flex justify-between items-center px-6 py-4 mt-40 ">
           <h1 className="text-4xl font-bold text-white">Documents History</h1>
