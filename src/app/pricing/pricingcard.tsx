@@ -11,7 +11,7 @@ interface PricingItem {
   title: string;
   currency: string;
   price: number;
-  rewriteLimit: number;
+  creditLimit: number;
   features: string[];
   country: string;
   enable: boolean;
@@ -81,7 +81,7 @@ const PricingCards: React.FC<PricingCardsProps> = ({
                   {item.currency} {item.price.toFixed(2)}
                 </div>
                 <div className="text-lg font-semibold text-gray-300">
-                  {item.rewriteLimit.toLocaleString()} words
+                  {item.creditLimit.toLocaleString()} words
                 </div>
               </div>
                 <div className="bg-gray-800 p-4 rounded-lg mb-4">

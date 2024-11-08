@@ -76,6 +76,19 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    // Check if the user has already closed the announcement in this session
+    const announcementClosed = sessionStorage.getItem("announcementClosed");
+    if (announcementClosed) {
+      setShowAnnouncement(false);
+    }
+  }, []);
+
+  const closeAnnouncement = () => {
+    setShowAnnouncement(false);
+    sessionStorage.setItem("announcementClosed", "true");
+  };
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
@@ -88,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
     };
   }, []);
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
 
   const getRewrites = async () => {
     try {
@@ -102,26 +115,39 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
     }
   };
 
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setUser(response.data.user);
+      setLoading(false);
+      setDailyFreeWords(response.data.user.dailyFreeWords); // Set the dailyFreeWords directly here
+      getRewrites();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to load user data.");
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
     if (isLoggedIn) {
-      const fetchUserData = async () => {
-        try {
-          const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          });
-          setUser(response.data.user);
-          setLoading(false);
-          setDailyFreeWords(response.data.user.dailyFreeWords); // Set the dailyFreeWords directly here
-          getRewrites();
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          toast.error("Failed to load user data.");
-          setLoading(false);
-        }
-      };
+
       fetchUserData();
     }
   }, [isLoggedIn]);
+
+  const toggleDropdown = () => 
+    {
+      if (isLoggedIn) {
+      getRewrites();
+      fetchUserData();
+      setIsDropdownOpen(!isDropdownOpen);
+    }
+  };
 
   return (
     <>
@@ -164,7 +190,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
               </p>
             </div>
             <button
-              onClick={() => setShowAnnouncement(false)}
+              onClick={closeAnnouncement}
               className="absolute right-0 p-1 text-white hover:text-[#ffaa40] hover:bg-[#9c40ff] rounded-full transition-all duration-200"
               aria-label="Close announcement"
             >
