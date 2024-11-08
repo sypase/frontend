@@ -83,8 +83,11 @@ const EarnPage = () => {
       
 
     return (
-        <div className="bg-black text-white min-h-screen flex flex-col">
-            <Header />
+        <>
+
+  <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100 "> {/* Dark background for main content */}
+  <Header />
+
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-20 pt-10">
             {/* Page Title */}
     <h1 className="text-center text-4xl md:text-5xl font-semibold text-gray-100 ">
@@ -107,17 +110,82 @@ const EarnPage = () => {
             <li><strong>Pending referrals:</strong> These are referrals that are still waiting for confirmation.</li>
             <li><strong>Successful referrals:</strong> Referrals that have completed the sign-up process.</li>
         </ul>
-        <p className="text-lg font-semibold mb-4">How it works:</p>
+        {/* <p className="text-lg font-semibold mb-4">How it works:</p>
         <ol className="list-decimal pl-6 text-lg space-y-2">
             <li>Share your unique referral link with your friends.</li>
             <li>For every successful sign-up made through your link, you'll earn credits.</li>
             <li>The person you refer also gets rewarded!</li>
             <li>Credits can be redeemed for rewards and exclusive offers on our platform.</li>
-        </ol>
+        </ol> */}
     </div>
 
+    <Card className="bg-neutral-900 border border-neutral-800 shadow-2xl w-full max-w-7xl mx-auto my-12 rounded-2xl">
+    <CardHeader className="bg-neutral-800 p-6 rounded-t-2xl">
+        <CardTitle className="text-3xl font-extrabold text-white">
+            How It Works
+        </CardTitle>
+    </CardHeader>
+    <CardContent className="p-6 space-y-8">
+        <p className="text-lg text-neutral-400">
+            Here's how you can earn 500 credits by simply referring your friends. It's quick, easy, and rewarding!{" "}
+            <span className="ml-2">💸</span>
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Step 1 */}
+            <Card className="bg-neutral-800 border border-neutral-700 shadow-lg p-6 rounded-xl">
+                <CardHeader className="bg-neutral-700 p-4 rounded-xl">
+                    <CardTitle className="text-xl font-semibold text-white">
+                        Share Your Referral Link
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p className="text-neutral-400 text-base pt-8">
+                        Copy your unique referral link and share it with your friends via social media, text, or email. Make it easy for them to sign up!
+                    </p>
+                    <Button
+                        onClick={copyReferralLink}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md"
+                    >
+                        Copy Referral Link
+                    </Button>
+                </CardContent>
+            </Card>
+
+            {/* Step 2 */}
+            <Card className="bg-neutral-800 border border-neutral-700 shadow-lg p-6 rounded-xl">
+                <CardHeader className="bg-neutral-700 p-4 rounded-xl">
+                    <CardTitle className="text-xl font-semibold text-white">
+                        Friend Logs In
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p className="text-neutral-400 text-base pt-8">
+                        Your friend uses your referral link to sign up and create their account. It only takes a minute to get started, and they're ready to enjoy the benefits!
+                    </p>
+                </CardContent>
+            </Card>
+
+            {/* Step 3 */}
+            <Card className="bg-neutral-800 border border-neutral-700 shadow-lg p-6 rounded-xl">
+                <CardHeader className="bg-neutral-700 p-4 rounded-xl">
+                    <CardTitle className="text-xl font-semibold text-white">
+                        Earn 500 Credits
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p className="text-neutral-400 text-base pt-8">
+                        Once your friend logs in, you'll automatically receive 500 credits. It's that easy! Enjoy your rewards and use them for exciting features.
+                    </p>
+                </CardContent>
+            </Card>
+        </div>
+    </CardContent>
+</Card>
+
+
     {/* Referral Data */}
-    <div className="my-8">
+    {/* <div className="my-8">
         <h2 className="text-3xl font-bold mb-6">Referral Data</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
@@ -137,46 +205,16 @@ const EarnPage = () => {
                 <p className="text-2xl">{earnings} credits</p>
             </div>
         </div>
-    </div>
+    </div> */}
 
-    {/* Call to Action */}
-    <div className="flex justify-center items-center mb-8">
-        <Card className="bg-neutral-900 border border-neutral-800 shadow-md overflow-hidden w-full max-w-2xl">
-            <CardHeader className="bg-gradient-to-r from-blue-900 to-indigo-900 p-6">
-                <CardTitle className="text-2xl font-bold text-white flex items-center">
-                    <span className="mr-2">👥</span> Refer Your Friends
-                </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-                <p className="text-lg text-neutral-400 mb-6">
-                    Earn{" "}
-                    <span className="font-bold text-blue-400">500 credits</span>{" "}
-                    for each friend who signs up using your referral code!{" "}
-                    <span className="ml-2">🎉</span>
-                </p>
-                <div className="flex justify-center w-full p-4 rounded-lg mb-6 bg-neutral-800">
-                    <a
-                        href={referralLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold text-blue-400 hover:text-blue-500 text-center w-full transition-colors duration-200"
-                    >
-                        {referralLink}
-                    </a>
-                </div>
-                <Button
-                    onClick={copyReferralLink}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-full transition-colors duration-200 flex items-center justify-center"
-                >
-                    <span className="mr-2">📋</span> Copy Referral Link
-                </Button>
-            </CardContent>
-        </Card>
-    </div>
+          <ToastContainer theme="dark" />
+
 
     <ElegantFooter />
 </div>
-</div>
+</main>
+
+</>
     );
 };
 
