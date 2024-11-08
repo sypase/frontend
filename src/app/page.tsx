@@ -323,7 +323,6 @@ export default function Home() {
       </Head>
 
       <Header
-      isLoggedIn={!!user}
       onShowSignupForm={() => setShowSignupForm(true)}
 />
 

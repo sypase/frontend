@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/navigation-menu";
 
 interface HeaderProps {
-  isLoggedIn: boolean;
   onShowSignupForm?: () => void;
 }
 
@@ -66,7 +65,7 @@ const aiDetectors: { title: string; href: string; description: string }[] = [
   },
 ];
 
-const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
+const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -74,6 +73,8 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
   const [rewriteCount, setRewriteCount] = useState<number>(-1);
   const [dailyFreeWords, setDailyFreeWords] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
 
   useEffect(() => {
     // Check if the user has already closed the announcement in this session
@@ -115,6 +116,34 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onShowSignupForm }) => {
     }
   };
 
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsLoggedIn(false);
+      return;
+    }
+
+    const config = {
+      method: "GET",
+      url: `${serverURL}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await axios(config);
+      setUser(response.data.user);
+      setIsLoggedIn(true);
+    } catch (error) {
+      setIsLoggedIn(false);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const fetchUserData = async () => {
     try {

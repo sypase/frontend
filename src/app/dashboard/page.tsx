@@ -320,7 +320,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-black text-white">
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
 
       <main
         className="flex-grow flex px-4 py-2 overflow-hidden mt-20 pt-16"

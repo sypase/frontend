@@ -144,7 +144,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Header isLoggedIn={!!user}/>
+      <Header />
       <div className="bg-black min-h-screen font-sans text-white">
         <main className="pt-9 pb-8 overflow-y-auto">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-20">

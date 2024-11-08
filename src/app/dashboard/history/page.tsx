@@ -23,7 +23,6 @@ interface Message {
 }
 
 interface HeaderProps {
-  isLoggedIn: boolean;
   onShowSignupForm?: () => void;
 }
 interface User {
@@ -121,8 +120,8 @@ const HistoryPage: React.FC = () => {
   
   return (
     <main>      
-      <Header isLoggedIn={!!user} /><div className="relative flex flex-col w-full min-h-screen bg-black text-white px-4 md:px-8 lg:px-16">  
-  <div className="flex justify-between items-center px-6 py-4 mt-20 pt-10 mx-4 md:mx-8 lg:mx-16">
+      <Header /><div className="relative flex flex-col w-full min-h-screen bg-black text-white px-4 md:px-8 lg:px-16">  
+  <div className="flex max-w-7xl justify-between items-center px-6 py-4 mt-20 pt-10 mx-4 md:mx-8 lg:mx-16">
     <h1 className="text-4xl font-bold text-white">Documents History</h1>
     <div className="flex space-x-4">
       <button
@@ -242,6 +241,7 @@ const HistoryPage: React.FC = () => {
     </div>
   )}
 </div>
+<ToastContainer position="bottom-right" />
 
     </main>
   )

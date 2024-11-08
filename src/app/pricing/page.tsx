@@ -21,6 +21,7 @@ interface Item {
   price: number;
   features: string[];
   paddleProductId: string | null;
+  creditLimit: number; // Add this line
 }
 
 interface PaymentMethods {
@@ -213,7 +214,6 @@ export default function UnifiedPricingShop() {
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
       <Header 
-      isLoggedIn={!!user}
       onShowSignupForm={() => setShowSignupForm(true)}
       />
 

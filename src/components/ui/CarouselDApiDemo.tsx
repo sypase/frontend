@@ -35,8 +35,16 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
     })
   }, [api])
 
+  const handleCopy = () => {
+    const currentVariant = variants[current - 1];
+    
+    if (currentVariant) {
+      navigator.clipboard.writeText(currentVariant.text)
+    }
+  };
+
   return (
-    <div className="mx-auto max-w-full overflow-hidden">
+    <div className="mx-auto max-w-full overflow-hidden ">
       <Carousel setApi={setApi} className="w-full max-w-full bg-neutral-950 text-white">
         <CarouselContent className="flex">
           {variants.map((variant) => (
@@ -55,6 +63,14 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
       <div className="py-2 text-center text-sm text-gray-400">
         Variant {current} of {count}
       </div>
+      <div className="flex justify-center py-2">
+  <button
+    onClick={handleCopy}
+    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition"
+  >
+    Copy
+  </button>
+</div>
 
     </div>
   )
