@@ -14,7 +14,6 @@ import { initializePaddle } from "@paddle/paddle-js";
 interface Item {
   _id: string;
   title: string;
-  rewriteLimit: number;
   enable: boolean;
   country: string;
   currency: string;

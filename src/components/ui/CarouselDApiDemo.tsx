@@ -39,7 +39,22 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
     const currentVariant = variants[current - 1];
     
     if (currentVariant) {
-      navigator.clipboard.writeText(currentVariant.text)
+      navigator.clipboard.writeText(currentVariant.text).then(() => {
+        // Display a toast message instead of an alert
+        const toast = document.createElement("div");
+        toast.textContent = "Text copied successfully";
+        toast.className = "fixed top-4 left-1/2 z-50 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-4 rounded shadow-lg";
+        toast.style.backgroundColor = "#272727";
+        toast.style.color = "#32CD32"; // Changed text color to a darker green
+        toast.style.borderRadius = "8px";
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 3000);
+      }).catch(err => {
+        console.error("Failed to copy text: ", err);
+      });
     }
   };
 
