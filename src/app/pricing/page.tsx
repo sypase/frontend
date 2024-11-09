@@ -83,7 +83,7 @@ export default function UnifiedPricingShop() {
 
     const initPaddle = async () => {
       try {
-        await initializePaddle({
+        const paddleInstance = await initializePaddle({
           token: "test_0592d7578edf803262da4c97ccf", // Replace with your actual client-side token
           environment: "sandbox", // Change to 'production' for live environment
           checkout: {
@@ -93,6 +93,12 @@ export default function UnifiedPricingShop() {
               frameStyle:
                 "width: 100%; min-width: 312px; background-color: transparent; border: none;",
             },
+          },
+          eventCallback: function (event) {
+            console.log("Paddle event:", event);
+            if (event.name === "checkout.completed") {
+              handleSuccessfulPayment(event.data);
+            }
           },
         });
         console.log("Paddle initialized");
@@ -123,15 +129,13 @@ export default function UnifiedPricingShop() {
   }, [currency]);
 
   const handleSuccessfulPayment = async (data: any) => {
+    console.log("Payment data:", data);
+    console.log(data.transactionId);
     try {
       const response = await axios.post(
-        `${serverURL}/payments/paddle`,
+        `${serverURL}/payment/paddle`,
         {
-          data: data.data,
-          transactionId: data.transactionId,
-          customerId: data.customerId,
-          subscriptionId: data.subscriptionId,
-          planId: data.planId,
+          data: data,
         },
         {
           headers: {
@@ -141,6 +145,7 @@ export default function UnifiedPricingShop() {
       );
       console.log("Subscription updated:", response.data);
       alert("Payment successful! Your account has been upgraded.");
+      // Optionally, refresh the page or update the UI
       window.location.reload();
     } catch (error) {
       console.error("Failed to update subscription:", error);
@@ -149,6 +154,7 @@ export default function UnifiedPricingShop() {
       );
     }
   };
+
 
   const openCheckout = async (priceId: string) => {
     if (
@@ -195,26 +201,33 @@ export default function UnifiedPricingShop() {
     }
   };
 
-        const renderPaymentMethods = () => {
-        if (currency === "NPR") {
-        return (
-          <span className="text-blue-400 flex items-center justify-center mt-6">
-          <img src="/assets/logos/imepay.png" alt="IME Pay" className="w-15 h-20 mr-2" />
+  const renderPaymentMethods = () => {
+    if (currency === "NPR") {
+      return (
+        <span className="text-blue-400 flex items-center justify-center mt-6">
+          <img
+            src="/assets/logos/imepay.png"
+            alt="IME Pay"
+            className="w-15 h-20 mr-2"
+          />
         </span>
-        );
-        } else {
-          return (
-            <span className="text-blue-400 flex items-center justify-center mt-6">
-            <img src="/assets/logos/internationalpayment.png" alt="International Pay" className="w-90 h-20 mr-2" />
-            </span>
-          );        }
-      };
+      );
+    } else {
+      return (
+        <span className="text-blue-400 flex items-center justify-center mt-6">
+          <img
+            src="/assets/logos/internationalpayment.png"
+            alt="International Pay"
+            className="w-90 h-20 mr-2"
+          />
+        </span>
+      );
+    }
+  };
 
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
-      <Header 
-      onShowSignupForm={() => setShowSignupForm(true)}
-      />
+      <Header onShowSignupForm={() => setShowSignupForm(true)} />
 
       <div className="flex flex-col items-center mt-40 mb-12 px-4">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-white p-4">
