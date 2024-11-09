@@ -14,13 +14,13 @@ import { initializePaddle } from "@paddle/paddle-js";
 interface Item {
   _id: string;
   title: string;
-  rewriteLimit: number;
   enable: boolean;
   country: string;
   currency: string;
   price: number;
   features: string[];
   paddleProductId: string | null;
+  creditLimit: number; // Add this line
 }
 
 interface PaymentMethods {
@@ -195,10 +195,24 @@ export default function UnifiedPricingShop() {
     }
   };
 
+        const renderPaymentMethods = () => {
+        if (currency === "NPR") {
+        return (
+          <span className="text-blue-400 flex items-center justify-center mt-6">
+          <img src="/assets/logos/imepay.png" alt="IME Pay" className="w-15 h-20 mr-2" />
+        </span>
+        );
+        } else {
+          return (
+            <span className="text-blue-400 flex items-center justify-center mt-6">
+            <img src="/assets/logos/internationalpayment.png" alt="International Pay" className="w-90 h-20 mr-2" />
+            </span>
+          );        }
+      };
+
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
       <Header 
-      isLoggedIn={!!user} user={user}
       onShowSignupForm={() => setShowSignupForm(true)}
       />
 
@@ -227,6 +241,10 @@ export default function UnifiedPricingShop() {
         paymentMethods={paymentMethods}
         openCheckout={openCheckout}
       />
+
+      <p className="text-center mb-10 text-gray-300">
+        Supported payment methods: {renderPaymentMethods()}
+      </p>
 
       {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
         <p className="text-center mb-10 text-red-500">

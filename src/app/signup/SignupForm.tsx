@@ -231,10 +231,10 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-neutral-200">
-                      Undetectable AI
+                      Secure Chat History
                     </h3>
                     <p className="text-xs text-neutral-400">
-                      100% human-like content
+                    Access and export your chats
                     </p>
                   </div>
                 </div>

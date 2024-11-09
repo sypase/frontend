@@ -48,7 +48,9 @@ interface User {
   name: string;
   email: string;
   credits: number;
+  dailyFreeWords: number;
   referralCode: string;
+
 }
 
 export default function Home() {
@@ -67,6 +69,7 @@ export default function Home() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [user, setUser] = useState<User | null>(null);
   const [rewriteCount, setRewriteCount] = useState<number>(-1);
+  const [dailyFreeWords, setDailyFreeWords] = useState<number>( 0);
 
 
   const phrases = ["Bypassing AI", "Checking Grammar", "Checking AI"];
@@ -165,6 +168,7 @@ export default function Home() {
           });
           setUser(response.data.user);
           setLoading(false);
+          setDailyFreeWords(response.data.user.dailyFreeWords); // Set the dailyFreeWords directly here
         } catch (error) {
           console.error("Error fetching user data:", error);
           toast.error("Failed to load user data.");
@@ -175,6 +179,7 @@ export default function Home() {
       getRewrites();
     }
   }, [isLoggedIn]);
+  
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
@@ -318,7 +323,6 @@ export default function Home() {
       </Head>
 
       <Header
-      isLoggedIn={!!user} user={user} rewriteCount={rewriteCount}  
       onShowSignupForm={() => setShowSignupForm(true)}
 />
 

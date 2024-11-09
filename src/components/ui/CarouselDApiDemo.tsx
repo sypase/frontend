@@ -35,8 +35,31 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
     })
   }, [api])
 
+  const handleCopy = () => {
+    const currentVariant = variants[current - 1];
+    
+    if (currentVariant) {
+      navigator.clipboard.writeText(currentVariant.text).then(() => {
+        // Display a toast message instead of an alert
+        const toast = document.createElement("div");
+        toast.textContent = "Text copied successfully";
+        toast.className = "fixed top-4 left-1/2 z-50 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-4 rounded shadow-lg";
+        toast.style.backgroundColor = "#272727";
+        toast.style.color = "#32CD32"; // Changed text color to a darker green
+        toast.style.borderRadius = "8px";
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 3000);
+      }).catch(err => {
+        console.error("Failed to copy text: ", err);
+      });
+    }
+  };
+
   return (
-    <div className="mx-auto max-w-full overflow-hidden">
+    <div className="mx-auto max-w-full overflow-hidden ">
       <Carousel setApi={setApi} className="w-full max-w-full bg-neutral-950 text-white">
         <CarouselContent className="flex">
           {variants.map((variant) => (
@@ -55,6 +78,14 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
       <div className="py-2 text-center text-sm text-gray-400">
         Variant {current} of {count}
       </div>
+      <div className="flex justify-center py-2">
+  <button
+    onClick={handleCopy}
+    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition"
+  >
+    Copy
+  </button>
+</div>
 
     </div>
   )
