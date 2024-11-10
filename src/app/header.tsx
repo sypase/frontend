@@ -75,7 +75,6 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-
   useEffect(() => {
     // Check if the user has already closed the announcement in this session
     const announcementClosed = sessionStorage.getItem("announcementClosed");
@@ -91,7 +90,10 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -102,14 +104,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     };
   }, []);
 
-
-
   const getRewrites = async () => {
     try {
       const response = await axios.get(`${serverURL}/bypass/rewrites`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      setRewriteCount(response.data.rewrites);
+      console.log("Rewrites:", response.data);
+      setRewriteCount(response.data.balance);
     } catch (error) {
       console.error("Error fetching rewrites:", error);
       toast.error("Failed to load rewrite count.");
@@ -161,17 +162,14 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     }
   };
 
-
   useEffect(() => {
     if (isLoggedIn) {
-
       fetchUserData();
     }
   }, [isLoggedIn]);
 
-  const toggleDropdown = () => 
-    {
-      if (isLoggedIn) {
+  const toggleDropdown = () => {
+    if (isLoggedIn) {
       getRewrites();
       fetchUserData();
       setIsDropdownOpen(!isDropdownOpen);
@@ -229,164 +227,169 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
         </div>
       )}
 
-<header
-  className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800  ${
-    showAnnouncement ? "top-8" : "top-0"
-  }`}
->
-  <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-    <div className="flex items-center justify-between">
-      <Link href="/" className="flex items-center">
-        <h1 className="text-xl font-bold tracking-tight text-white">
-          NoaiGPT
-          <Badge variant="outline" className="ml-2 text-neutral-300 border-neutral-600">
-            Beta
-          </Badge>
-        </h1>
-      </Link>
-
-      <div className="ml-4 flex items-center">
-        <span className="text-green-500 text-sm font-medium">Humanizer</span>
-        <span className="mx-2 text-neutral-500">|</span>
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
-                AI Detector
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-neutral-800/50 to-neutral-800 p-6 no-underline outline-none focus:shadow-md"
-                        href="/ai-detectors"
-                      >
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          AI Detectors
-                        </div>
-                        <p className="text-sm leading-tight text-neutral-400">
-                          Compare various AI detection tools and see how they perform.
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-
-                  {aiDetectors.map((detector) => (
-                    <ListItem
-                      key={detector.title}
-                      href={detector.href}
-                      title={detector.title}
-                    >
-                      {detector.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
-    </div>
-
-    <div className="flex items-center space-x-3">
-      <Link
-        href="/pricing"
-        className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden md:block"
+      <header
+        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800  ${
+          showAnnouncement ? "top-8" : "top-0"
+        }`}
       >
-        Pricing
-      </Link>
-      <Link
-        href="/earn"
-        className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden md:block"
-      >
-        Earn
-      </Link>
-      <a
-        href="https://discord.gg/your-discord-invite-link"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-white hover:text-neutral-200 transition-colors duration-200 hidden md:block"
-      >
-        <FaDiscord className="h-5 w-5" />
-      </a>
+        <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center">
+              <h1 className="text-xl font-bold tracking-tight text-white">
+                NoaiGPT
+                <Badge
+                  variant="outline"
+                  className="ml-2 text-neutral-300 border-neutral-600"
+                >
+                  Beta
+                </Badge>
+              </h1>
+            </Link>
 
-      {!isLoggedIn && (
-        <button
-          onClick={onShowSignupForm}
-          className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
-        >
-          Try for Free
-        </button>
-      )}
-      {isLoggedIn && (
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={toggleDropdown}
-            className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
-          >
-            {user?.name || "Dashboard"}
-          </button>
-          {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
-              <div className="py-1">
-                <div className="px-4 py-2 text-sm text-neutral-300">
-                  <p className="font-semibold">{user?.name}</p>
-                  <p className="text-xs">{user?.email}</p>
-                  <div className="my-1 text-sm text-neutral-400">
-                    {dailyFreeWords} Free Words Left
-                  </div>
-                  <div className="my-1 text-sm text-neutral-400 flex justify-between items-center">
-  <span>{rewriteCount || 0} Credits Left</span>
-  <button 
-    onClick={() => window.location.href = '/pricing'} 
-    className="text-blue-500 hover:text-blue-700 text-sm border-2 border-blue-500 rounded px-3 py-1"
-  >
-    Get More
-  </button>
-</div>
+            <div className="ml-4 flex items-center">
+              <span className="text-green-500 text-sm font-medium">
+                Humanizer
+              </span>
+              <span className="mx-2 text-neutral-500">|</span>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
+                      AI Detector
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                        <li className="row-span-3">
+                          <NavigationMenuLink asChild>
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-neutral-800/50 to-neutral-800 p-6 no-underline outline-none focus:shadow-md"
+                              href="/ai-detectors"
+                            >
+                              <div className="mb-2 mt-4 text-lg font-medium">
+                                AI Detectors
+                              </div>
+                              <p className="text-sm leading-tight text-neutral-400">
+                                Compare various AI detection tools and see how
+                                they perform.
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
 
-
-                </div>
-                <div className="border-t border-neutral-800"></div>
-                <button
-                  onClick={() => (window.location.href = "/profile")}
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
-                >
-                  <FiUser className="inline-block mr-2" /> Profile
-                </button>
-                <button
-                  onClick={() => (window.location.href = "/dashboard")}
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
-                >
-                  <FiBook className="inline-block mr-2" /> Dashboard
-                </button>
-                <button
-                  onClick={() => (window.location.href = "/dashboard/history")}
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
-                >
-                  <FiArchive className="inline-block mr-2" /> History
-                </button>
-              </div>
-              <div className="border-t border-neutral-700">
-                <button
-                  onClick={() => {
-                    localStorage.clear();
-                    window.location.href = "/";
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
-                >
-                  <LogOut className="inline-block mr-2" /> Logout
-                </button>
-              </div>
+                        {aiDetectors.map((detector) => (
+                          <ListItem
+                            key={detector.title}
+                            href={detector.href}
+                            title={detector.title}
+                          >
+                            {detector.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </div>
-          )}
-        </div>
-      )}
-    </div>
-  </div>
-</header>
+          </div>
 
+          <div className="flex items-center space-x-3">
+            <Link
+              href="/pricing"
+              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden md:block"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/earn"
+              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden md:block"
+            >
+              Earn
+            </Link>
+            <a
+              href="https://discord.gg/your-discord-invite-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-neutral-200 transition-colors duration-200 hidden md:block"
+            >
+              <FaDiscord className="h-5 w-5" />
+            </a>
+
+            {!isLoggedIn && (
+              <button
+                onClick={onShowSignupForm}
+                className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+              >
+                Try for Free
+              </button>
+            )}
+            {isLoggedIn && (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={toggleDropdown}
+                  className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+                >
+                  {user?.name || "Dashboard"}
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
+                    <div className="py-1">
+                      <div className="px-4 py-2 text-sm text-neutral-300">
+                        <p className="font-semibold">{user?.name}</p>
+                        <p className="text-xs">{user?.email}</p>
+                        <div className="my-1 text-sm text-neutral-400">
+                          {dailyFreeWords} Free Words Left
+                        </div>
+                        <div className="my-1 text-sm text-neutral-400 flex justify-between items-center">
+                          <span>{rewriteCount || 0} Credits Left</span>
+                          <button
+                            onClick={() => (window.location.href = "/pricing")}
+                            className="text-blue-500 hover:text-blue-700 text-sm border-2 border-blue-500 rounded px-3 py-1"
+                          >
+                            Get More
+                          </button>
+                        </div>
+                      </div>
+                      <div className="border-t border-neutral-800"></div>
+                      <button
+                        onClick={() => (window.location.href = "/profile")}
+                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                      >
+                        <FiUser className="inline-block mr-2" /> Profile
+                      </button>
+                      <button
+                        onClick={() => (window.location.href = "/dashboard")}
+                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                      >
+                        <FiBook className="inline-block mr-2" /> Dashboard
+                      </button>
+                      <button
+                        onClick={() =>
+                          (window.location.href = "/dashboard/history")
+                        }
+                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                      >
+                        <FiArchive className="inline-block mr-2" /> History
+                      </button>
+                    </div>
+                    <div className="border-t border-neutral-700">
+                      <button
+                        onClick={() => {
+                          localStorage.clear();
+                          window.location.href = "/";
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
+                      >
+                        <LogOut className="inline-block mr-2" /> Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
     </>
   );
 };
