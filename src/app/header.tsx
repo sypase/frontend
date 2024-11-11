@@ -153,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
       });
       setUser(response.data.user);
       setLoading(false);
-      setDailyFreeWords(response.data.user.dailyFreeCredits); // Set the dailyFreeWords directly here
+      setDailyFreeWords(response.data.user.DailyFreeCredits); // Set the dailyFreeWords directly here
       getRewrites();
     } catch (error) {
       console.error("Error fetching user data:", error);
