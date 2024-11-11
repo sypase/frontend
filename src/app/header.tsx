@@ -29,37 +29,37 @@ interface User {
   name: string;
   email: string;
   credits: number;
-  dailyFreeWords: number;
+  dailyFreeCredits: number;
   referralCode: string;
 }
 
 const aiDetectors: { title: string; href: string; description: string }[] = [
   {
     title: "Turnitin",
-    href: "/turnitin",
+    href: "https://www.turnitin.com/",
     description:
       "Industry-standard plagiarism detection tool used by educational institutions.",
   },
   {
     title: "GPTZero",
-    href: "/gptzero",
+    href: "https://gptzero.me/",
     description: "AI-powered tool designed to detect machine-generated text.",
   },
   {
     title: "ZeroGPT",
-    href: "/zerogpt",
+    href: "https://www.zerogpt.com/",
     description:
       "Open-source AI content detector for identifying AI-generated text.",
   },
   {
     title: "Crossplag",
-    href: "/crossplag",
+    href: "https://crossplag.com/",
     description:
       "Cross-language plagiarism detection tool for academic and professional use.",
   },
   {
     title: "Undetectable.ai",
-    href: "/undetectable-ai",
+    href: "https://undetectable.ai/",
     description:
       "AI writing tool that claims to produce human-like text undetectable by AI detectors.",
   },
@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [user, setUser] = useState<User | null>(null);
   const [rewriteCount, setRewriteCount] = useState<number>(-1);
-  const [dailyFreeWords, setDailyFreeWords] = useState<number>(0);
+  const [dailyFreeCredits, setDailyFreeWords] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -153,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
       });
       setUser(response.data.user);
       setLoading(false);
-      setDailyFreeWords(response.data.user.dailyFreeWords); // Set the dailyFreeWords directly here
+      setDailyFreeWords(response.data.user.dailyFreeCredits); // Set the dailyFreeWords directly here
       getRewrites();
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -277,7 +277,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                         </li>
 
                         {aiDetectors.map((detector) => (
-                          <ListItem
+                          <ListItem 
                             key={detector.title}
                             href={detector.href}
                             title={detector.title}
@@ -300,6 +300,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
             >
               Pricing
             </Link>
+            
             <Link
               href="/earn"
               className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden md:block"
@@ -338,7 +339,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                         <p className="font-semibold">{user?.name}</p>
                         <p className="text-xs">{user?.email}</p>
                         <div className="my-1 text-sm text-neutral-400">
-                          {dailyFreeWords} Free Words Left
+                          {dailyFreeCredits} Free Words Left
                         </div>
                         <div className="my-1 text-sm text-neutral-400 flex justify-between items-center">
                           <span>{rewriteCount || 0} Credits Left</span>
@@ -404,7 +405,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700 hover:text-neutral-50 focus:bg-neutral-700 focus:text-neutral-50",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors bg-gradient-to-b from-neutral-800/50 to-neutral-800 hover:text-neutral-50 focus:bg-neutral-700 focus:text-neutral-50",
             className
           )}
           {...props}

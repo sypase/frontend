@@ -69,6 +69,22 @@ export default function ProfilePage() {
   const [rewriteCount, setRewriteCount] = useState<number>(-1);
   const [isPurchasesCollapsed, setIsPurchasesCollapsed] = useState(true);
 
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/";
+      return;
+    }
+
+    const config = {
+      method: "GET",
+      url: `${serverURL}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  };
+
   const fetchPurchases = async () => {
     try {
       const response = await axios.get<Purchase[]>(
@@ -97,6 +113,8 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
+    getUser();
+
     const fetchUserData = async () => {
       try {
         const response = await axios.get<{ user: User }>(`${serverURL}/users`, {

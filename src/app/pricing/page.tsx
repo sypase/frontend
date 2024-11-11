@@ -10,6 +10,9 @@ import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
 import { initializePaddle } from "@paddle/paddle-js";
+import { NextSeo } from "next-seo"; 
+import { breadcrumbJsonLd,productJsonLd } from '../../../next-seo.config';
+
 
 interface Item {
   _id: string;
@@ -226,6 +229,27 @@ export default function UnifiedPricingShop() {
   };
 
   return (
+    <>
+      <NextSeo
+        title="Pricing Plans - Your Company"
+        description="Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration."
+        canonical="https://noaigpt.com/pricing"
+        openGraph={{
+          url: "https://noaigpt.com/pricing",
+          title: "Pricing Plans - Your Company",
+          description: "Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration.",
+          images: [{ url: "https://noaigpt.com/assets/og-image.jpg", width: 1200, height: 630, alt: "Pricing Page - Your Company" }],
+          site_name: "Your Company",
+        }}
+        twitter={{
+          handle: "@yourcompany",
+          site: "@yourcompany",
+          cardType: "summary_large_image",
+        }}
+      />
+<script type="application/ld+json">
+  {JSON.stringify([breadcrumbJsonLd, productJsonLd])}
+</script>
     <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
       <Header onShowSignupForm={() => setShowSignupForm(true)} />
 
@@ -281,5 +305,6 @@ export default function UnifiedPricingShop() {
         <SignupForm onClose={() => setShowSignupForm(false)} />
       )}
     </main>
+    </>
   );
 }
