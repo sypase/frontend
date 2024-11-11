@@ -41,13 +41,37 @@ const HistoryPage: React.FC = () => {
   const [rewriteCount, setRewriteCount] = useState<number>(-1);
 
 
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/";
+      return;
+    }
+
+    const config = {
+      method: "GET",
+      url: `${serverURL}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await axios(config);
+      setUser(response.data.user);
+    } catch (error) {
+    }
+  };
+  
   useEffect(() => {
+    getUser();
     const storedMessages = localStorage.getItem("messageHistory")
     if (storedMessages) {
       setMessages(JSON.parse(storedMessages))
     }
   }, [])
 
+  
   const getRewrites = async () => {
     try {
       const response = await axios.get(`${serverURL}/bypass/rewrites`, {

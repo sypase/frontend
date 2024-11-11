@@ -9,6 +9,9 @@ import axios from "axios";
 import { serverURL } from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
+import SignupForm from "../signup/SignupForm";
+
+
 
 interface User {
     name: string;
@@ -28,30 +31,72 @@ const EarnPage = () => {
     const [earnings, setEarnings] = useState<number>(0);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [showSignupForm, setShowSignupForm] = useState(false);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                });
-                setUser(response.data.user);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                toast.error("Failed to load user data.");
-                setLoading(false);
-            }
+
+
+
+    const getUser = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setIsLoggedIn(false);
+          window.location.href = "/";
+          return;
+        }
+    
+        const config = {
+          method: "GET",
+          url: `${serverURL}/users`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         };
-
-        fetchUserData();
+    
+        try {
+          const response = await axios(config);
+          setUser(response.data.user);
+          setIsLoggedIn(true);
+        } catch (error) {
+          setIsLoggedIn(false);
+          toast.error("Something went wrong!");
+        }
+      };
+      
+    useEffect(() => {
+        getUser();
+        
     }, []);
 
+    
     useEffect(() => {
-        const fetchReferralData = async () => {
+        if (isLoggedIn) {
+            const fetchUserData = async () => {
+                try {
+                    const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    });
+                    setUser(response.data.user);
+                    setLoading(false);
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    toast.error("Failed to load user data.");
+                    setLoading(false);
+                }
+            };
+
+            fetchUserData();
+        } else {
+            setLoading(false);
+        }
+    }, [isLoggedIn]);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            const fetchReferralData = async () => {
             try {
                 const response = await axios.get(`${serverURL}/referrals/earned-points`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                 });
                 const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
                 setTotalCompletedReferrals(totalCompletedReferrals);
@@ -61,9 +106,10 @@ const EarnPage = () => {
                 console.error("Error fetching referral data:", error);
                 toast.error("Failed to load referral data.");
             }
-        };
+            };
 
-        fetchReferralData();
+            fetchReferralData();
+        }
     }, []);
 
     const copyReferralLink = () => {
@@ -84,16 +130,12 @@ const EarnPage = () => {
         );
     }
 
-    if (!user) {
-        return (
-            <div className="text-center text-gray-400">No user data available.</div>
-        );
-    }
+
 
     return (
         <>
             <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
-                <Header />
+                <Header onShowSignupForm={() => setShowSignupForm(true)}/>
 
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-20 pt-10">
                     <h1 className="text-center text-4xl md:text-5xl font-semibold text-gray-100">
@@ -101,6 +143,7 @@ const EarnPage = () => {
                     </h1>
 
                     {/* New Card for Referrals and Earnings */}
+                    {isLoggedIn && (
                     <Card className="bg-neutral-900 border border-neutral-800 shadow-lg w-full max-w-3xl mx-auto my-12 rounded-2xl">
                         <CardHeader className="bg-neutral-800 p-6 rounded-t-2xl">
                             <CardTitle className="text-2xl font-extrabold text-white">
@@ -115,7 +158,7 @@ const EarnPage = () => {
                                 <strong>Total Earnings:</strong> {earnings } Credits
                             </p>
                         </CardContent>
-                    </Card>
+                    </Card>)}
 
                     {/* How It Works Section */}
                     <Card className="bg-neutral-900 border border-neutral-800 shadow-2xl w-full max-w-7xl mx-auto my-12 rounded-2xl">
@@ -146,7 +189,7 @@ const EarnPage = () => {
                                             onClick={copyReferralLink}
                                             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md"
                                         >
-                                            Copy Referral Link
+                                            {isLoggedIn ? "Copy Referral Link" : "Sign In and Copy Link"}
                                         </Button>
                                     </CardContent>
                                 </Card>
@@ -181,8 +224,14 @@ const EarnPage = () => {
                             </div>
                         </CardContent>
                     </Card>
+                    <div>
+
+</div>
 
                     <ToastContainer theme="dark" />
+                    {showSignupForm && (
+        <SignupForm onClose={() => setShowSignupForm(false)} />
+      )}
                     <ElegantFooter />
                 </div>
             </main>

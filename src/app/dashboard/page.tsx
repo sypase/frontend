@@ -12,6 +12,8 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { quantum } from "ldrs";
 import { jelly } from "ldrs";
 import { MultiStepLoader } from "../../components/ui/multi-step-loader";
+import { HorizontalStepLoader } from "../../components/ui/horizontal-step-loader";
+
 import Header from "../header";
 
 // Register the ScrollToPlugin with GSAP
@@ -34,6 +36,17 @@ const loadingStates = [
   { text: "Fixing Grammar" },
   { text: "Polishing Responses" },
   { text: "Final Review Complete" },
+];
+
+
+
+const aiStates = [
+  { text: "Writer" },
+  { text: "Undetectable" },
+  { text: "Crossplag" },
+  { text: "ZeroGPT" },
+  { text: "GptZero" },
+  { text: "Turnitin" },
 ];
 
 const TypewriterEffect: React.FC<{ messages: string[] }> = ({ messages }) => {
@@ -112,7 +125,37 @@ export default function Home() {
   const outputContainerRef = useRef<HTMLTextAreaElement>(null);
   const latestMessageRef = useRef<HTMLDivElement>(null);
 
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsLoggedIn(false);
+      window.location.href = "/";
+      return;
+    }
+
+    const config = {
+      method: "GET",
+      url: `${serverURL}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await axios(config);
+      setUser(response.data.user);
+      setIsLoggedIn(true);
+    } catch (error) {
+      setIsLoggedIn(false);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  
   useEffect(() => {
+    getUser();
+
     if (latestMessageRef.current) {
       latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -144,30 +187,7 @@ export default function Home() {
     }
   };
 
-  const getUser = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setIsLoggedIn(false);
-      return;
-    }
 
-    const config = {
-      method: "GET",
-      url: `${serverURL}/users`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    try {
-      const response = await axios(config);
-      setUser(response.data.user);
-      setIsLoggedIn(true);
-    } catch (error) {
-      setIsLoggedIn(false);
-      toast.error("Something went wrong!");
-    }
-  };
 
   const rewrite = async () => {
     if (text.length < 3 || loading) return;
@@ -240,7 +260,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getUser();
     getRewrites();
   }, []);
 
@@ -392,8 +411,18 @@ export default function Home() {
                   />
                 )}
               </div>
+
               {messages.length > 0 &&
                 messages[messages.length - 1].variants && (
+                  <div>
+<div className="p-4 border-t border-gray-800 ">
+<div className="w-full max-w-full">
+  <HorizontalStepLoader loadingStates={aiStates} loading={true} duration={1000}/>
+  </div>
+</div>
+
+                  
+                  
                   <div className="p-4 border-t border-gray-800 flex justify-between items-center">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -465,6 +494,7 @@ export default function Home() {
                         <FiCopy className="inline ml-2" />
                       </button>
                     </div>
+                  </div>
                   </div>
                 )}
             </div>
