@@ -41,7 +41,6 @@ const EarnPage = () => {
         const token = localStorage.getItem("token");
         if (!token) {
           setIsLoggedIn(false);
-          window.location.href = "/";
           return;
         }
     
