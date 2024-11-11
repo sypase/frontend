@@ -29,7 +29,7 @@ interface User {
   name: string;
   email: string;
   credits: number;
-  dailyFreeCredits: number;
+  DailyFreeCredits: number;
   referralCode: string;
 }
 
