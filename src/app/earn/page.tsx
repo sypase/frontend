@@ -93,23 +93,32 @@ const EarnPage = () => {
     useEffect(() => {
         if (isLoggedIn) {
             const fetchReferralData = async () => {
-            try {
-                const response = await axios.get(`${serverURL}/referrals/earned-points`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                });
-                const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
-                setTotalCompletedReferrals(totalCompletedReferrals);
-                setEarnings(totalCompletedReferrals * 500);
-                console.log("Referral data:", response.data);
-            } catch (error) {
-                console.error("Error fetching referral data:", error);
-                toast.error("Failed to load referral data.");
-            }
+                try {
+                    const response = await axios.get(`${serverURL}/referrals/earned-points`, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    });
+    
+                    // Log response data to check what’s returned
+                    console.log("Referral data response:", response);
+    
+                    const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
+                    setTotalCompletedReferrals(totalCompletedReferrals);
+                    setEarnings(totalCompletedReferrals * 500);
+                    console.log("Referral data:", response.data);
+                } catch (error) {
+                    // Log detailed error information
+                    console.error("Error fetching referral data:", error);
+                    if (axios.isAxiosError(error)) {
+                        console.error("Axios error details:", error.response);
+                    }
+                    toast.error("Failed to load referral data.");
+                }
             };
-
+    
             fetchReferralData();
         }
-    }, []);
+    }, [isLoggedIn]);
+    
 
     const copyReferralLink = () => {
         if (user && user.referralCode) {
