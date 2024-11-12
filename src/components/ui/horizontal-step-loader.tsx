@@ -40,107 +40,102 @@ type LoadingState = {
 };
 
 const LoaderCore = ({
-    loadingStates,
-    value = 0,
-  }: {
-    loadingStates: LoadingState[];
-    value?: number;
-  }) => {
-    return (
-      <div className="flex relative justify-start max-w-xl flex-col">
-      <div className="flex gap-2 justify-start items-center">
+  loadingStates,
+  value = 0,
+}: {
+  loadingStates: LoadingState[];
+  value?: number;
+}) => {
+  return (
+    <div className="flex flex-wrap justify-center gap-2 w-full"> {/* Centering items horizontally */}
       {loadingStates.map((loadingState, index) => {
-            return (
-              <motion.div
-                key={index}
-                className="flex items-center justify-center flex-shrink-0"
-                initial={{ opacity: 1 }} // Keep opacity at 1 for all items
-                animate={{ opacity: 1 }} // Keep opacity at 1 for all items
-                transition={{ duration: 0.5 }}
-              >
-                <div>
-                  {index > value && (
-                    <CheckIcon className="text-gray-400" />
-                  )}
-                  {index <= value && (
-                    <CheckFilled
-                      className={cn(
-                        "text-lime-400",
-                        value === index && "text-lime-500 opacity-100"
-                      )}
-                    />
-                  )}
-                </div>
-                <span
-                  className={cn(
-                    "text-gray-400",
-                    value >= index && "text-lime-500 opacity-100"
-                  )}
-                >
-                  {loadingState.text}
-                </span>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-  
-
-  export const HorizontalStepLoader = ({
-    loadingStates,
-    loading,
-    duration = 2000,
-    loop = true,
-  }: {
-    loadingStates: LoadingState[];
-    loading?: boolean;
-    duration?: number;
-    loop?: boolean;
-  }) => {
-    const [currentState, setCurrentState] = useState(0);
-    const [completed, setCompleted] = useState(false);
-  
-    useEffect(() => {
-      if (!loading) {
-        setCurrentState(0);
-        setCompleted(false); // Reset completed state if loading is false
-        return;
-      }
-  
-      if (completed) return; // Don't proceed if already completed
-  
-      const timeout = setTimeout(() => {
-        setCurrentState((prevState) => {
-          const nextState = prevState === loadingStates.length - 1 ? prevState : prevState + 1;
-  
-          if (nextState === loadingStates.length - 1) {
-            setCompleted(true); // Mark as completed when last step is reached
-          }
-  
-          return nextState;
-        });
-      }, duration);
-  
-      return () => clearTimeout(timeout);
-    }, [currentState, loading, loop, loadingStates.length, duration, completed]);
-  
-    return (
-      <AnimatePresence mode="wait">
-        {loading && (
+        return (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          className="flex items-center justify-center w-full max-w-full"
+            key={index}
+            className="flex items-center justify-center flex-shrink-0"
+            initial={{ opacity: 1 }} // Keep opacity at 1 for all items
+            animate={{ opacity: 1 }} // Keep opacity at 1 for all items
+            transition={{ duration: 0.5 }}
           >
-          <div className="relative w-full max-w-full overflow-x-auto">
-          <LoaderCore value={currentState} loadingStates={loadingStates} />
+            <div>
+              {index > value && <CheckIcon className="text-gray-400" />}
+              {index <= value && (
+                <CheckFilled
+                  className={cn(
+                    "text-lime-400",
+                    value === index && "text-lime-500 opacity-100"
+                  )}
+                />
+              )}
             </div>
+            <span
+              className={cn(
+                "text-gray-400",
+                value >= index && "text-lime-500 opacity-100"
+              )}
+            >
+              {loadingState.text}
+            </span>
           </motion.div>
-        )}
-      </AnimatePresence>
-    );
-  };
-  
+        );
+      })}
+    </div>
+  );
+};
+
+export const HorizontalStepLoader = ({
+  loadingStates,
+  loading,
+  duration = 100,
+  loop = true,
+}: {
+  loadingStates: LoadingState[];
+  loading?: boolean;
+  duration?: number;
+  loop?: boolean;
+}) => {
+  const [currentState, setCurrentState] = useState(0);
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      setCurrentState(0);
+      setCompleted(false); // Reset completed state if loading is false
+      return;
+    }
+
+    if (completed) return; // Don't proceed if already completed
+
+    const timeout = setTimeout(() => {
+      setCurrentState((prevState) => {
+        const nextState =
+          prevState === loadingStates.length - 1 ? prevState : prevState + 1;
+
+        if (nextState === loadingStates.length - 1) {
+          setCompleted(true); // Mark as completed when last step is reached
+        }
+
+        return nextState;
+      });
+    }, duration);
+
+    return () => clearTimeout(timeout);
+  }, [currentState, loading, loop, loadingStates.length, duration, completed]);
+
+  return (
+    <AnimatePresence mode="wait">
+      {loading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="flex items-center justify-center w-full max-w-full"
+        >
+          <div className="relative w-full max-w-full overflow-hidden">
+            <LoaderCore value={currentState} loadingStates={loadingStates} />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
