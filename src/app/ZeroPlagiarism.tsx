@@ -62,11 +62,11 @@ const ZeroPlagiarism = () => {
           description: 'Ensure the originality of your content with our advanced plagiarism detection tools. Maintain 100% unique content with reliable plagiarism checks.',
           images: [
             {
-              url: '/assets/temp/grammercheck.png',
+              url: '/assets/temp/zeroplag.png',
               alt: 'Zero Plagiarism Tool',
             }
           ],
-          site_name: 'YourSiteName',
+          site_name: 'NoaiGPT',
         }}
         twitter={{
           cardType: 'summary_large_image',
@@ -78,7 +78,7 @@ const ZeroPlagiarism = () => {
             <div ref={imageRef} className="relative w-full h-full">
               <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/assets/temp/grammercheck.png" 
+                  src="/assets/temp/zeroplag.png" 
                   alt="Zero Plagiarism Tool"  // Alt text for SEO
                   className="w-full h-full object-cover"
                 />

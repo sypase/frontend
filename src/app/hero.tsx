@@ -61,7 +61,7 @@ export function BorderBeamDemo() {
         <iframe
           width="800"
           height="450"
-          // src="https://www.youtube.com/embed/GDlkCkcIqTasds?autoplay=1&controls=0&mute=1"
+          // src="assets/video.mp4"
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           className="w-full h-full"

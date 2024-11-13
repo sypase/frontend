@@ -148,7 +148,7 @@ const HistoryPage: React.FC = () => {
       
       <div className="bg-black min-h-screen font-sans text-white">
         <main className="pt-9 pb-8 overflow-y-auto">
-          <div className="flex flex-col md:flex-row max-w-7xl justify-between items-center px-20 py-4 mt-20 pt-10 mx-4 md:mx-8 lg:mx-16">
+          <div className="flex flex-col md:flex-row max-w-7xl justify-between items-center px-4 sm:px-8 md:px-20 py-4 mt-20 pt-10 mx-4 sm:mx-8 lg:mx-16">
             <h1 className="text-4xl font-bold text-white mb-4 md:mb-0">Documents History</h1>
             <div className="flex space-x-4">
               <button
@@ -179,15 +179,15 @@ const HistoryPage: React.FC = () => {
               </button>
             </div>
           </div>
-
-          <div className="max-w-7xl justify-center px-20 mx-4 md:mx-8 lg:mx-16">
+  
+          <div className="max-w-7xl justify-center px-4 sm:px-8 lg:px-16 mx-4 sm:mx-8 lg:mx-16">
             {botMessages.length === 0 ? (
               <div className="bg-[#1e2532] rounded-lg p-6" role="alert">
                 <p className="font-bold text-white text-xl mb-2">No messages found</p>
                 <p className="text-gray-400">There are no bot messages in the history.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {botMessages.map((message) => (
                   <div
                     key={message.id}
@@ -229,7 +229,7 @@ const HistoryPage: React.FC = () => {
               </div>
             </div>
           )}
-
+  
           {selectedMessage && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 mx-4">
               <div className="bg-gray-800 text-white rounded-lg w-full max-w-4xl max-h-[80vh] flex flex-col px-4">
@@ -271,7 +271,8 @@ const HistoryPage: React.FC = () => {
         </main>
       </div>
     </>
-  )
+  );
+  
 }
 
 export default HistoryPage;

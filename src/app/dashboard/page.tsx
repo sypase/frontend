@@ -326,7 +326,7 @@ export default function Home() {
   const welcomeMessages = [
     "Hello, Welcome to NoaiGPT!",
     "Paste the text and Start Humanizing Content",
-    "Bypass Turnitin, Zerogpt, GptZero etc",
+    "Bypass Turnitin, Zerogpt, GptZero, etc.",
     "Stay Unique, Stay Undetectable.",
   ];
 
@@ -338,20 +338,15 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-black text-white">
+    <div className="flex flex-col h-screen bg-black text-white overflow-auto">
       <Header />
-
-      <main
-        className="flex-grow flex px-4 py-2 overflow-hidden mt-20 pt-16"
-        style={{ height: "calc(100vh - 112px)" }}
-      >
-        <div className="max-w-7xl w-full mx-auto flex space-x-4">
+  
+      <main className="flex-grow flex px-4 py-2 overflow-auto mt-20 pt-16">
+        <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row space-y-4 md:space-x-4 md:space-y-0">
+          
           {/* Left side - Input messages */}
-          <div className="flex flex-col w-[45%] rounded-lg bg-black shadow-md border border-gray-800">
-            <div
-              ref={inputContainerRef}
-              className="flex-grow overflow-y-auto p-4"
-            >
+          <div className="flex flex-col w-full md:w-[50%] rounded-lg bg-black shadow-md border border-gray-800">
+            <div ref={inputContainerRef} className="flex-grow overflow-y-auto p-4">
               {messages.length === 0 && text.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full">
                   <l-jelly size="40" speed="0.9" color="#4B5563"></l-jelly>
@@ -373,7 +368,7 @@ export default function Home() {
                   ))
               )}
             </div>
-            <div className="p-4 border-t border-gray-800">
+            <div className="p-4 border-t border-gray-800 md:block">
               <Footer
                 text={text}
                 setText={setText}
@@ -385,17 +380,17 @@ export default function Home() {
               />
             </div>
           </div>
-
+  
           {/* Right side - Output messages */}
-          <div className="w-[55%] rounded-lg shadow-md border border-gray-800">
-            <div className="h-full flex flex-col">
-              <div className="flex-grow p-4  relative">
-                {loading ? (
+          <div className="flex flex-col w-full min-h-[60%]  md:min-h-auto md:w-[50%] rounded-lg shadow-md border border-gray-800">
+          <div className="h-full flex flex-col">
+          <div className="flex-grow p-4  relative">
+          {loading ? (
                   <div className="absolute inset-0">
                     <MultiStepLoader
                       loadingStates={loadingStates}
                       loading={loading}
-                      duration={2000}
+                      duration={3000}
                     />
                   </div>
                 ) : messages.length === 0 ? (
@@ -411,34 +406,31 @@ export default function Home() {
                   />
                 )}
               </div>
-
-              {messages.length > 0 &&
-                messages[messages.length - 1].variants && (
-                  <div>
-<div className="p-4 border-t border-gray-800 ">
-<div className="w-full max-w-full">
-  <HorizontalStepLoader loadingStates={aiStates} loading={true} duration={1000}/>
+  
+              {messages.length > 0 && messages[messages.length - 1].variants && (
+                <div >
+<div className="p-4 border-t border-gray-800">
+  <div className="flex flex-wrap w-full overflow-hidden">
+    <div className="w-full max-w-full">
+      <HorizontalStepLoader loadingStates={aiStates} loading={true} />
+    </div>
   </div>
 </div>
 
-                  
-                  
+  
                   <div className="p-4 border-t border-gray-800 flex justify-between items-center">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-sm font-medium text-gray-400">
-                        Human
-                      </span>
+                      <span className="text-sm font-medium text-gray-400">Human</span>
                     </div>
                     <div className="flex items-center space-x-4">
                       <button
                         className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300 disabled:opacity-50"
                         onClick={() => {
+                          
                           const lastMessage = messages[messages.length - 1];
                           const newIndex =
-                            (lastMessage.variantIndex -
-                              1 +
-                              lastMessage.variants!.length) %
+                            (lastMessage.variantIndex - 1 + lastMessage.variants!.length) % 
                             lastMessage.variants!.length;
                           setMessages((prev) => {
                             const newMessages = [...prev];
@@ -450,23 +442,20 @@ export default function Home() {
                             return newMessages;
                           });
                         }}
-                        disabled={
-                          messages[messages.length - 1].variantIndex === 0
-                        }
+                        disabled={messages[messages.length - 1].variantIndex === 0}
                       >
                         &lt;
                       </button>
                       <span className="text-gray-400">
-                        Variant {messages[messages.length - 1].variantIndex + 1}{" "}
-                        / {messages[messages.length - 1].variants!.length}
+                        Variant {messages[messages.length - 1].variantIndex + 1} /{" "}
+                        {messages[messages.length - 1].variants!.length}
                       </span>
                       <button
                         className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300 disabled:opacity-50"
                         onClick={() => {
                           const lastMessage = messages[messages.length - 1];
                           const newIndex =
-                            (lastMessage.variantIndex + 1) %
-                            lastMessage.variants!.length;
+                            (lastMessage.variantIndex + 1) % lastMessage.variants!.length;
                           setMessages((prev) => {
                             const newMessages = [...prev];
                             newMessages[newMessages.length - 1] = {
@@ -477,31 +466,42 @@ export default function Home() {
                             return newMessages;
                           });
                         }}
-                        disabled={
-                          messages[messages.length - 1].variantIndex ===
-                          messages[messages.length - 1].variants!.length - 1
-                        }
+                        disabled={messages[messages.length - 1].variantIndex === messages[messages.length - 1].variants!.length - 1}
                       >
                         &gt;
                       </button>
                       <button
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300"
-                        onClick={() =>
-                          copyToClipboard(messages[messages.length - 1].text)
-                        }
-                      >
-                        Copy
-                        <FiCopy className="inline ml-2" />
-                      </button>
+  className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300"
+  onClick={() => copyToClipboard(messages[messages.length - 1].text)}
+>
+  <span className="hidden sm:inline">Copy</span>
+  <FiCopy className="inline ml-2" />
+</button>
+
                     </div>
                   </div>
-                  </div>
-                )}
+                </div>
+              )}
             </div>
           </div>
+  
+          {/* Footer for mobile view */}
+          {/* <div className="w-full pb-4 md:hidden mt-auto">
+            <Footer
+              text={text}
+              setText={setText}
+              loading={loading}
+              sendMessage={rewrite}
+              handleTextAreaChange={handleTextAreaChange}
+              handleKeyDown={handleKeyDown}
+              textareaRef={textareaRef}
+            />
+          </div> */}
         </div>
       </main>
+  
       <ToastContainer position="bottom-right" />
     </div>
   );
+  
 }

@@ -16,7 +16,7 @@ export default function CleanLayout() {
           description: 'Follow these simple steps to start using NoaiGPT. Create an account, choose your plan, and explore the AI capabilities at your fingertips.',
           images: [
             {
-              url: '/assets/temp/grammercheck.png', // You can change this to an appropriate image URL
+              url: '/assets/images/howtouse.png', // You can change this to an appropriate image URL
               alt: 'How to Use NoaiGPT',
             }
           ],

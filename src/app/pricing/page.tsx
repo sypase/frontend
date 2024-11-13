@@ -238,12 +238,12 @@ export default function UnifiedPricingShop() {
           url: "https://noaigpt.com/pricing",
           title: "Pricing Plans - Your Company",
           description: "Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration.",
-          images: [{ url: "https://noaigpt.com/assets/og-image.jpg", width: 1200, height: 630, alt: "Pricing Page - Your Company" }],
+          images: [{ url: "/assets/images/pricing.png", width: 1200, height: 630, alt: "Pricing Page - NoaiGPT" }],
           site_name: "Your Company",
         }}
         twitter={{
-          handle: "@yourcompany",
-          site: "@yourcompany",
+          handle: "@noaigpt",
+          site: "@noaigpt",
           cardType: "summary_large_image",
         }}
       />

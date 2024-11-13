@@ -16,7 +16,7 @@ const defaultSEOConfig: DefaultSeoProps = {
       "Transform AI content into natural human text that passes all content detection systems. Industry-leading accuracy with our 100% pass guarantee.",
     images: [
       {
-        url: "https://noaigpt.com/assets/og-image.png",
+        url: "/assets/images/og-image.png",
         width: 1200,
         height: 630,
         alt: "NoAIGPT - Professional AI Content Humanizer",
@@ -99,7 +99,7 @@ const productJsonLd: ProductJsonLdProps = {
   name: "NoAIGPT Professional Humanizer",
   productName: "NoAIGPT Professional Humanizer",
   description: "Advanced AI text humanization tool with 100% undetectable guarantee",
-  image: "https://noaigpt.com/assets/product-preview.png",
+  image: "/assets/images/pricing.png",
   brand: "NoAIGPT",
   offers: {
     "@type": "Offer",
@@ -141,10 +141,9 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "NoAIGPT",
   url: "https://noaigpt.com",
-  logo: "https://noaigpt.com/assets/logo.png",
+  logo: "/assets/images/logo.png",
   sameAs: [
     "https://twitter.com/noaigpt",
-    "https://www.facebook.com/noaigpt",
     "https://www.linkedin.com/company/noaigpt",
   ],
   contactPoint: {

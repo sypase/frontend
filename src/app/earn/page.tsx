@@ -10,6 +10,7 @@ import { serverURL } from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import SignupForm from "../signup/SignupForm";
+import { NextSeo } from "next-seo"; // Import NextSeo component
 
 
 
@@ -93,23 +94,32 @@ const EarnPage = () => {
     useEffect(() => {
         if (isLoggedIn) {
             const fetchReferralData = async () => {
-            try {
-                const response = await axios.get(`${serverURL}/referrals/earned-points`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                });
-                const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
-                setTotalCompletedReferrals(totalCompletedReferrals);
-                setEarnings(totalCompletedReferrals * 500);
-                console.log("Referral data:", response.data);
-            } catch (error) {
-                console.error("Error fetching referral data:", error);
-                toast.error("Failed to load referral data.");
-            }
+                try {
+                    const response = await axios.get(`${serverURL}/referrals/earned-points`, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    });
+    
+                    // Log response data to check what’s returned
+                    console.log("Referral data response:", response);
+    
+                    const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
+                    setTotalCompletedReferrals(totalCompletedReferrals);
+                    setEarnings(totalCompletedReferrals * 500);
+                    console.log("Referral data:", response.data);
+                } catch (error) {
+                    // Log detailed error information
+                    console.error("Error fetching referral data:", error);
+                    if (axios.isAxiosError(error)) {
+                        console.error("Axios error details:", error.response);
+                    }
+                    toast.error("Failed to load referral data.");
+                }
             };
-
+    
             fetchReferralData();
         }
-    }, []);
+    }, [isLoggedIn]);
+    
 
     const copyReferralLink = () => {
         if (user && user.referralCode) {
@@ -133,6 +143,32 @@ const EarnPage = () => {
 
     return (
         <>
+
+<NextSeo
+                title="Earn with Our Referral Program"
+                description="Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits."
+                canonical="https://www.noaigpt.com/earn"
+                openGraph={{
+                    url: "https://www.noaigpt.com/earn",
+                    title: "Earn with Our Referral Program",
+                    description: "Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits.",
+                    images: [
+                        {
+                            url: "/assets/images/earn.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Referral Program",
+                        },
+                    ],
+                    site_name: "NoAIGPT",
+                }}
+                twitter={{
+                    cardType: "summary_large_image",
+                    site: "@NoAIGPT",
+                    handle: "@NoAIGPT",
+                }}
+            />   
+
             <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
                 <Header onShowSignupForm={() => setShowSignupForm(true)}/>
 
@@ -216,7 +252,7 @@ const EarnPage = () => {
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <p className="text-neutral-400 text-base pt-8">
-                                            Once your friend logs in, you'll automatically receive 500 credits.
+                                            Once your friend logs in, you and your friend will automatically receive 500 credits.
                                         </p>
                                     </CardContent>
                                 </Card>
