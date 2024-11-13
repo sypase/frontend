@@ -368,7 +368,7 @@ export default function Home() {
                   ))
               )}
             </div>
-            <div className="p-4 border-t border-gray-800 hidden md:block">
+            <div className="p-4 border-t border-gray-800 md:block">
               <Footer
                 text={text}
                 setText={setText}
@@ -382,7 +382,7 @@ export default function Home() {
           </div>
   
           {/* Right side - Output messages */}
-          <div className="flex flex-col w-full min-h-full md:min-h-auto md:w-[50%] rounded-lg shadow-md border border-gray-800">
+          <div className="flex flex-col w-full min-h-[60%]  md:min-h-auto md:w-[50%] rounded-lg shadow-md border border-gray-800">
           <div className="h-full flex flex-col">
           <div className="flex-grow p-4  relative">
           {loading ? (
@@ -427,6 +427,7 @@ export default function Home() {
                       <button
                         className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300 disabled:opacity-50"
                         onClick={() => {
+                          
                           const lastMessage = messages[messages.length - 1];
                           const newIndex =
                             (lastMessage.variantIndex - 1 + lastMessage.variants!.length) % 
@@ -485,7 +486,7 @@ export default function Home() {
           </div>
   
           {/* Footer for mobile view */}
-          <div className="w-full pb-4 md:hidden mt-auto">
+          {/* <div className="w-full pb-4 md:hidden mt-auto">
             <Footer
               text={text}
               setText={setText}
@@ -495,7 +496,7 @@ export default function Home() {
               handleKeyDown={handleKeyDown}
               textareaRef={textareaRef}
             />
-          </div>
+          </div> */}
         </div>
       </main>
   

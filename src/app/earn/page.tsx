@@ -104,7 +104,7 @@ const EarnPage = () => {
     
                     const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
                     setTotalCompletedReferrals(totalCompletedReferrals);
-                    setEarnings(totalCompletedReferrals * 1000);
+                    setEarnings(totalCompletedReferrals * 500);
                     console.log("Referral data:", response.data);
                 } catch (error) {
                     // Log detailed error information
@@ -204,7 +204,7 @@ const EarnPage = () => {
                         </CardHeader>
                         <CardContent className="p-6 space-y-8">
                             <p className="text-lg text-neutral-400">
-                                Here's how you can earn 1000 credits by simply referring your friends. It's quick, easy, and rewarding!{" "}
+                                Here's how you can earn 500 credits by simply referring your friends. It's quick, easy, and rewarding!{" "}
                                 <span className="ml-2">💸</span>
                             </p>
 
@@ -247,12 +247,12 @@ const EarnPage = () => {
                                 <Card className="bg-neutral-800 border border-neutral-700 shadow-lg p-6 rounded-xl">
                                     <CardHeader className="bg-neutral-700 p-4 rounded-xl">
                                         <CardTitle className="text-xl font-semibold text-white">
-                                            Earn 1000 Credits
+                                            Earn 500 Credits
                                         </CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <p className="text-neutral-400 text-base pt-8">
-                                            Once your friend logs in, you'll automatically receive 1000 credits.
+                                            Once your friend logs in, you and your friend will automatically receive 500 credits.
                                         </p>
                                     </CardContent>
                                 </Card>
