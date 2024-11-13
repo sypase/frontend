@@ -26,12 +26,12 @@ export function CompareDemo() {
               alt: 'Humanized Text Comparison',
             },
           ],
-          site_name: 'Your Site Name',
+          site_name: 'NoaiGPT',
         }}
         twitter={{
           cardType: 'summary_large_image',
-          site: '@yourhandle',
-          handle: '@yourhandle',
+          site: '@noaigpt',
+          handle: '@noaigpt',
         }}
       />
       <section className="mt-4 h-[100vh] flex justify-center items-center bg-black">

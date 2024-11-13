@@ -17,7 +17,7 @@ export function BentoDemo() {
           description: "Explore the key features of NoAIGPT, including bypassing Turnitin detection, joining our Discord community, and learning more about our flexible pricing model.",
           images: [
             {
-              url: "http://noaigpt.com/assets/og-image.png",
+              url: "http://noaigpt.com/assets/images/og-image.png",
               width: 1200,
               height: 630,
               alt: "NoAIGPT Features Overview",
@@ -25,8 +25,8 @@ export function BentoDemo() {
           ],
         }}
         twitter={{
-          handle: "@yourhandle",
-          site: "@yoursite",
+          handle: "@noaigpt",
+          site: "@noaigpt",
           cardType: "summary_large_image",
         }}
       />

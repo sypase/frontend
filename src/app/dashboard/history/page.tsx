@@ -187,21 +187,22 @@ const HistoryPage: React.FC = () => {
                 <p className="text-gray-400">There are no bot messages in the history.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {botMessages.map((message) => (
-                  <div
-                    key={message.id}
-                    className="bg-gray-800 text-white shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition duration-300"
-                    onClick={() => setSelectedMessage(message)}
-                  >
-                    <h2 className="text-lg font-semibold mb-2">
-                      {message.originalInput.slice(0, 35)}...
-                    </h2>
-                    <p className="text-gray-400 mb-2 line-clamp-3">{message.text}</p>
-                    <p className="text-gray-500 text-sm italic">Click to see full details.</p>
-                  </div>
-                ))}
-              </div>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {botMessages.map((message) => (
+    <div
+      key={message.id} // This ensures that each message gets its own unique box.
+      className="bg-gray-800 text-white shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition duration-300"
+      onClick={() => setSelectedMessage(message)} // Handle the selection of a message.
+    >
+      <h2 className="text-lg font-semibold mb-2">
+        {message.originalInput.slice(0, 35)}...
+      </h2>
+      <p className="text-gray-400 mb-2 line-clamp-3">{message.text}</p>
+      <p className="text-gray-500 text-sm italic">Click to see full details.</p>
+    </div>
+  ))}
+</div>
+
             )}
           </div>
           

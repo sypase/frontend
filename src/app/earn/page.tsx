@@ -10,6 +10,7 @@ import { serverURL } from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import SignupForm from "../signup/SignupForm";
+import { NextSeo } from "next-seo"; // Import NextSeo component
 
 
 
@@ -103,7 +104,7 @@ const EarnPage = () => {
     
                     const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
                     setTotalCompletedReferrals(totalCompletedReferrals);
-                    setEarnings(totalCompletedReferrals * 500);
+                    setEarnings(totalCompletedReferrals * 1000);
                     console.log("Referral data:", response.data);
                 } catch (error) {
                     // Log detailed error information
@@ -142,6 +143,32 @@ const EarnPage = () => {
 
     return (
         <>
+
+<NextSeo
+                title="Earn with Our Referral Program"
+                description="Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits."
+                canonical="https://www.noaigpt.com/earn"
+                openGraph={{
+                    url: "https://www.noaigpt.com/earn",
+                    title: "Earn with Our Referral Program",
+                    description: "Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits.",
+                    images: [
+                        {
+                            url: "/assets/images/earn.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Referral Program",
+                        },
+                    ],
+                    site_name: "NoAIGPT",
+                }}
+                twitter={{
+                    cardType: "summary_large_image",
+                    site: "@NoAIGPT",
+                    handle: "@NoAIGPT",
+                }}
+            />   
+
             <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
                 <Header onShowSignupForm={() => setShowSignupForm(true)}/>
 
@@ -177,7 +204,7 @@ const EarnPage = () => {
                         </CardHeader>
                         <CardContent className="p-6 space-y-8">
                             <p className="text-lg text-neutral-400">
-                                Here's how you can earn 500 credits by simply referring your friends. It's quick, easy, and rewarding!{" "}
+                                Here's how you can earn 1000 credits by simply referring your friends. It's quick, easy, and rewarding!{" "}
                                 <span className="ml-2">💸</span>
                             </p>
 
@@ -220,12 +247,12 @@ const EarnPage = () => {
                                 <Card className="bg-neutral-800 border border-neutral-700 shadow-lg p-6 rounded-xl">
                                     <CardHeader className="bg-neutral-700 p-4 rounded-xl">
                                         <CardTitle className="text-xl font-semibold text-white">
-                                            Earn 500 Credits
+                                            Earn 1000 Credits
                                         </CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <p className="text-neutral-400 text-base pt-8">
-                                            Once your friend logs in, you'll automatically receive 500 credits.
+                                            Once your friend logs in, you'll automatically receive 1000 credits.
                                         </p>
                                     </CardContent>
                                 </Card>

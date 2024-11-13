@@ -326,7 +326,7 @@ export default function Home() {
   const welcomeMessages = [
     "Hello, Welcome to NoaiGPT!",
     "Paste the text and Start Humanizing Content",
-    "Bypass Turnitin, Zerogpt, GptZero etc",
+    "Bypass Turnitin, Zerogpt, GptZero, etc.",
     "Stay Unique, Stay Undetectable.",
   ];
 

@@ -28,7 +28,7 @@ const aiDetectorsPage = () => {
                     url: "https://noaigpt.com/ai-detectors",
                     images: [
                         {
-                            url: "https://noaigpt.com/assets/ai-detectors-og.png", // Add relevant OG image for this page
+                            url: "https://noaigpt.com/assets/images/ai-detectors.png", // Add relevant OG image for this page
                             width: 1200,
                             height: 630,
                             alt: "AI Detectors Comparison Chart",

@@ -51,7 +51,7 @@ export function AccordionDemo() {
             "Find answers to common questions about NoAIGPT, an AI-powered tool that transforms AI-generated text into human-like content.",
           images: [
             {
-              url: "http://noaigpt.com/assets/og-image.png",
+              url: "/assets/images/faq.png",
               width: 1200,
               height: 630,
               alt: "NoAIGPT - FAQ Section",
@@ -59,8 +59,8 @@ export function AccordionDemo() {
           ],
         }}
         twitter={{
-          handle: "@yourhandle",
-          site: "@yoursite",
+          handle: "@noaigpt",
+          site: "@noaigpt",
           cardType: "summary_large_image",
         }}
 

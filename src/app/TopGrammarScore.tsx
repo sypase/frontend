@@ -66,7 +66,7 @@ const TopGrammarScore = () => {
               alt: 'Grammar Check Tool',
             }
           ],
-          site_name: 'YourSiteName',
+          site_name: 'NoaiGPT',
         }}
         twitter={{
           cardType: 'summary_large_image',
