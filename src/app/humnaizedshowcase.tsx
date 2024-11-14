@@ -12,7 +12,7 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
           <p>GPTZero</p>
-          <TabContent title="GPTZero" />
+          <TabContent title="gptzero" />
         </div>
       ),
     },
@@ -22,7 +22,7 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
           <p>ZeroGPT</p>
-          <TabContent title="ZeroGPT" />
+          <TabContent title="zerogpt" />
         </div>
       ),
     },
@@ -52,7 +52,7 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
           <p>Writer</p>
-          <TabContent title="Writer" />
+          <TabContent title="writer" />
         </div>
       ),
     },

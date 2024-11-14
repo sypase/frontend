@@ -56,19 +56,22 @@ const stats = [
 
 export function BorderBeamDemo() {
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-gray-700 bg-black md:shadow-xl">
-      <div className="w-full h-full overflow-hidden rounded-lg">
-        <iframe
-          width="800"
-          height="450"
-          // src="assets/video.mp4"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          className="w-full h-full"
-        ></iframe>
-      </div>
-      <BorderBeam size={250} duration={12} delay={9} />
-    </div>
+<div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-gray-700 bg-black md:shadow-xl">
+  <div className="w-full h-0 pb-[56.25%] relative overflow-hidden rounded-lg">
+    <video
+      className="absolute top-0 left-0 w-full h-full"
+      autoPlay
+      muted
+      loop
+      playsInline
+      src="assets/video.webm"
+      onLoadedData={(e) => (e.target as HTMLVideoElement).play()} // Ensure the video plays once it's loaded
+    />
+  </div>
+  <BorderBeam size={250} duration={12} delay={9} />
+</div>
+
+
   );
 }
 

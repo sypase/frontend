@@ -48,8 +48,8 @@ const Footer: React.FC<FooterProps> = ({
     event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (isLoggedIn) {
-      // If logged in, prevent default behavior (button or Enter key press) and send message
-      if (event.key === 'Enter' || event.type === 'click') {
+      // Check if the event is a keyboard event and the key is 'Enter', or if it's a click event
+      if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
         event.preventDefault();
         if (text.trim().length > 0 && wordCount >= 100) {
           handleSendMessage(); // Send the message if conditions are met
@@ -57,14 +57,14 @@ const Footer: React.FC<FooterProps> = ({
       }
     } else {
       // If not logged in, use sendMessage for Enter key or button click
-      if (event.key === 'Enter' || event.type === 'click') {
+      if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
         event.preventDefault(); // Prevent default behavior
         if (text.trim().length > 0 && wordCount >= 100) {
           sendMessage(); // Call sendMessage directly for non-logged-in users
         }
       }
     }
-  };
+  };  
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-40">

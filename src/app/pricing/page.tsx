@@ -10,7 +10,8 @@ import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
 import { initializePaddle } from "@paddle/paddle-js";
-import { NextSeo } from "next-seo"; 
+import dynamic from 'next/dynamic';
+const NextSeo = dynamic(() => import('next-seo').then(mod => mod.NextSeo), { ssr: false });
 import { breadcrumbJsonLd,productJsonLd } from '../../../next-seo.config';
 
 
