@@ -70,7 +70,7 @@ const TopGrammarScore = () => {
           <div ref={imageRef} className="relative">
             <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-2xl">
               <img 
-                src="/assets/grammercheck.png" 
+                src="/assets/temp/grammercheck.png" 
                 alt="Grammar Check" 
                 className="w-full h-full object-cover"
               />

@@ -3,17 +3,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import {
-  X,
-  Sparkles,
-  FileUser,
-  LogOut,
-  ShoppingCart,
-  Menu,
-} from "lucide-react";
+import { X, Sparkles, FileUser, LogOut, ShoppingCart } from "lucide-react";
 import { FiUser } from "react-icons/fi";
+import { FiArchive, FiBook, FiBookOpen } from "react-icons/fi";
 import { FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { serverURL } from "@/utils/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -25,10 +22,15 @@ import {
 } from "@/components/ui/navigation-menu";
 
 interface HeaderProps {
-  isLoggedIn: boolean;
-  user?: any;
-  rewriteCount?: number;
   onShowSignupForm?: () => void;
+}
+
+interface User {
+  name: string;
+  email: string;
+  credits: number;
+  dailyFreeWords: number;
+  referralCode: string;
 }
 
 const aiDetectors: { title: string; href: string; description: string }[] = [
@@ -63,31 +65,34 @@ const aiDetectors: { title: string; href: string; description: string }[] = [
   },
 ];
 
-const Header: React.FC<HeaderProps> = ({
-  isLoggedIn,
-  user,
-  rewriteCount,
-  onShowSignupForm,
-}) => {
+const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [rewriteCount, setRewriteCount] = useState<number>(-1);
+  const [dailyFreeWords, setDailyFreeWords] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    // Check if the user has already closed the announcement in this session
+    const announcementClosed = sessionStorage.getItem("announcementClosed");
+    if (announcementClosed) {
+      setShowAnnouncement(false);
+    }
+  }, []);
+
+  const closeAnnouncement = () => {
+    setShowAnnouncement(false);
+    sessionStorage.setItem("announcementClosed", "true");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
-      }
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target as Node)
-      ) {
-        setIsMobileMenuOpen(false);
       }
     };
 
@@ -97,8 +102,81 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, []);
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+
+  const getRewrites = async () => {
+    try {
+      const response = await axios.get(`${serverURL}/bypass/rewrites`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setRewriteCount(response.data.rewrites);
+    } catch (error) {
+      console.error("Error fetching rewrites:", error);
+      toast.error("Failed to load rewrite count.");
+    }
+  };
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsLoggedIn(false);
+      return;
+    }
+
+    const config = {
+      method: "GET",
+      url: `${serverURL}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const response = await axios(config);
+      setUser(response.data.user);
+      setIsLoggedIn(true);
+    } catch (error) {
+      setIsLoggedIn(false);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setUser(response.data.user);
+      setLoading(false);
+      setDailyFreeWords(response.data.user.dailyFreeWords); // Set the dailyFreeWords directly here
+      getRewrites();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to load user data.");
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    if (isLoggedIn) {
+
+      fetchUserData();
+    }
+  }, [isLoggedIn]);
+
+  const toggleDropdown = () => 
+    {
+      if (isLoggedIn) {
+      getRewrites();
+      fetchUserData();
+      setIsDropdownOpen(!isDropdownOpen);
+    }
+  };
 
   return (
     <>
@@ -141,7 +219,7 @@ const Header: React.FC<HeaderProps> = ({
               </p>
             </div>
             <button
-              onClick={() => setShowAnnouncement(false)}
+              onClick={closeAnnouncement}
               className="absolute right-0 p-1 text-white hover:text-[#ffaa40] hover:bg-[#9c40ff] rounded-full transition-all duration-200"
               aria-label="Close announcement"
             >
@@ -150,216 +228,165 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       )}
-      <header
-        className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
-          showAnnouncement ? "top-10" : "top-0"
-        }`}
+
+<header
+  className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800  ${
+    showAnnouncement ? "top-8" : "top-0"
+  }`}
+>
+  <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div className="flex items-center justify-between">
+      <Link href="/" className="flex items-center">
+        <h1 className="text-xl font-bold tracking-tight text-white">
+          NoaiGPT
+          <Badge variant="outline" className="ml-2 text-neutral-300 border-neutral-600">
+            Beta
+          </Badge>
+        </h1>
+      </Link>
+
+      <div className="ml-4 flex items-center">
+        <span className="text-green-500 text-sm font-medium">Humanizer</span>
+        <span className="mx-2 text-neutral-500">|</span>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
+                AI Detector
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <a
+                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-neutral-800/50 to-neutral-800 p-6 no-underline outline-none focus:shadow-md"
+                        href="/ai-detectors"
+                      >
+                        <div className="mb-2 mt-4 text-lg font-medium">
+                          AI Detectors
+                        </div>
+                        <p className="text-sm leading-tight text-neutral-400">
+                          Compare various AI detection tools and see how they perform.
+                        </p>
+                      </a>
+                    </NavigationMenuLink>
+                  </li>
+
+                  {aiDetectors.map((detector) => (
+                    <ListItem
+                      key={detector.title}
+                      href={detector.href}
+                      title={detector.title}
+                    >
+                      {detector.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
+    </div>
+
+    <div className="flex items-center space-x-3">
+      <Link
+        href="/pricing"
+        className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden md:block"
       >
-        <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          <Link href="/dashboard" className="flex items-center">
-            <h1 className="text-xl font-bold tracking-tight text-white flex items-center mr-3">
-              NoaiGPT
-              <Badge
-                variant="outline"
-                className="ml-2 text-neutral-300 border-neutral-600"
-              >
-                Beta
-              </Badge>
-            </h1>
-            <span className="text-green-500 text-sm font-medium">
-              Humanizer
-            </span>
-          </Link>
+        Pricing
+      </Link>
+      <Link
+        href="/earn"
+        className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden md:block"
+      >
+        Earn
+      </Link>
+      <a
+        href="https://discord.gg/your-discord-invite-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-white hover:text-neutral-200 transition-colors duration-200 hidden md:block"
+      >
+        <FaDiscord className="h-5 w-5" />
+      </a>
 
-          <div className="hidden md:flex items-center space-x-3">
-            <div className="flex items-center">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
-                      AI Detector
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                        <li className="row-span-3">
-                          <NavigationMenuLink asChild>
-                            <a
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-neutral-800/50 to-neutral-800 p-6 no-underline outline-none focus:shadow-md"
-                              href="/ai-detectors"
-                            >
-                              <div className="mb-2 mt-4 text-lg font-medium">
-                                AI Detectors
-                              </div>
-                              <p className="text-sm leading-tight text-neutral-400">
-                                Compare various AI detection tools and see how
-                                they perform.
-                              </p>
-                            </a>
-                          </NavigationMenuLink>
-                        </li>
-                        {aiDetectors.map((detector) => (
-                          <ListItem
-                            key={detector.title}
-                            href={detector.href}
-                            title={detector.title}
-                          >
-                            {detector.description}
-                          </ListItem>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
-            <Link
-              href="/pricing"
-              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300"
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/earn"
-              className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300"
-            >
-              Earn
-            </Link>
-            <a
-              href="https://discord.gg/your-discord-invite-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white hover:text-neutral-200 transition-colors duration-200"
-            >
-              <FaDiscord className="h-5 w-5" />
-            </a>
-
-            {!isLoggedIn && (
-              <button
-                onClick={onShowSignupForm}
-                className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
-              >
-                Try for Free
-              </button>
-            )}
-            {isLoggedIn && (
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  onClick={toggleDropdown}
-                  className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
-                >
-                  {user?.name || "Dashboard"}
-                </button>
-                {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
-                    <div className="py-1">
-                      <div className="px-4 py-2 text-sm text-neutral-400">
-                        My Account
-                      </div>
-                      <div className="border-t border-neutral-800"></div>
-                      <button
-                        onClick={() => (window.location.href = "/profile")}
-                        className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
-                      >
-                        <FiUser className="inline-block mr-2" /> Profile
-                      </button>
-                      <div className="border-t border-neutral-800"></div>
-                      <div className="px-4 py-2 text-sm text-neutral-300">
-                        Credits: {rewriteCount || 0}
-                      </div>
-                      <div className="px-4 py-2 text-sm text-neutral-300">
-                        Daily Free: {rewriteCount || 0}
-                      </div>
-                      <div className="border-t border-neutral-800"></div>
-                      <button
-                        onClick={() => {
-                          localStorage.clear();
-                          window.location.href = "/";
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
-                      >
-                        <LogOut className="inline-block mr-2" /> Logout
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="text-white hover:text-neutral-200 transition-colors duration-200"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div
-            ref={mobileMenuRef}
-            className="md:hidden bg-neutral-950 bg-opacity-95 backdrop-blur-lg"
+      {!isLoggedIn && (
+        <button
+          onClick={onShowSignupForm}
+          className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+        >
+          Try for Free
+        </button>
+      )}
+      {isLoggedIn && (
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={toggleDropdown}
+            className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
           >
-            <div className="px-4 pt-2 pb-3 space-y-1">
-              <Link
-                href="/pricing"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-              >
-                Pricing
-              </Link>
-              <Link
-                href="/earn"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-              >
-                Earn
-              </Link>
-              <a
-                href="https://discord.gg/your-discord-invite-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-              >
-                Discord
-              </a>
-              {!isLoggedIn && (
+            {user?.name || "Dashboard"}
+          </button>
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
+              <div className="py-1">
+                <div className="px-4 py-2 text-sm text-neutral-300">
+                  <p className="font-semibold">{user?.name}</p>
+                  <p className="text-xs">{user?.email}</p>
+                  <div className="my-1 text-sm text-neutral-400">
+                    {dailyFreeWords} Free Words Left
+                  </div>
+                  <div className="my-1 text-sm text-neutral-400 flex justify-between items-center">
+  <span>{rewriteCount || 0} Credits Left</span>
+  <button 
+    onClick={() => window.location.href = '/pricing'} 
+    className="text-blue-500 hover:text-blue-700 text-sm border-2 border-blue-500 rounded px-3 py-1"
+  >
+    Get More
+  </button>
+</div>
+
+
+                </div>
+                <div className="border-t border-neutral-800"></div>
                 <button
-                  onClick={onShowSignupForm}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-neutral-800 hover:bg-neutral-700"
+                  onClick={() => (window.location.href = "/profile")}
+                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
                 >
-                  Try for Free
+                  <FiUser className="inline-block mr-2" /> Profile
                 </button>
-              )}
-              {isLoggedIn && (
-                <>
-                  <button
-                    onClick={() => (window.location.href = "/profile")}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-neutral-800"
-                  >
-                    Profile
-                  </button>
-                  <div className="px-3 py-2 text-sm text-neutral-400">
-                    Credits: {rewriteCount || 0}
-                  </div>
-                  <div className="px-3 py-2 text-sm text-neutral-400">
-                    Daily Free: {rewriteCount || 0}
-                  </div>
-                  <button
-                    onClick={() => {
-                      localStorage.clear();
-                      window.location.href = "/";
-                    }}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-neutral-800"
-                  >
-                    Logout
-                  </button>
-                </>
-              )}
+                <button
+                  onClick={() => (window.location.href = "/dashboard")}
+                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                >
+                  <FiBook className="inline-block mr-2" /> Dashboard
+                </button>
+                <button
+                  onClick={() => (window.location.href = "/dashboard/history")}
+                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+                >
+                  <FiArchive className="inline-block mr-2" /> History
+                </button>
+              </div>
+              <div className="border-t border-neutral-700">
+                <button
+                  onClick={() => {
+                    localStorage.clear();
+                    window.location.href = "/";
+                  }}
+                  className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
+                >
+                  <LogOut className="inline-block mr-2" /> Logout
+                </button>
+              </div>
             </div>
-          </div>
-        )}
-      </header>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</header>
+
     </>
   );
 };

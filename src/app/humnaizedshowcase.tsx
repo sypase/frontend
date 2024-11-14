@@ -6,52 +6,52 @@ import { Tabs } from "@/components/ui/tabs";
 export function TabsDemo() {
   const tabs = [
     {
-      title: "Product",
-      value: "product",
+      title: "GPTZero",
+      value: "GPTZero",
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Product Tab</p>
-          <DummyContent />
+          <p>GPTZero</p>
+          <TabContent title="GPTZero" />
         </div>
       ),
     },
     {
-      title: "Services",
-      value: "services",
+      title: "ZeroGPT",
+      value: "ZeroGPT",
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Services tab</p>
-          <DummyContent />
+          <p>ZeroGPT</p>
+          <TabContent title="ZeroGPT" />
         </div>
       ),
     },
     {
-      title: "Playground",
-      value: "playground",
+      title: "Turnitin",
+      value: "Turnitin",
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Playground tab</p>
-          <DummyContent />
+          <p>Turnitin</p>
+          <TabContent title="Turnitin" />
         </div>
       ),
     },
     {
-      title: "Content",
-      value: "content",
+      title: "Undetectable",
+      value: "Undetectable AI",
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Content tab</p>
-          <DummyContent />
+          <p>Undetectable AI</p>
+          <TabContent title="Undetectable AI" />
         </div>
       ),
     },
     {
-      title: "Random",
-      value: "random",
+      title: "Writer",
+      value: "Writer",
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Random tab</p>
-          <DummyContent />
+          <p>Writer</p>
+          <TabContent title="Writer" />
         </div>
       ),
     },
@@ -64,11 +64,12 @@ export function TabsDemo() {
   );
 }
 
-const DummyContent = () => {
+const TabContent = ({ title }: { title: string }) => {
+  const imagePath = `/assets/Bypass Photos/${title}.png`;
   return (
     <Image
-      src="/assets/bypassexample1.png"
-      alt="dummy image"
+      src={imagePath}
+      alt={title}
       width="1000"
       height="1000"
       className="object-cover object-left-top h-[60%]  md:h-[90%] absolute -bottom-10 inset-x-0 w-[90%] rounded-xl mx-auto"

@@ -20,7 +20,7 @@ import {
   FiArrowRight,
 } from "react-icons/fi";
 import MinidenticonImg from "./MinidenticonImg";
-import Header from "../dashboard/Header";
+import Header from "../header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,7 +42,6 @@ interface User {
   name: string;
   email: string;
   credits: number;
-  dailyFreeWords: number;
   referralCode: string;
 }
 
@@ -145,7 +144,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Header isLoggedIn={!!user} user={user} rewriteCount={rewriteCount} />
+      <Header />
       <div className="bg-black min-h-screen font-sans text-white">
         <main className="pt-9 pb-8 overflow-y-auto">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-20">
@@ -231,9 +230,6 @@ export default function ProfilePage() {
                     </p>
                     <p className="text-lg text-neutral-400 text-center sm:text-left">
                       Available Credits
-                    </p>
-                    <p className="text-lg text-neutral-400 text-center sm:text-left mt-2">
-                      Daily Free Credits Left: {user.dailyFreeWords}
                     </p>
                   </div>
                   <Link href="/pricing" passHref>

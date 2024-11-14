@@ -135,7 +135,7 @@ const IMEPayIntegration: React.FC<IMEPayProps> = ({ item }) => {
               />
             )}
             <Image
-              src="/assets/imepay.png"
+              src="/assets/logos/imepay.png"
               alt="IME Pay Logo"
               width={24}
               height={24}

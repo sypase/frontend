@@ -7,17 +7,17 @@ import {
 
 export function AccordionDemo() {
   return (
-    <section className="flex items-center justify-center h-[100vh] bg-black"> {/* Dark background for the section */}
-      <div className="w-[60%] p-4">
-        <h2 className="text-xl font-bold mb-4 text-center text-gray-200">Frequently Asked Questions</h2>
-        <Accordion type="single" collapsible>
-          {accordionData.map(({ id, question, answer }) => (
-            <AccordionItem key={id} value={`item-${id}`} className="border-b border-neutral-700"> {/* Border for each item */}
-              <AccordionTrigger className=" text-gray-200">{question}</AccordionTrigger>
-              <AccordionContent className=" text-gray-300">{answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+    <section className="flex items-center justify-center mt-10 mb-10 h-[90vh] bg-black"> {/* Dark background for the section */}
+      <div className="container w-[60%] p-4">
+      <h2 className="text-xl font-bold mb-4 text-center text-gray-200">Frequently Asked Questions</h2>
+      <Accordion type="single" collapsible>
+        {accordionData.map(({ id, question, answer }) => (
+        <AccordionItem key={id} value={`item-${id}`} className="border-b border-neutral-700"> {/* Border for each item */}
+          <AccordionTrigger className=" text-gray-200">{question}</AccordionTrigger>
+          <AccordionContent className=" text-gray-300">{answer}</AccordionContent>
+        </AccordionItem>
+        ))}
+      </Accordion>
       </div>
     </section>
   );
@@ -32,5 +32,4 @@ const accordionData = [
   { id: 5, question: "Does NoAIGPT bypass AI detection tools?", answer: "Absolutely. NoAIGPT is specifically designed to bypass all major AI detection systems, ensuring that your content is perceived as human-written, regardless of its AI origins." },
   { id: 6, question: "How does NoAIGPT ensure content quality?", answer: "NoAIGPT not only humanizes AI text but also corrects grammatical errors and improves composition. This ensures that the final output is of the highest quality, ready for publication or submission." },
   { id: 7, question: "Is my content secure with NoAIGPT?", answer: "Yes, NoAIGPT prioritizes the security and confidentiality of your content. Our platform is built with robust security measures to protect your data." },
-  { id: 8, question: "What payment options are available in Nepal?", answer: "NoAIGPT offers direct online payment services tailored for users in Nepal, allowing for easy access to premium features and services without the need for complicated payment methods." },
 ];
