@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { X, Sparkles, FileUser, LogOut, ShoppingCart } from "lucide-react";
 import { FiUser } from "react-icons/fi";
-import { FiArchive, FiBook, FiBookOpen, FiDollarSign, FiGift } from "react-icons/fi";
+import { FiArchive, FiBook, FiBookOpen, FiDollarSign, FiGift, FiCrosshair } from "react-icons/fi";
 import { FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import axios from "axios";
@@ -229,7 +229,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
 
 <header
   className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
-    showAnnouncement ? "top-8" : "top-0"
+    showAnnouncement ? "top-9" : "top-0"
   }`}
 >
   <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -239,25 +239,23 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
           NoaiGPT
             <Badge
             variant="outline"
-            className="ml-2 text-neutral-300 border-neutral-600 hidden sm:inline-block"
+            className="ml-2 text-neutral-300 border-neutral-600 sm:inline-block"
             >
             Beta
             </Badge>
         </h1>
       </Link>
-
-      <span className="text-green-500 text-sm font-medium sm:ml-4 block sm:hidden">
+      <div className="ml-4 hidden items-center sm:inline-block">
+      <span className="text-green-500 text-sm font-medium sm:block">
         Humanizer
       </span>
     </div>
 
-    <div className="ml-4 flex items-center">
-      <span className="text-green-500 text-sm font-medium hidden sm:block">
-        Humanizer
-      </span>
     </div>
 
-    <NavigationMenu className="ml-auto px-2">
+
+
+    <NavigationMenu className="ml-auto px-2 hidden sm:block">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="text-neutral-50 text-sm font-medium bg-transparent">
@@ -322,7 +320,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
       {!isLoggedIn && (
         <button
           onClick={onShowSignupForm}
-          className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+          className="px-4 py-2 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
         >
           Try for Free
         </button>
@@ -331,7 +329,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={toggleDropdown}
-            className="px-4 py-1.5 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+            className="px-4 py-2 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
           >
             {user?.name || "Dashboard"}
           </button>
@@ -390,6 +388,14 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                   className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
                 >
                   <FiGift className="inline-block mr-2" /> Earn Credits
+                </button>
+                <button
+                  onClick={() =>
+                    (window.location.href = "/ai-detectors")
+                  }
+                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
+                >
+                <FiCrosshair className="inline-block mr-2" /> AI Detectors
                 </button>
               </div>
               <div className="border-t border-neutral-700">
