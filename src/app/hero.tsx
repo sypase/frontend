@@ -56,19 +56,22 @@ const stats = [
 
 export function BorderBeamDemo() {
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-gray-700 bg-black md:shadow-xl">
-      <div className="w-full h-full overflow-hidden rounded-lg">
-        <iframe
-          width="800"
-          height="450"
-          // src="https://www.youtube.com/embed/GDlkCkcIqTasds?autoplay=1&controls=0&mute=1"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          className="w-full h-full"
-        ></iframe>
-      </div>
-      <BorderBeam size={250} duration={12} delay={9} />
-    </div>
+<div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-gray-700 bg-black md:shadow-xl">
+  <div className="w-full h-0 pb-[56.25%] relative overflow-hidden rounded-lg">
+    <video
+      className="absolute top-0 left-0 w-full h-full"
+      autoPlay
+      muted
+      loop
+      playsInline
+      src="assets/video.webm"
+      onLoadedData={(e) => (e.target as HTMLVideoElement).play()} // Ensure the video plays once it's loaded
+    />
+  </div>
+  <BorderBeam size={250} duration={12} delay={9} />
+</div>
+
+
   );
 }
 
@@ -137,7 +140,7 @@ const Hero: React.FC<HeroProps> = ({
             <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x">
               {stats.map((item, idx) => (
                 <li key={idx} className="text-center px-12 md:px-16">
-                  <h4 className="text-4xl text-indigo-400 font-semibold">
+                  <h4 className="text-4xl text-indigo-600 font-semibold">
                     {item.data}
                   </h4>{" "}
                   {/* Text color updated */}

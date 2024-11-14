@@ -92,7 +92,7 @@ const LoaderCore = ({
 export const MultiStepLoader = ({
   loadingStates,
   loading,
-  duration = 2000,
+  duration = 3000,
   loop = true,
 }: {
   loadingStates: LoadingState[];
@@ -108,13 +108,16 @@ export const MultiStepLoader = ({
       return;
     }
     const timeout = setTimeout(() => {
-      setCurrentState((prevState) =>
-        loop
+      setCurrentState((prevState) => {
+        if (prevState === loadingStates.length - 1) {
+          return prevState; // Stay on the last state
+        }
+        return loop
           ? prevState === loadingStates.length - 1
             ? 0
             : prevState + 1
-          : Math.min(prevState + 1, loadingStates.length - 1)
-      );
+          : Math.min(prevState + 1, loadingStates.length - 1);
+      });
     }, duration);
 
     return () => clearTimeout(timeout);

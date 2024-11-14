@@ -42,7 +42,7 @@ const Footer: React.FC<FooterProps> = ({
       }
 
       // Simulate button click
-      const button = document.querySelector('button.p-3.text-purple-400');
+      const button = document.querySelector('button.p-3.text-purple-400') as HTMLButtonElement;
       if (button) {
         button.click();
       }

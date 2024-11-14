@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import { FaDiscord } from "react-icons/fa6";
 import { FaClock, FaCoins, FaInfinity } from "react-icons/fa6";
 import Image from "next/image";
@@ -5,10 +6,35 @@ import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export function BentoDemo() {
   return (
+    <>
+      {/* SEO Configuration */}
+      <NextSeo
+        title="NoAIGPT Features | Advanced AI Technology for Content Creation"
+        description="Explore the key features of NoAIGPT, including bypassing Turnitin detection, joining our Discord community, and learning more about our flexible pricing model."
+        openGraph={{
+          type: "website",
+          title: "NoAIGPT Features | Advanced AI Technology for Content Creation",
+          description: "Explore the key features of NoAIGPT, including bypassing Turnitin detection, joining our Discord community, and learning more about our flexible pricing model.",
+          images: [
+            {
+              url: "http://noaigpt.com/assets/images/og-image.png",
+              width: 1200,
+              height: 630,
+              alt: "NoAIGPT Features Overview",
+            },
+          ],
+        }}
+        twitter={{
+          handle: "@noaigpt",
+          site: "@noaigpt",
+          cardType: "summary_large_image",
+        }}
+      />
+
       <div className="container mx-auto p-4 flex justify-center">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {/* Beat Turnitin Card */}
-          <div className="md:col-span-2 relative group rounded-3xl bg-neutral-800 border border-neutral-700 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
+          <section className="md:col-span-2 relative group rounded-3xl bg-neutral-800 border border-neutral-700 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-800/80 to-purple-800/80" />
             <div className="relative p-10 h-full flex flex-col justify-between min-h-[40vh]">
               <div className="flex flex-col md:flex-row items-center gap-10">
@@ -28,7 +54,7 @@ export function BentoDemo() {
                 <div className="relative w-[40vh] h-[40vh] rounded-2xl overflow-hidden shadow-xl group/image">
                   <Image
                     src="/assets/Bypass Photos/turnitin1.jpg"
-                    alt="Turnitin"
+                    alt="Turnitin Bypass"
                     fill
                     className="object-cover transition-transform duration-500 ease-out group-hover/image:scale-110"
                     style={{ objectPosition: "25% 50%" }}
@@ -39,10 +65,10 @@ export function BentoDemo() {
               <div className="absolute -right-20 -top-20 w-[40vh] h-[40vh] bg-blue-100 rounded-full blur-3xl opacity-20" />
               <div className="absolute -left-20 -bottom-20 w-[40vh] h-[40vh] bg-purple-100 rounded-full blur-3xl opacity-20" />
             </div>
-          </div>
+          </section>
 
           {/* Discord Card */}
-          <div className="relative group rounded-3xl bg-[#5865F2] overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
+          <section className="relative group rounded-3xl bg-[#5865F2] overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
             <div className="absolute inset-0 bg-gradient-to-br from-[#5865F2]/90 to-[#7289DA]/90" />
             <div className="relative p-10 h-full flex flex-col items-center justify-center text-white min-h-[40vh]">
               <FaDiscord size={64} className="mb-6 animate-pulse" />
@@ -54,10 +80,10 @@ export function BentoDemo() {
                 Join Discord
               </RainbowButton>
             </div>
-          </div>
+          </section>
 
           {/* Never Expire Card */}
-          <div className="relative group rounded-3xl bg-emerald-500 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
+          <section className="relative group rounded-3xl bg-emerald-500 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/90 to-emerald-600/90" />
             <div className="relative p-10 h-full flex flex-col items-center justify-center text-white min-h-[40vh]">
               <FaInfinity size={64} className="mb-6" />
@@ -69,10 +95,10 @@ export function BentoDemo() {
                 Learn More
               </RainbowButton>
             </div>
-          </div>
+          </section>
 
           {/* Pay Per Use Card */}
-          <div className="relative group rounded-3xl bg-violet-500 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
+          <section className="relative group rounded-3xl bg-violet-500 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
             <div className="absolute inset-0 bg-gradient-to-br from-violet-500/90 to-violet-600/90" />
             <div className="relative p-10 h-full flex flex-col items-center justify-center text-white min-h-[40vh]">
               <FaCoins size={64} className="mb-6" />
@@ -84,10 +110,10 @@ export function BentoDemo() {
                 View Pricing
               </RainbowButton>
             </div>
-          </div>
+          </section>
 
           {/* Save Time Card */}
-          <div className="relative group rounded-3xl bg-amber-500 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
+          <section className="relative group rounded-3xl bg-amber-500 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/90 to-amber-600/90" />
             <div className="relative p-10 h-full flex flex-col items-center justify-center text-white min-h-[40vh]">
               <FaClock size={64} className="mb-6" />
@@ -99,8 +125,9 @@ export function BentoDemo() {
                 Start Now
               </RainbowButton>
             </div>
-          </div>
+          </section>
         </div>
       </div>
+    </>
   );
 }

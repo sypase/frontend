@@ -9,6 +9,10 @@ import axios from "axios";
 import { serverURL } from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
+import SignupForm from "../signup/SignupForm";
+import { NextSeo } from "next-seo"; // Import NextSeo component
+
+
 
 interface User {
     name: string;
@@ -28,43 +32,94 @@ const EarnPage = () => {
     const [earnings, setEarnings] = useState<number>(0);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [showSignupForm, setShowSignupForm] = useState(false);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                });
-                setUser(response.data.user);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                toast.error("Failed to load user data.");
-                setLoading(false);
-            }
+
+
+
+    const getUser = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setIsLoggedIn(false);
+          return;
+        }
+    
+        const config = {
+          method: "GET",
+          url: `${serverURL}/users`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         };
-
-        fetchUserData();
+    
+        try {
+          const response = await axios(config);
+          setUser(response.data.user);
+          setIsLoggedIn(true);
+        } catch (error) {
+          setIsLoggedIn(false);
+          toast.error("Something went wrong!");
+        }
+      };
+      
+    useEffect(() => {
+        getUser();
+        
     }, []);
 
+    
     useEffect(() => {
-        const fetchReferralData = async () => {
-            try {
-                const response = await axios.get(`${serverURL}/referrals/earned-points`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                });
-                const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
-                setTotalCompletedReferrals(totalCompletedReferrals);
-                setEarnings(totalCompletedReferrals * 500);
-                console.log("Referral data:", response.data);
-            } catch (error) {
-                console.error("Error fetching referral data:", error);
-                toast.error("Failed to load referral data.");
-            }
-        };
+        if (isLoggedIn) {
+            const fetchUserData = async () => {
+                try {
+                    const response = await axios.get<{ user: User }>(`${serverURL}/users`, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    });
+                    setUser(response.data.user);
+                    setLoading(false);
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    toast.error("Failed to load user data.");
+                    setLoading(false);
+                }
+            };
 
-        fetchReferralData();
-    }, []);
+            fetchUserData();
+        } else {
+            setLoading(false);
+        }
+    }, [isLoggedIn]);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            const fetchReferralData = async () => {
+                try {
+                    const response = await axios.get(`${serverURL}/referrals/earned-points`, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    });
+    
+                    // Log response data to check what’s returned
+                    console.log("Referral data response:", response);
+    
+                    const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
+                    setTotalCompletedReferrals(totalCompletedReferrals);
+                    setEarnings(totalCompletedReferrals * 500);
+                    console.log("Referral data:", response.data);
+                } catch (error) {
+                    // Log detailed error information
+                    console.error("Error fetching referral data:", error);
+                    if (axios.isAxiosError(error)) {
+                        console.error("Axios error details:", error.response);
+                    }
+                    toast.error("Failed to load referral data.");
+                }
+            };
+    
+            fetchReferralData();
+        }
+    }, [isLoggedIn]);
+    
 
     const copyReferralLink = () => {
         if (user && user.referralCode) {
@@ -84,16 +139,38 @@ const EarnPage = () => {
         );
     }
 
-    if (!user) {
-        return (
-            <div className="text-center text-gray-400">No user data available.</div>
-        );
-    }
+
 
     return (
         <>
+
+<NextSeo
+                title="Earn with Our Referral Program"
+                description="Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits."
+                canonical="https://www.noaigpt.com/earn"
+                openGraph={{
+                    url: "https://www.noaigpt.com/earn",
+                    title: "Earn with Our Referral Program",
+                    description: "Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits.",
+                    images: [
+                        {
+                            url: "/assets/images/earn.png",
+                            width: 1200,
+                            height: 630,
+                            alt: "Referral Program",
+                        },
+                    ],
+                    site_name: "NoAIGPT",
+                }}
+                twitter={{
+                    cardType: "summary_large_image",
+                    site: "@NoAIGPT",
+                    handle: "@NoAIGPT",
+                }}
+            />   
+
             <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
-                <Header />
+                <Header onShowSignupForm={() => setShowSignupForm(true)}/>
 
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-20 pt-10">
                     <h1 className="text-center text-4xl md:text-5xl font-semibold text-gray-100">
@@ -101,6 +178,7 @@ const EarnPage = () => {
                     </h1>
 
                     {/* New Card for Referrals and Earnings */}
+                    {isLoggedIn && (
                     <Card className="bg-neutral-900 border border-neutral-800 shadow-lg w-full max-w-3xl mx-auto my-12 rounded-2xl">
                         <CardHeader className="bg-neutral-800 p-6 rounded-t-2xl">
                             <CardTitle className="text-2xl font-extrabold text-white">
@@ -115,7 +193,7 @@ const EarnPage = () => {
                                 <strong>Total Earnings:</strong> {earnings } Credits
                             </p>
                         </CardContent>
-                    </Card>
+                    </Card>)}
 
                     {/* How It Works Section */}
                     <Card className="bg-neutral-900 border border-neutral-800 shadow-2xl w-full max-w-7xl mx-auto my-12 rounded-2xl">
@@ -146,7 +224,7 @@ const EarnPage = () => {
                                             onClick={copyReferralLink}
                                             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md"
                                         >
-                                            Copy Referral Link
+                                            {isLoggedIn ? "Copy Referral Link" : "Sign In and Copy Link"}
                                         </Button>
                                     </CardContent>
                                 </Card>
@@ -174,15 +252,21 @@ const EarnPage = () => {
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <p className="text-neutral-400 text-base pt-8">
-                                            Once your friend logs in, you'll automatically receive 500 credits.
+                                            Once your friend logs in, you and your friend will automatically receive 500 credits.
                                         </p>
                                     </CardContent>
                                 </Card>
                             </div>
                         </CardContent>
                     </Card>
+                    <div>
+
+</div>
 
                     <ToastContainer theme="dark" />
+                    {showSignupForm && (
+        <SignupForm onClose={() => setShowSignupForm(false)} />
+      )}
                     <ElegantFooter />
                 </div>
             </main>

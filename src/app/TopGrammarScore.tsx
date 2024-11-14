@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BorderBeam } from "@/components/ui/border-beam";
+import { NextSeo } from 'next-seo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,34 +53,54 @@ const TopGrammarScore = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="h-auto min-h-[80vh] flex items-center justify-center py-20 bg-black"> {/* Adjusted height and padding for spacing */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div ref={textRef} className="space-y-6 lg:space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-100 leading-tight">
-              Elevate Your Writing
-            </h2>
-            <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
-              Experience unparalleled grammar accuracy with our advanced tool. Consistently achieving top scores in Grammarly and QuillBot checks, we ensure your content shines with clarity and precision.
-            </p>
-            <div className="flex items-center space-x-2 text-gray-400">
-              <span className="text-3xl font-bold text-green-500">95+</span>
-              <span className="text-lg">Average Grammar Score</span>
+    <>
+      <NextSeo
+        title="Top Grammar Score - Elevate Your Writing"
+        description="Experience unparalleled grammar accuracy with our advanced tool. Achieve consistently high scores in grammar checks, ensuring clarity and precision in your content."
+        openGraph={{
+          title: 'Top Grammar Score - Elevate Your Writing',
+          description: 'Experience unparalleled grammar accuracy with our advanced tool. Achieve consistently high scores in grammar checks, ensuring clarity and precision in your content.',
+          images: [
+            {
+              url: '/assets/temp/grammercheck.png',
+              alt: 'Grammar Check Tool',
+            }
+          ],
+          site_name: 'NoaiGPT',
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+        }}
+      />
+      <section ref={sectionRef} className="h-auto min-h-[80vh] flex items-center justify-center py-20 bg-black">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div ref={textRef} className="space-y-6 lg:space-y-8">
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-100 leading-tight">
+                Elevate Your Writing
+              </h2>
+              <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                Experience unparalleled grammar accuracy with our advanced tool. Consistently achieving top scores in Grammarly and QuillBot checks, we ensure your content shines with clarity and precision.
+              </p>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <span className="text-3xl font-bold text-green-500">95+</span>
+                <span className="text-lg">Average Grammar Score</span>
+              </div>
             </div>
-          </div>
-          <div ref={imageRef} className="relative">
-            <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-2xl">
-              <img 
-                src="/assets/temp/grammercheck.png" 
-                alt="Grammar Check" 
-                className="w-full h-full object-cover"
-              />
-              <BorderBeam size={500} duration={10} delay={5} borderWidth={4} className="opacity-50" />
+            <div ref={imageRef} className="relative">
+              <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/assets/temp/grammercheck.png" 
+                  alt="Grammar Check Tool"  // Alt text for SEO
+                  className="w-full h-full object-cover"
+                />
+                <BorderBeam size={500} duration={10} delay={5} borderWidth={4} className="opacity-50" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
