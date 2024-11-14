@@ -262,7 +262,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
             </div>
 
             <div className="space-y-4">
-              <GoogleOAuthProvider clientId="602949390183-1s1u35436p3samriicqmk0hjt9ffufeo.apps.googleusercontent.com">
+              <GoogleOAuthProvider clientId="602949390183-7f1mhhg3ihkfrbjhdotqbtn8qdign9ui.apps.googleusercontent.com">
                 <div className="flex justify-center">
                   <GoogleLogin
                     onSuccess={handleGoogleSuccess}
