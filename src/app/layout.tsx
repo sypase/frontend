@@ -18,6 +18,41 @@ export const metadata: Metadata = {
   title: defaultSEOConfig.title,
   description: defaultSEOConfig.description,
   keywords: defaultSEOConfig.additionalMetaTags?.find(tag => tag.name === 'keywords')?.content,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://noaigpt.com/",
+    siteName: "NoAIGPT",
+    title: "NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users",
+    description: 
+      "Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform. Featuring advanced linguistic algorithms, real-time processing, and guaranteed passing of all content detection systems. Experience the industry's highest success rate backed by our 100% satisfaction guarantee. Trusted by leading content creators, marketing agencies, and Fortune 500 companies worldwide.",
+      images: [
+        {
+          url: "https://noaigpt.com/assets/images/og-image.png", // Must be absolute URL
+          width: 1200,
+          height: 630,
+          alt: "NoAIGPT - Professional AI Content Humanizer Platform",
+          type: "image/png",
+        },
+        {
+          // Square image for platforms that prefer it (e.g., WhatsApp)
+          url: "https://noaigpt.com/assets/images/og-square.png",
+          width: 600,
+          height: 600,
+          alt: "NoAIGPT Logo",
+          type: "image/png",
+        }
+      ],
+      // Video preview (optional)
+      // videos: [
+      //   {
+      //     url: "https://noaigpt.com/assets/videos/demo.mp4",
+      //     width: 1280,
+      //     height: 720,
+      //     type: "video/mp4",
+      //   }
+      // ],
+    },
   authors: [{ name: 'NoAIGPT' }],
   creator: 'NoAIGPT',
   publisher: 'NoAIGPT',

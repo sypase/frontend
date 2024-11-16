@@ -244,15 +244,15 @@ export default function UnifiedPricingShop() {
   return (
     <>
       <NextSeo
-        title="Pricing Plans - Your Company"
+        title="Pricing Plans - NoaiGPT"
         description="Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration."
         canonical="https://noaigpt.com/pricing"
         openGraph={{
           url: "https://noaigpt.com/pricing",
-          title: "Pricing Plans - Your Company",
+          title: "Pricing Plans - NoaiGPT",
           description: "Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration.",
           images: [{ url: "/assets/images/pricing.png", width: 1200, height: 630, alt: "Pricing Page - NoaiGPT" }],
-          site_name: "Your Company",
+          site_name: "NoaiGPT",
         }}
         twitter={{
           handle: "@noaigpt",
