@@ -6,7 +6,7 @@ import { serverURL } from "@/utils/utils";
 import Header from "../header";
 import SignupForm from "../signup/SignupForm";
 import ElegantFooter from "../last";
-import { BentoDemo } from "../BeatTurnitinCard";
+import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
 import { initializePaddle } from "@paddle/paddle-js";
@@ -50,6 +50,7 @@ export default function UnifiedPricingShop() {
   const [showSignupForm, setShowSignupForm] = useState(false);
   const [paddleLoaded, setPaddleLoaded] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  
 
   const detectLocation = async () => {
     try {
@@ -62,13 +63,7 @@ export default function UnifiedPricingShop() {
   };
 
   
-  const handleShowSignupForm = () => {
-    if (isLoggedIn) {
-      window.location.href = "/dashboard";
-    } else {
-      setShowSignupForm(true);// Show signup form if not logged in
-    }
-  };
+
 
   const fetchItems = async () => {
     try {
@@ -96,7 +91,7 @@ export default function UnifiedPricingShop() {
 
     const initPaddle = async () => {
       try {
-        const paddleInstance = await initializePaddle({
+        await initializePaddle({
           token: "test_0592d7578edf803262da4c97ccf", // Replace with your actual client-side token
           environment: "sandbox", // Change to 'production' for live environment
           checkout: {
@@ -235,6 +230,14 @@ export default function UnifiedPricingShop() {
           />
         </span>
       );
+    }
+  };
+
+  const handleShowSignupForm = () => {
+    if (isLoggedIn) {
+      window.location.href = "/dashboard";
+    } else {
+      setShowSignupForm(true);// Show signup form if not logged in
     }
   };
 
