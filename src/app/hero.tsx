@@ -37,21 +37,18 @@ const AnimatedGradientTextDemo: React.FC = () => {
 
 const stats = [
   {
-    data: "35K",
-    title: "Customers",
+    data: "925K",
+    title: "Words Processed",
   },
   {
-    data: "10K+",
-    title: "Downloads",
+    data: "10K",
+    title: "Users",
   },
   {
-    data: "40+",
-    title: "Countries",
+    data: "100+",
+    title: "Languages",
   },
-  {
-    data: "30M+",
-    title: "Total revenue",
-  },
+
 ];
 
 export function BorderBeamDemo() {

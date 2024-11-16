@@ -6,7 +6,7 @@ import { serverURL } from "@/utils/utils";
 import Header from "../header";
 import SignupForm from "../signup/SignupForm";
 import ElegantFooter from "../last";
-import { BentoDemo } from "./bentopricing";
+import { BentoDemo } from "../BeatTurnitinCard";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
 import { initializePaddle } from "@paddle/paddle-js";
@@ -58,6 +58,14 @@ export default function UnifiedPricingShop() {
       setCurrency(country === "NP" ? "NPR" : "USD");
     } catch (error) {
       console.error("Error detecting location:", error);
+    }
+  };
+
+  const handleShowSignupForm = () => {
+    if (isLoggedIn) {
+      window.location.href = "/dashboard";
+    } else {
+      setShowSignupForm(true);// Show signup form if not logged in
     }
   };
 
@@ -300,7 +308,7 @@ export default function UnifiedPricingShop() {
         </button>
       </div>
 
-      <BentoDemo />
+      <BentoDemo onShowSignupForm={handleShowSignupForm} />
       <ElegantFooter />
       {showSignupForm && (
         <SignupForm onClose={() => setShowSignupForm(false)} />

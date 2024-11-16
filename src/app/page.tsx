@@ -262,6 +262,8 @@ export default function Home() {
     );
   };
 
+  
+
   const toggleAdvancedMode = () => {
     if (!isLoggedIn) {
       toast.error("Please sign in to use Advanced Mode.");
@@ -269,6 +271,14 @@ export default function Home() {
       return;
     }
     setIsAdvancedMode((prevMode) => !prevMode);
+  };
+
+  const handleShowSignupForm = () => {
+    if (isLoggedIn) {
+      window.location.href = "/dashboard";
+    } else {
+      setShowSignupForm(true);// Show signup form if not logged in
+    }
   };
 
   useEffect(() => {
@@ -391,7 +401,7 @@ export default function Home() {
                 <Tweeter />
 
 
-                <BentoDemo />
+                <BentoDemo onShowSignupForm={handleShowSignupForm} />
 
 
 

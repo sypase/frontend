@@ -86,39 +86,46 @@ const ReviewCard = ({
 
 export default function CommunitySection() {
   return (
-    <section className="relative h-[90vh] w-full overflow-hidden bg-black">
-      <div className="flex h-full flex-col items-center justify-between">
-        {/* Center Content */}
-        <div className="flex flex-1 flex-col items-center justify-center space-y-8 px-4 text-center">
-          <h2 className="text-4xl font-bold tracking-tight text-gray-100 md:text-5xl lg:text-6xl">
-            Join Our Growing Community
-          </h2>
-          <p className="max-w-2xl text-lg text-gray-300 md:text-xl">
-            Use NoaiGPT and join with 100,000+ writers crafting the future of authentic content
-          </p>
-          <div className="scale-125 transform">
-            <AvatarCircles numPeople={99} avatarUrls={avatarUrls} />
-          </div>
-        </div>
+<section className="relative min-h-[70vh] w-full overflow-hidden bg-black sm:h-[90vh]">
+{/* <section className="relative min-h-[70vh] w-full overflow-hidden bg-black sm:min-h-[0vh] h-[90vh]"> */}
 
-        {/* Bottom Marquee Cards */}
-        <div className="relative w-full">
-          <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-neutral-800 md:shadow-xl border-neutral-700">
-            <Marquee pauseOnHover className="[--duration:20s]">
-              {firstRow.map((review) => (
-                <ReviewCard key={review.username} {...review} />
-              ))}
-            </Marquee>
-            <Marquee reverse pauseOnHover className="[--duration:20s]">
-              {secondRow.map((review) => (
-                <ReviewCard key={review.username} {...review} />
-              ))}
-            </Marquee>
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-black"></div>
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-black"></div>
-          </div>
-        </div>
+  <div className="flex h-full flex-col items-center justify-between">
+    {/* Center Content */}
+    <div className="flex flex-1 flex-col items-center justify-center space-y-6 px-4 text-center sm:space-y-8">
+      <h2 className="text-3xl font-bold tracking-tight text-gray-100 sm:text-4xl md:text-5xl lg:text-6xl">
+        Join Our Growing Community
+      </h2>
+      <p className="max-w-xl text-base text-gray-300 sm:max-w-2xl sm:text-lg md:text-xl">
+        Use NoaiGPT and join with 100,000+ writers crafting the future of authentic content
+      </p>
+
+    </div>
+    <div className="m-4 sm:mb-8">
+    <div className="transform scale-90 sm:scale-100 md:scale-110 lg:scale-125">
+        <AvatarCircles numPeople={99} avatarUrls={avatarUrls} />
       </div>
-    </section>
+    </div>
+
+    {/* Bottom Marquee Cards */}
+    <div className="relative w-full px-2 sm:px-4">
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-neutral-800 md:shadow-xl border-neutral-700">
+        <Marquee pauseOnHover className="[--duration:20s]">
+          {firstRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:20s]">
+          {secondRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-black"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-black"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
   );
 }
