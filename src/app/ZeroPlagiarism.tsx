@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BorderBeam } from "@/components/ui/border-beam";
-import { NextSeo } from 'next-seo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,24 +53,35 @@ const ZeroPlagiarism = () => {
 
   return (
     <>
-      <NextSeo
-        title="Zero Plagiarism - Ensure Original Content"
-        description="Ensure the originality of your content with our advanced plagiarism detection tools. Maintain 100% unique content with reliable plagiarism checks."
-        openGraph={{
-          title: 'Zero Plagiarism - Ensure Original Content',
-          description: 'Ensure the originality of your content with our advanced plagiarism detection tools. Maintain 100% unique content with reliable plagiarism checks.',
-          images: [
-            {
-              url: '/assets/temp/zeroplag.png',
-              alt: 'Zero Plagiarism Tool',
-            }
-          ],
-          site_name: 'NoaiGPT',
-        }}
-        twitter={{
-          cardType: 'summary_large_image',
-        }}
-      />
+      {/* SEO meta tags */}
+      <head>
+        <title>Zero Plagiarism - Ensure Original Content</title>
+        <meta
+          name="description"
+          content="Ensure the originality of your content with our advanced plagiarism detection tools. Maintain 100% unique content with reliable plagiarism checks."
+        />
+        <meta
+          property="og:title"
+          content="Zero Plagiarism - Ensure Original Content"
+        />
+        <meta
+          property="og:description"
+          content="Ensure the originality of your content with our advanced plagiarism detection tools. Maintain 100% unique content with reliable plagiarism checks."
+        />
+        <meta
+          property="og:image"
+          content="/assets/temp/zeroplag.png"
+        />
+        <meta
+          property="og:site_name"
+          content="NoaiGPT"
+        />
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+        />
+      </head>
+
       <section ref={sectionRef} className="h-auto min-h-[80vh] flex items-center justify-center py-20 bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">

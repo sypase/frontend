@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { Tabs } from "@/components/ui/tabs";
-import { NextSeo } from 'next-seo';
 
 export function TabsDemo() {
   const tabs = [
@@ -60,40 +59,36 @@ export function TabsDemo() {
 
   return (
     <>
-      <NextSeo
-        title="Compare AI Tools - GPTZero, ZeroGPT, Turnitin & More"
-        description="Explore and compare popular AI detection tools like GPTZero, ZeroGPT, Turnitin, and more in a side-by-side interactive demo."
-        openGraph={{
-          title: "Compare AI Tools - GPTZero, ZeroGPT, Turnitin & More",
-          description: "Explore the latest AI detection tools and compare their effectiveness.",
-          images: [
-            {
-              url: '/assets/Bypass Photos/GPTZero.png',
-              width: 800,
-              height: 600,
-              alt: 'GPTZero Comparison',
-            },
-            {
-              url: '/assets/Bypass Photos/ZeroGPT.png',
-              width: 800,
-              height: 600,
-              alt: 'ZeroGPT Comparison',
-            },
-            {
-              url: '/assets/Bypass Photos/Turnitin.png',
-              width: 800,
-              height: 600,
-              alt: 'Turnitin Comparison',
-            },
-          ],
-          site_name: 'NoaiGPT',
-        }}
-        twitter={{
-          cardType: 'summary_large_image',
-          site: '@noaigpt',
-          handle: '@noaigpt',
-        }}
-      />
+      {/* SEO Meta Tags */}
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Compare AI Tools - GPTZero, ZeroGPT, Turnitin & More</title>
+        <meta
+          name="description"
+          content="Explore and compare popular AI detection tools like GPTZero, ZeroGPT, Turnitin, and more in a side-by-side interactive demo."
+        />
+        <meta
+          property="og:title"
+          content="Compare AI Tools - GPTZero, ZeroGPT, Turnitin & More"
+        />
+        <meta
+          property="og:description"
+          content="Explore the latest AI detection tools and compare their effectiveness."
+        />
+        <meta
+          property="og:image"
+          content="https://noaigpt.com/assets/Bypass Photos/GPTZero.png"
+        />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="600" />
+        <meta property="og:image:alt" content="GPTZero Comparison" />
+        <meta property="og:site_name" content="NoaiGPT" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@noaigpt" />
+        <meta name="twitter:creator" content="@noaigpt" />
+      </head>
+
       <div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative b flex flex-col max-w-5xl mx-auto w-full  items-start justify-start my-40">
         <Tabs tabs={tabs} />
       </div>

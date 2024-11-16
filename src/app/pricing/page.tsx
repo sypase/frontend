@@ -11,8 +11,6 @@ import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
 import { initializePaddle } from "@paddle/paddle-js";
 import dynamic from 'next/dynamic';
-const NextSeo = dynamic(() => import('next-seo').then(mod => mod.NextSeo), { ssr: false });
-import { breadcrumbJsonLd,productJsonLd } from '../../../next-seo.config';
 
 
 interface Item {
@@ -243,26 +241,62 @@ export default function UnifiedPricingShop() {
 
   return (
     <>
-      <NextSeo
-        title="Pricing Plans - NoaiGPT"
-        description="Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration."
-        canonical="https://noaigpt.com/pricing"
-        openGraph={{
-          url: "https://noaigpt.com/pricing",
-          title: "Pricing Plans - NoaiGPT",
-          description: "Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration.",
-          images: [{ url: "/assets/images/pricing.png", width: 1200, height: 630, alt: "Pricing Page - NoaiGPT" }],
-          site_name: "NoaiGPT",
-        }}
-        twitter={{
-          handle: "@noaigpt",
-          site: "@noaigpt",
-          cardType: "summary_large_image",
-        }}
-      />
-<script type="application/ld+json">
-  {JSON.stringify([breadcrumbJsonLd, productJsonLd])}
-</script>
+      <head>
+        <title>Pricing Plans - NoaiGPT</title>
+        <meta
+          name="description"
+          content="Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration."
+        />
+        <meta property="og:url" content="https://noaigpt.com/pricing" />
+        <meta property="og:title" content="Pricing Plans - NoaiGPT" />
+        <meta
+          property="og:description"
+          content="Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration."
+        />
+        <meta
+          property="og:image"
+          content="https://noaigpt.com/assets/images/pricing.png"
+        />
+        <meta name="twitter:handle" content="@noaigpt" />
+        <meta name="twitter:site" content="@noaigpt" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">
+          {JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://noaigpt.com/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Pricing",
+                  "item": "https://noaigpt.com/pricing"
+                },
+              ]
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "NoaiGPT",
+              "image": "https://noaigpt.com/assets/images/pricing.png",
+              "description": "Choose the perfect top-up plan that fits your needs.",
+              "sku": "noaigpt-plan",
+              "offers": {
+                "@type": "Offer",
+                "url": "https://noaigpt.com/pricing",
+                "priceCurrency": "USD",
+                "price": "10.00"
+              }
+            }
+          ])}
+        </script>
+      </head>
     <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
       <Header onShowSignupForm={() => setShowSignupForm(true)} />
 

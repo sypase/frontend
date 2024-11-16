@@ -143,31 +143,86 @@ const EarnPage = () => {
 
     return (
         <>
+            <head>
+                <meta charSet="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>NoAIGPT - Earn with Our Referral Program</title>
+                <meta
+                    name="description"
+                    content="Earn rewards by referring friends to NoAIGPT. Share your unique referral link and start earning credits today."
+                />
+                <link rel="canonical" href="https://noaigpt.com/earn" />
 
-<NextSeo
-                title="Earn with Our Referral Program"
-                description="Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits."
-                canonical="https://www.noaigpt.com/earn"
-                openGraph={{
-                    url: "https://www.noaigpt.com/earn",
-                    title: "Earn with Our Referral Program",
-                    description: "Earn rewards by referring your friends to NoAIGPT. Share your unique referral link and start earning credits.",
-                    images: [
-                        {
-                            url: "/assets/images/earn.png",
-                            width: 1200,
-                            height: 630,
-                            alt: "Referral Program",
-                        },
-                    ],
-                    site_name: "NoAIGPT",
-                }}
-                twitter={{
-                    cardType: "summary_large_image",
-                    site: "@NoAIGPT",
-                    handle: "@NoAIGPT",
-                }}
-            />   
+                {/* Open Graph Meta Tags */}
+                <meta property="og:type" content="website" />
+                <meta property="og:locale" content="en_US" />
+                <meta property="og:url" content="https://noaigpt.com/earn" />
+                <meta property="og:site_name" content="NoAIGPT" />
+                <meta property="og:title" content="Earn with Our Referral Program | NoAIGPT" />
+                <meta
+                    property="og:description"
+                    content="Share your referral link and earn rewards with NoAIGPT. Start earning today!"
+                />
+                <meta
+                    property="og:image"
+                    content="https://noaigpt.com/assets/images/earn.png"
+                />
+                <meta property="og:image:secure_url" content="https://noaigpt.com/assets/images/earn.png" />
+                <meta property="og:image:alt" content="Earn with NoAIGPT" />
+
+                {/* Twitter Card Meta Tags */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:site" content="@noaigpt" />
+                <meta name="twitter:handle" content="@noaigpt" />
+                <meta name="twitter:title" content="Earn with Our Referral Program | NoAIGPT" />
+                <meta
+                    name="twitter:description"
+                    content="Earn rewards by referring friends to NoAIGPT. Start earning credits today!"
+                />
+                <meta name="twitter:image" content="https://noaigpt.com/assets/images/earn.png" />
+
+                {/* Apple and Mobile Meta Tags */}
+                <meta name="apple-mobile-web-app-title" content="NoAIGPT" />
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+                <meta name="theme-color" content="#000000" />
+
+                {/* Favicon and Icons */}
+                <link rel="icon" href="/favicon.ico" />
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+                <link rel="manifest" href="/site.webmanifest" />
+
+                {/* Preconnect for Fonts */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link
+                    rel="preconnect"
+                    href="https://fonts.gstatic.com"
+                    crossOrigin="anonymous"
+                />
+
+                {/* Structured Data for Breadcrumb */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https://noaigpt.com/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Earn",
+                                "item": "https://noaigpt.com/earn"
+                            }
+                        ]
+                    })}
+                </script>
+            </head>
+
+
 
             <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
                 <Header onShowSignupForm={() => setShowSignupForm(true)}/>

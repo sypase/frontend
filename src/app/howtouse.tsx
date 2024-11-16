@@ -3,29 +3,20 @@
 import { Tweet } from 'react-tweet';
 import React from "react";
 import { AiFillStar } from 'react-icons/ai';
-import { NextSeo } from 'next-seo';
 
 export default function CleanLayout() {
   return (
     <>
-      <NextSeo
-        title="How to Use NoaiGPT"
-        description="Follow these simple steps to start using NoaiGPT. Create an account, choose your plan, and explore the AI capabilities at your fingertips."
-        openGraph={{
-          title: 'How to Use NoaiGPT',
-          description: 'Follow these simple steps to start using NoaiGPT. Create an account, choose your plan, and explore the AI capabilities at your fingertips.',
-          images: [
-            {
-              url: '/assets/images/howtouse.png', // You can change this to an appropriate image URL
-              alt: 'How to Use NoaiGPT',
-            }
-          ],
-          site_name: 'NoaiGPT',
-        }}
-        twitter={{
-          cardType: 'summary_large_image',
-        }}
-      />
+      <head>
+        <title>How to Use NoaiGPT</title>
+        <meta name="description" content="Follow these simple steps to start using NoaiGPT. Create an account, choose your plan, and explore the AI capabilities at your fingertips." />
+        <meta property="og:title" content="How to Use NoaiGPT" />
+        <meta property="og:description" content="Follow these simple steps to start using NoaiGPT. Create an account, choose your plan, and explore the AI capabilities at your fingertips." />
+        <meta property="og:image" content="https://noaigpt.com/assets/images/howtouse.png" />
+        <meta property="og:site_name" content="NoaiGPT" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://noaigpt.com/assets/images/howtouse.png" />
+      </head>
 
       <div className="min-h-screen bg-black">
         {/* Hero Section with How to Use */}

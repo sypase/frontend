@@ -1,73 +1,104 @@
 import { DefaultSeoProps, BreadCrumbJsonLdProps, SocialProfileJsonLdProps, ProductJsonLdProps, FAQPageJsonLdProps } from "next-seo";
 
 const defaultSEOConfig: DefaultSeoProps = {
-  title: "NoAIGPT - Professional AI Text Humanizer | 100% Undetectable Content",
+  title: "NoAIGPT - Professional AI Text Humanizer & Content Authenticity Platform",
   titleTemplate: "%s | NoAIGPT",
   description: 
-    "Transform AI-generated content into natural human text instantly. Guaranteed to pass all content detection tools. Try our professional humanization service trusted by 100,000+ users.",
+    "Experience the most advanced AI text humanization platform trusted by over 100,000 professionals worldwide. Our cutting-edge technology transforms AI-generated content into perfectly natural human text, guaranteed to pass all content detection tools with 100% accuracy. Utilizing proprietary deep learning algorithms and linguistic pattern analysis, NoAIGPT preserves your content's original meaning while ensuring complete undetectability. Perfect for content creators, marketing agencies, academic professionals, and enterprises seeking to maintain authenticity in their digital content. Join the leading solution for content authenticity and experience why top companies choose NoAIGPT for their content optimization needs.",
   canonical: "https://noaigpt.com/",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://noaigpt.com/",
     siteName: "NoAIGPT",
-    title: "NoAIGPT - Professional AI Text Humanizer | 100% Success Rate",
+    title: "NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users",
     description: 
-      "Transform AI content into natural human text that passes all content detection systems. Industry-leading accuracy with our 100% pass guarantee.",
-    images: [
+      "Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform. Featuring advanced linguistic algorithms, real-time processing, and guaranteed passing of all content detection systems. Experience the industry's highest success rate backed by our 100% satisfaction guarantee. Trusted by leading content creators, marketing agencies, and Fortune 500 companies worldwide.",
+      images: [
+        {
+          url: "https://noaigpt.com/assets/images/og-image.png", // Must be absolute URL
+          width: 1200,
+          height: 630,
+          alt: "NoAIGPT - Professional AI Content Humanizer Platform",
+          type: "image/png",
+        },
+        {
+          // Square image for platforms that prefer it (e.g., WhatsApp)
+          url: "https://noaigpt.com/assets/images/og-square.png",
+          width: 600,
+          height: 600,
+          alt: "NoAIGPT Logo",
+          type: "image/png",
+        }
+      ],
+      // Video preview (optional)
+      // videos: [
+      //   {
+      //     url: "https://noaigpt.com/assets/videos/demo.mp4",
+      //     width: 1280,
+      //     height: 720,
+      //     type: "video/mp4",
+      //   }
+      // ],
+    },
+    twitter: {
+      handle: "@noaigpt",
+      site: "@noaigpt",
+      cardType: "summary_large_image",
+    },
+    // WhatsApp specific meta tags
+    additionalMetaTags: [
       {
-        url: "/assets/images/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "NoAIGPT - Professional AI Content Humanizer",
-        type: "image/png",
-      }
-    ],
-  },
-  twitter: {
-    handle: "@noaigpt",
-    site: "@noaigpt",
-    cardType: "summary_large_image",
-  },
-  additionalMetaTags: [
-    {
-      name: "keywords",
-      content: 
-        "ai text humanizer, content detection bypass, undetectable ai text, human writing converter, content authenticity tool, ai content humanizer, natural text generator, ai text converter, humanize ai text, professional writing tool, content enhancement tool",
-    },
-    {
-      name: "robots",
-      content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-    },
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1, maximum-scale=5",
-    },
-    {
-      name: "format-detection",
-      content: "telephone=no",
-    },
-    {
-      name: "google",
-      content: "notranslate",
-    },
-    {
-      property: "og:price:amount",
-      content: "9.99",
-    },
-    {
-      property: "og:price:currency",
-      content: "USD",
-    },
-    {
-      name: "msapplication-TileColor",
-      content: "#000000",
-    },
-    {
-      property: "category",
-      content: "AI Tools",
-    },
-  ],
+        property: "og:image:secure_url",
+        content: "https://noaigpt.com/assets/images/og-image.png",
+      },
+      {
+        property: "og:video:secure_url",
+        content: "https://noaigpt.com/assets/videos/demo.mp4",
+      },
+      {
+        property: "og:image:alt",
+        content: "NoAIGPT - Professional AI Content Humanizer Platform",
+      },
+      // For iMessage rich previews
+      {
+        name: "apple-mobile-web-app-title",
+        content: "NoAIGPT",
+      },
+      {
+        name: "apple-mobile-web-app-capable",
+        content: "yes",
+      },
+      // For LinkedIn
+      {
+        name: "author",
+        content: "NoAIGPT",
+      },
+      {
+        name: "thumbnail",
+        content: "https://noaigpt.com/assets/images/og-image.png",
+      },
+      // For Facebook Messenger
+      {
+        property: "fb:app_id",
+        content: "YOUR_FACEBOOK_APP_ID",
+      },
+      // For Slack
+      {
+        name: "slack-app-id",
+        content: "YOUR_SLACK_APP_ID",
+      },
+      // For general mobile sharing
+      {
+        name: "mobile-web-app-capable",
+        content: "yes",
+      },
+      // For color scheme
+      {
+        name: "theme-color",
+        content: "#000000",
+      },
+    ],  
   additionalLinkTags: [
     {
       rel: "icon",
@@ -96,15 +127,15 @@ const defaultSEOConfig: DefaultSeoProps = {
 
 const productJsonLd: ProductJsonLdProps = {
   type: "Product",
-  name: "NoAIGPT Professional Humanizer",
-  productName: "NoAIGPT Professional Humanizer",
-  description: "Advanced AI text humanization tool with 100% undetectable guarantee",
+  name: "NoAIGPT Enterprise Humanizer Suite",
+  productName: "NoAIGPT Enterprise Humanizer Suite",
+  description: "Enterprise-grade AI text humanization platform with advanced linguistic processing and 100% undetectable guarantee. Featuring real-time processing, API access, and dedicated support.",
   image: "/assets/images/pricing.png",
   brand: "NoAIGPT",
   offers: {
     "@type": "Offer",
-    price: "499",
-    priceCurrency: "NPR",
+    price: "999",
+    priceCurrency: "USD",
     priceValidUntil: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString(),
     availability: "https://schema.org/InStock",
     seller: {
@@ -115,23 +146,27 @@ const productJsonLd: ProductJsonLdProps = {
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
-    reviewCount: "1247",
+    reviewCount: "1847",
   },
 };
 
 const faqJsonLd: FAQPageJsonLdProps = {
   mainEntity: [
     {
-      questionName: "How does NoAIGPT ensure content passes detection?",
-      acceptedAnswerText: "NoAIGPT is fine-tuned, unlike other prompt-based humanizers, which ensures the content maintains a natural, human-like feel.",
+      questionName: "How does NoAIGPT ensure 100% undetectable content?",
+      acceptedAnswerText: "NoAIGPT uses proprietary deep learning algorithms and advanced linguistic pattern analysis to transform AI-generated text into naturally flowing human content. Unlike basic prompt-based solutions, our technology maintains perfect naturalness while preserving the original meaning.",
     },
     {
-      questionName: "What makes NoAIGPT different from other solutions?",
-      acceptedAnswerText: "Our proprietary technology preserves the original meaning while ensuring perfect naturalness. We offer the highest success rate in the industry with a money-back guarantee.",
+      questionName: "What makes NoAIGPT the leading solution in the market?",
+      acceptedAnswerText: "NoAIGPT combines enterprise-grade technology, advanced linguistic processing, and years of research to deliver unmatched results. We offer the highest success rate in the industry, backed by a 100% satisfaction guarantee and trusted by over 100,000 professionals worldwide.",
     },
     {
-      questionName: "Is NoAIGPT suitable for professional use?",
-      acceptedAnswerText: "Yes, NoAIGPT is trusted by content creators, marketing agencies, and businesses worldwide. Our enterprise-grade solution maintains content quality while ensuring undetectability.",
+      questionName: "Is NoAIGPT suitable for enterprise and professional use?",
+      acceptedAnswerText: "Absolutely. NoAIGPT is the preferred choice for content creators, marketing agencies, academic institutions, and Fortune 500 companies. Our enterprise solution includes API access, advanced analytics, dedicated support, and customizable features to meet specific business needs.",
+    },
+    {
+      questionName: "How quickly can NoAIGPT process content?",
+      acceptedAnswerText: "Our advanced processing engine handles content in real-time, with most texts being humanized within seconds. Enterprise users benefit from priority processing and can humanize unlimited content through our API.",
     },
   ],
 };
@@ -145,21 +180,27 @@ const organizationJsonLd = {
   sameAs: [
     "https://twitter.com/noaigpt",
     "https://www.linkedin.com/company/noaigpt",
+    "https://www.youtube.com/noaigpt",
+    "https://www.facebook.com/noaigpt",
   ],
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    availableLanguage: ["English"],
+    availableLanguage: ["English", "Nepali"],
+    email: "support@noaigpt.com",
+    telephone: "+977-9767473470",
   },
 };
 
 const socialProfileJsonLd: SocialProfileJsonLdProps = {
-  type: "Person",
+  type: "Organization",
   name: "NoAIGPT",
   url: "https://noaigpt.com",
   sameAs: [
     "https://twitter.com/noaigpt",
     "https://www.linkedin.com/company/noaigpt",
+    "https://www.youtube.com/noaigpt",
+    "https://www.facebook.com/noaigpt",
   ],
 };
 
@@ -177,9 +218,9 @@ const breadcrumbJsonLd: BreadCrumbJsonLdProps = {
     },
     { 
       position: 3, 
-      name: "Ai-detectors", 
+      name: "AI Detectors", 
       item: "https://noaigpt.com/ai-detectors",
-    }, 
+    },
   ],
 };
 

@@ -23,34 +23,70 @@ const AiDetectorsPage = () => {
 
     return (
         <>
-            <NextSeo
-                title="AI Detectors - Compare the Best Tools | NoAIGPT"
-                description="Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs."
-                canonical="https://noaigpt.com/ai-detectors"
-                openGraph={{
-                    title: "AI Detectors - Compare the Best Tools | NoAIGPT",
-                    description:
-                        "Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs.",
-                    url: "https://noaigpt.com/ai-detectors",
-                    images: [
-                        {
-                            url: "https://noaigpt.com/assets/images/ai-detectors.png", // Add relevant OG image for this page
-                            width: 1200,
-                            height: 630,
-                            alt: "AI Detectors Comparison Chart",
-                        },
-                    ],
-                }}
-                additionalMetaTags={[
-                    {
-                        name: "keywords",
-                        content: "AI Detectors, AI Detection Tools, AI-generated Content, ZeroGPT, GPTRadar, Turnitin, NoAIGPT",
-                    },
-                ]}
-            />
-            <script type="application/ld+json">
-                {JSON.stringify([breadcrumbJsonLd])}
-            </script>
+            <head>
+                <title>AI Detectors - Compare the Best Tools | NoAIGPT</title>
+                <meta
+                    name="description"
+                    content="Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs."
+                />
+                <meta
+                    name="keywords"
+                    content="AI Detectors, AI Detection Tools, AI-generated Content, ZeroGPT, GPTRadar, Turnitin, NoAIGPT"
+                />
+                <link rel="canonical" href="https://noaigpt.com/ai-detectors" />
+                <meta property="og:title" content="AI Detectors - Compare the Best Tools | NoAIGPT" />
+                <meta
+                    property="og:description"
+                    content="Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs."
+                />
+                <meta property="og:url" content="https://noaigpt.com/ai-detectors" />
+                <meta
+                    property="og:image"
+                    content="https://noaigpt.com/assets/images/ai-detectors.png"
+                />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+        <meta name="twitter:handle" content="@noaigpt" />
+        <meta name="twitter:site" content="@noaigpt" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">
+          {JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://noaigpt.com/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "AI Detectors",
+                  "item": "https://noaigpt.com/ai-detectors"
+                },
+
+              ]
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "NoaiGPT",
+              "image": "https://noaigpt.com/assets/images/pricing.png",
+              "description": "Choose the perfect top-up plan that fits your needs.",
+              "sku": "noaigpt-plan",
+              "offers": {
+                "@type": "Offer",
+                "url": "https://noaigpt.com/pricing",
+                "priceCurrency": "USD",
+                "price": "10.00"
+              }
+            }
+          ])}
+        </script>
+        </head>
             <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
                 {/* Dark background for main content */}
                 <Header onShowSignupForm={() => setShowSignupForm(true)} />

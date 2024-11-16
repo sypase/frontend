@@ -54,24 +54,33 @@ const TopGrammarScore = () => {
 
   return (
     <>
-      <NextSeo
-        title="Top Grammar Score - Elevate Your Writing"
-        description="Experience unparalleled grammar accuracy with our advanced tool. Achieve consistently high scores in grammar checks, ensuring clarity and precision in your content."
-        openGraph={{
-          title: 'Top Grammar Score - Elevate Your Writing',
-          description: 'Experience unparalleled grammar accuracy with our advanced tool. Achieve consistently high scores in grammar checks, ensuring clarity and precision in your content.',
-          images: [
-            {
-              url: '/assets/temp/grammercheck.png',
-              alt: 'Grammar Check Tool',
-            }
-          ],
-          site_name: 'NoaiGPT',
-        }}
-        twitter={{
-          cardType: 'summary_large_image',
-        }}
-      />
+      <head>
+        <title>Top Grammar Score - Elevate Your Writing</title>
+        <meta
+          name="description"
+          content="Experience unparalleled grammar accuracy with our advanced tool. Achieve consistently high scores in grammar checks, ensuring clarity and precision in your content."
+        />
+        <meta
+          property="og:title"
+          content="Top Grammar Score - Elevate Your Writing"
+        />
+        <meta
+          property="og:description"
+          content="Experience unparalleled grammar accuracy with our advanced tool. Achieve consistently high scores in grammar checks, ensuring clarity and precision in your content."
+        />
+        <meta
+          property="og:image"
+          content="/assets/temp/grammercheck.png"
+        />
+        <meta
+          property="og:site_name"
+          content="NoaiGPT"
+        />
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+        />
+      </head>
       <section ref={sectionRef} className="h-auto min-h-[80vh] flex items-center justify-center py-20 bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
