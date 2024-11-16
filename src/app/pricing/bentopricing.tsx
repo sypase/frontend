@@ -61,7 +61,7 @@ export function BentoDemo({ onShowSignupForm }: BentoDemoProps) {
       description: "Connect with thousands of students on Discord",
       icon: <FaDiscord size={64} className="mb-6 animate-pulse" />,
       buttonText: "Join Discord",
-      link: "https://discord.gg/PzsY72DC", // Discord link
+      link: "https://discord.gg/EHyTgxm52E", // Discord link
     },
     {
       bg: "bg-emerald-500",

@@ -309,7 +309,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
         Earn
       </Link>
       <a
-        href="https://discord.gg/PzsY72DC"
+        href="https://discord.gg/EHyTgxm52E"
         target="_blank"
         rel="noopener noreferrer"
         className="text-white hover:text-neutral-200 transition-colors duration-200 hidden md:block"
