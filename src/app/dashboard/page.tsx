@@ -16,8 +16,8 @@ import { HorizontalStepLoader } from "../../components/ui/horizontal-step-loader
 
 import Header from "../header";
 
-// Register the ScrollToPlugin with GSAP
-gsap.registerPlugin(ScrollToPlugin);
+// // Register the ScrollToPlugin with GSAP
+// gsap.registerPlugin(ScrollToPlugin);
 
 interface Message {
   id: number;
@@ -157,7 +157,7 @@ export default function Home() {
     getUser();
 
     if (latestMessageRef.current) {
-      latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
+      // latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
@@ -204,13 +204,13 @@ export default function Home() {
 
     if (inputContainerRef.current) {
       const messageElement = inputContainerRef.current.lastElementChild;
-      if (messageElement) {
-        gsap.fromTo(
-          messageElement,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
-        );
-      }
+      // if (messageElement) {
+      //   gsap.fromTo(
+      //     messageElement,
+      //     { opacity: 0, y: 20 },
+      //     { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+      //   );
+      // }
     }
 
     const config = {
@@ -342,47 +342,50 @@ export default function Home() {
       <Header />
   
       <main className="flex-grow flex px-4 py-2 overflow-auto mt-20 pt-16">
-        <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row space-y-4 md:space-x-4 md:space-y-0">
-          
-          {/* Left side - Input messages */}
-          <div className="flex flex-col w-full md:w-[50%] rounded-lg bg-black shadow-md border border-gray-800">
-            <div ref={inputContainerRef} className="flex-grow overflow-y-auto p-4">
-              {messages.length === 0 && text.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <l-jelly size="40" speed="0.9" color="#4B5563"></l-jelly>
-                  <p className="mt-4 text-gray-400">Waiting for input...</p>
-                </div>
-              ) : (
-                messages
-                  .filter((m) => m.sender === "user")
-                  .map((message, index, array) => (
-                    <div
-                      key={message.id}
-                      ref={index === array.length - 1 ? latestMessageRef : null}
-                      className="p-3 rounded-lg bg-gray-900 shadow-sm mb-3"
-                    >
-                      <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
-                        {message.text}
-                      </p>
-                    </div>
-                  ))
-              )}
-            </div>
-            <div className="p-4 border-t border-gray-800 md:block">
-              <Footer
-                text={text}
-                setText={setText}
-                loading={loading}
-                sendMessage={rewrite}
-                handleTextAreaChange={handleTextAreaChange}
-                handleKeyDown={handleKeyDown}
-                textareaRef={textareaRef}
-              />
-            </div>
+  <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row space-y-4 md:space-x-4 md:space-y-0">
+    
+    {/* Left side - Input messages */}
+    <div className="flex flex-col w-full md:w-[50%] rounded-lg bg-black shadow-md border border-gray-800">
+      <div
+        ref={inputContainerRef}
+        className="flex-grow p-4 sm:overflow-y-auto overflow-hidden"
+      >
+        {messages.length === 0 && text.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-full">
+            <l-jelly size="40" speed="0.9" color="#4B5563"></l-jelly>
+            <p className="mt-4 text-gray-400">Waiting for input...</p>
           </div>
-  
+        ) : (
+          messages
+            .filter((m) => m.sender === "user")
+            .map((message, index, array) => (
+              <div
+                key={message.id}
+                ref={index === array.length - 1 ? latestMessageRef : null}
+                className="p-3 rounded-lg bg-gray-900 shadow-sm mb-3"
+              >
+                <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
+                  {message.text}
+                </p>
+              </div>
+            ))
+        )}
+      </div>
+      <div className="p-4 border-t border-gray-800 md:block">
+        <Footer
+          text={text}
+          setText={setText}
+          loading={loading}
+          sendMessage={rewrite}
+          handleTextAreaChange={handleTextAreaChange}
+          handleKeyDown={handleKeyDown}
+          textareaRef={textareaRef}
+        />
+      </div>
+    </div>
+
           {/* Right side - Output messages */}
-          <div className="flex flex-col w-full min-h-[60%]  md:min-h-auto md:w-[50%] rounded-lg shadow-md border border-gray-800">
+          <div className="flex flex-col w-full min-h-screen  sm:min-h-0 md:w-[50%] rounded-lg shadow-md border border-gray-800">
           <div className="h-full flex flex-col">
           <div className="flex-grow p-4  relative">
           {loading ? (
