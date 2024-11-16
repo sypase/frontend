@@ -61,6 +61,7 @@ export default function UnifiedPricingShop() {
     }
   };
 
+  
   const handleShowSignupForm = () => {
     if (isLoggedIn) {
       window.location.href = "/dashboard";
