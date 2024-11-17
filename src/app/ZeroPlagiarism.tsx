@@ -54,7 +54,7 @@ const ZeroPlagiarism = () => {
   return (
     <>
       {/* SEO meta tags */}
-      <head>
+      {/* <head>
         <title>Zero Plagiarism - Ensure Original Content</title>
         <meta
           name="description"
@@ -80,7 +80,7 @@ const ZeroPlagiarism = () => {
           name="twitter:card"
           content="summary_large_image"
         />
-      </head>
+      </head> */}
 
       <section ref={sectionRef} className="h-auto min-h-[80vh] flex items-center justify-center py-20 bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

@@ -300,14 +300,14 @@ export default function Home() {
 
   return (
     <>
-      <head>
+      <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>NoAIGPT - Professional AI Text Humanizer & Content Authenticity Platform</title>
         <meta
           name="description"
-          content="Experience the most advanced AI text humanization platform trusted by over 100,000 professionals worldwide. Our cutting-edge technology transforms AI-generated content into perfectly natural human text, guaranteed to pass all content detection tools with 100% accuracy."
-        />
+          content = "Experience the most advanced AI text humanization platform trusted by over 100,000 professionals worldwide. Our cutting-edge technology transforms AI-generated content into perfectly natural human text, guaranteed to pass all content detection tools with 100% accuracy. Utilizing proprietary deep learning algorithms and linguistic pattern analysis, NoAIGPT preserves your content's original meaning while ensuring complete undetectability. Perfect for content creators, marketing agencies, academic professionals, and enterprises seeking to maintain authenticity in their digital content. Join the leading solution for content authenticity and experience why top companies choose NoAIGPT for their content optimization needs."
+          />
         <link rel="canonical" href="https://noaigpt.com/" />
 
         {/* Open Graph Meta Tags */}
@@ -351,7 +351,6 @@ export default function Home() {
         {/* Favicon and Icons */}
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-        <link rel="manifest" href="/site.webmanifest" />
 
         {/* Preconnect for Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -394,7 +393,7 @@ export default function Home() {
             ]
           })}
         </script>
-      </head>
+      </Head>
       <Header
       onShowSignupForm={() => setShowSignupForm(true)}
 />

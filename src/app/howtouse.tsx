@@ -7,7 +7,7 @@ import { AiFillStar } from 'react-icons/ai';
 export default function CleanLayout() {
   return (
     <>
-      <head>
+      {/* <head>
         <title>How to Use NoaiGPT</title>
         <meta name="description" content="Follow these simple steps to start using NoaiGPT. Create an account, choose your plan, and explore the AI capabilities at your fingertips." />
         <meta property="og:title" content="How to Use NoaiGPT" />
@@ -16,7 +16,7 @@ export default function CleanLayout() {
         <meta property="og:site_name" content="NoaiGPT" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content="https://noaigpt.com/assets/images/howtouse.png" />
-      </head>
+      </head> */}
 
       <div className="min-h-screen bg-black">
         {/* Hero Section with How to Use */}

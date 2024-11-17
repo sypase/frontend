@@ -54,7 +54,7 @@ const TopGrammarScore = () => {
 
   return (
     <>
-      <head>
+      {/* <head>
         <title>Top Grammar Score - Elevate Your Writing</title>
         <meta
           name="description"
@@ -80,7 +80,7 @@ const TopGrammarScore = () => {
           name="twitter:card"
           content="summary_large_image"
         />
-      </head>
+      </head> */}
       <section ref={sectionRef} className="h-auto min-h-[80vh] flex items-center justify-center py-20 bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">

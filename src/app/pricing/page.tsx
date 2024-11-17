@@ -11,6 +11,7 @@ import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
 import { initializePaddle } from "@paddle/paddle-js";
 import dynamic from 'next/dynamic';
+import Head from 'next/head'; // Import Head from Next.js
 
 
 interface Item {

@@ -60,7 +60,7 @@ export function TabsDemo() {
   return (
     <>
       {/* SEO Meta Tags */}
-      <head>
+      {/* <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Compare AI Tools - GPTZero, ZeroGPT, Turnitin & More</title>
@@ -87,7 +87,7 @@ export function TabsDemo() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@noaigpt" />
         <meta name="twitter:creator" content="@noaigpt" />
-      </head>
+      </head> */}
 
       <div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative b flex flex-col max-w-5xl mx-auto w-full  items-start justify-start my-40">
         <Tabs tabs={tabs} />
