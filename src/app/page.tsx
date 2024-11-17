@@ -300,7 +300,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
+      <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>NoAIGPT - Professional AI Text Humanizer & Content Authenticity Platform</title>
@@ -393,7 +393,7 @@ export default function Home() {
             ]
           })}
         </script>
-      </Head>
+      </head>
       <Header
       onShowSignupForm={() => setShowSignupForm(true)}
 />

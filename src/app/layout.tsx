@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { defaultSEOConfig } from '../../next-seo.config';
+import Head from 'next/head'; // Import Head from Next.js
 
 // Initialize Inter font
 const inter = Inter({
@@ -48,6 +49,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>{children}</head>
       <body>{children}</body>
     </html>
   )
