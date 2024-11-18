@@ -139,8 +139,38 @@ export default function ProfilePage() {
       const referralLink = `${window.location.origin}/?referral=${user.referralCode}`;
       navigator.clipboard
         .writeText(referralLink)
-        .then(() => toast.success("Referral link copied to clipboard!"))
-        .catch(() => toast.error("Failed to copy referral link."));
+        .then(() => 
+          toast.success("Referral link copied to clipboard!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+          })
+        )
+        .catch(() => 
+          toast.error("Failed to copy referral link.", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+              backgroundColor: "#272727",
+              color: "#fff",
+              borderRadius: "8px",
+        },
+          })
+        );
     }
   };
 

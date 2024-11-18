@@ -13,7 +13,6 @@ import SignupForm from "../signup/SignupForm";
 import { NextSeo } from "next-seo"; // Import NextSeo component
 
 
-
 interface User {
     name: string;
     email: string;
@@ -126,8 +125,38 @@ const EarnPage = () => {
             const referralLink = `${window.location.origin}/?referral=${user.referralCode}`;
             navigator.clipboard
                 .writeText(referralLink)
-                .then(() => toast.success("Referral link copied to clipboard!"))
-                .catch(() => toast.error("Failed to copy referral link."));
+                .then(() => 
+                    toast.success("Referral link copied to clipboard!", {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        style: {
+                          backgroundColor: "#272727",
+                          color: "#fff",
+                          borderRadius: "8px",
+                        },
+                          })
+                        )
+                        .catch(() => 
+                          toast.error("Failed to copy referral link.", {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            style: {
+                              backgroundColor: "#272727",
+                              color: "#fff",
+                              borderRadius: "8px",
+                        },
+                          })
+                        );
         }
     };
 
@@ -276,7 +305,13 @@ const EarnPage = () => {
                                             Copy your unique referral link and share it with your friends via social media, text, or email.
                                         </p>
                                         <Button
-                                            onClick={copyReferralLink}
+                                            onClick={() => {
+                                                if (isLoggedIn) {
+                                                    copyReferralLink();
+                                                } else {
+                                                    setShowSignupForm(true);
+                                                }
+                                            }}
                                             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md"
                                         >
                                             {isLoggedIn ? "Copy Referral Link" : "Sign In and Copy Link"}
