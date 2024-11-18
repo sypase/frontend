@@ -172,23 +172,24 @@ const Footer: React.FC<FooterProps> = ({
   ) => {
     if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
       event.preventDefault();
-      if (wordCount < 80 || wordCount > 500) {
-        toast.error('Word count must be between 80 and 500.', {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          style: {
-            backgroundColor: "#272727",
-            color: "#fff",
-            borderRadius: "8px",
-          },
-        });      
-      } else if (text.trim().length > 0) {
+      // if (wordCount < 80 || wordCount > 500) {
+      //   toast.error('Word count must be between 80 and 500.', {
+      //     position: "top-center",
+      //     autoClose: 2000,
+      //     hideProgressBar: true,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "dark",
+      //     style: {
+      //       backgroundColor: "#272727",
+      //       color: "#fff",
+      //       borderRadius: "8px",
+      //     },
+      //   });      
+      // } else if 
+      if (text.trim().length > 0) {
         sendMessage();
       }
     }
