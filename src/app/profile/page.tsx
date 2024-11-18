@@ -139,8 +139,38 @@ export default function ProfilePage() {
       const referralLink = `${window.location.origin}/?referral=${user.referralCode}`;
       navigator.clipboard
         .writeText(referralLink)
-        .then(() => toast.success("Referral link copied to clipboard!"))
-        .catch(() => toast.error("Failed to copy referral link."));
+        .then(() => 
+          toast.success("Referral link copied to clipboard!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+          })
+        )
+        .catch(() => 
+          toast.error("Failed to copy referral link.", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+              backgroundColor: "#272727",
+              color: "#fff",
+              borderRadius: "8px",
+        },
+          })
+        );
     }
   };
 
@@ -291,7 +321,7 @@ export default function ProfilePage() {
                       </CardContent>
                     </Card>
                   </Link>
-                  <Link href="/documents">
+                  <Link href="/dashboard/history">
                     <Card className="bg-gradient-to-br from-yellow-600 to-yellow-800 hover:from-yellow-700 hover:to-yellow-900 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-none">
                       <CardContent className="flex flex-col items-center justify-center p-8">
                         <FiFileText className="text-5xl text-yellow-200 mb-4" />
