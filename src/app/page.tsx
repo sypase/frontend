@@ -101,7 +101,6 @@ export default function Home() {
   const sendMessage = async () => {
     if (text.trim().length < 3 || loading) return;
     if (wordCount < 100) {
-      toast.error("Minimum word count is 100.");
       return;
     }
 
@@ -140,12 +139,38 @@ export default function Home() {
     } catch (error: any) {
       setLoading(false);
       if (error.response?.status === 429) {
-        toast.error("No more free attempts. Please sign up for more rewrites.");
+        toast.error("No more free attempts. Please sign up for more rewrites.", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
         setTimeout(() => {
           setShowSignupForm(true);
         }, 3000);
       } else {
-        toast.error(error.response?.data?.error || "Something went wrong!");
+        toast.error(error.response?.data?.error || "Something went wrong!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
       }
     }
   };
@@ -187,11 +212,36 @@ export default function Home() {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
       () => {
-        toast.success("Copied to clipboard!");
+        toast.success("Copied to clipboard!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
       },
       (err) => {
-        console.error("Could not copy text: ", err);
-        toast.error("Failed to copy text.");
+        toast.error("Failed to copy text.", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
       }
     );
   };

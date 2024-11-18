@@ -13,7 +13,6 @@ import { quantum } from "ldrs";
 import { jelly } from "ldrs";
 import { MultiStepLoader } from "../../components/ui/multi-step-loader";
 import { HorizontalStepLoader } from "../../components/ui/horizontal-step-loader";
-
 import Header from "../header";
 
 // // Register the ScrollToPlugin with GSAP

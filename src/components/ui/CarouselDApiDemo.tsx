@@ -8,6 +8,9 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel"
+import { toast, ToastContainer } from 'react-toastify';
+
+
 
 
 interface Variant {
@@ -40,20 +43,35 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
     
     if (currentVariant) {
       navigator.clipboard.writeText(currentVariant.text).then(() => {
-        // Display a toast message instead of an alert
-        const toast = document.createElement("div");
-        toast.textContent = "Text copied successfully";
-        toast.className = "fixed top-4 left-1/2 z-50 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-4 rounded shadow-lg";
-        toast.style.backgroundColor = "#272727";
-        toast.style.color = "#32CD32"; // Changed text color to a darker green
-        toast.style.borderRadius = "8px";
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-          document.body.removeChild(toast);
-        }, 3000);
-      }).catch(err => {
-        console.error("Failed to copy text: ", err);
+        toast.success("Copied to clipboard!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
+      }).catch((err: any) => {
+        toast.error("Failed to copy text.", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
       });
     }
   };

@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FiArrowRight } from "react-icons/fi";
+import ScrollToFooterButton from "./ScrollToFooterButton";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import styles
+
 
 interface FooterProps {
   text: string;
@@ -25,38 +29,38 @@ const Footer: React.FC<FooterProps> = ({
   const [gradientPosition, setGradientPosition] = useState(0);
   const [textareaHeight, setTextareaHeight] = useState('80px');
   const [wordCount, setWordCount] = useState(0); // State for word count
+  const [isDragging, setIsDragging] = useState(false); // State for drag-and-drop
 
   useEffect(() => {
-    // Retrieve text from localStorage if it exists
     const savedText = localStorage.getItem('sharedText');
     if (savedText) {
-      setText(savedText);  // Set the text value
+      setText(savedText);
     }
 
-    // Check if the redirect happened from app/Footer.tsx
     const fromFooterPage = localStorage.getItem('fromFooterPage');
     if (fromFooterPage === 'true') {
-      // Focus the textarea if redirected from app/Footer.tsx
       if (textareaRef.current) {
-        textareaRef.current.focus();  // Focus the textarea
+        textareaRef.current.focus();
       }
 
-      // Simulate button click
       const button = document.querySelector('button.p-3.text-purple-400') as HTMLButtonElement;
       if (button) {
         button.click();
       }
 
-      // Reset sharedText in localStorage
       const waitForButtonClick = () => {
         return new Promise<void>((resolve) => {
           const button = document.querySelector('button.p-3.text-purple-400');
           if (button) {
-        button.addEventListener('click', () => {
-          resolve();
-        }, { once: true });
+            button.addEventListener(
+              'click',
+              () => {
+                resolve();
+              },
+              { once: true }
+            );
           } else {
-        resolve();
+            resolve();
           }
         });
       };
@@ -68,6 +72,17 @@ const Footer: React.FC<FooterProps> = ({
       });
     }
   }, [setText, sendMessage, text, wordCount]);
+
+  // const handleAction = (
+  //   event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
+  // ) => {
+  //   if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
+  //     event.preventDefault();
+  //     if (text.trim().length > 0 && wordCount >= 80 && wordCount <= 500) {
+  //       sendMessage();
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     let animationFrame: number;
@@ -86,10 +101,9 @@ const Footer: React.FC<FooterProps> = ({
     };
   }, []);
 
-  // Update word count whenever text changes
   useEffect(() => {
     const updatedWordCount = text.split(/\s+/).filter(Boolean).length;
-    setWordCount(updatedWordCount); // Update state with the new word count
+    setWordCount(updatedWordCount);
 
     if (textareaRef.current) {
       textareaRef.current.style.height = '80px';
@@ -98,6 +112,96 @@ const Footer: React.FC<FooterProps> = ({
       setTextareaHeight(scrollHeight + 'px');
     }
   }, [text]);
+
+  // const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  //   setIsDragging(false);
+
+  //   if (e.dataTransfer.files.length > 0) {
+  //     const file = e.dataTransfer.files[0];
+  //     if (file.type === 'text/plain') {
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         const fileText = reader.result as string;
+  //         setText(fileText);
+  //         sendMessage(); // Automatically send the message after dropping the file
+  //       };
+  //       reader.readAsText(file);
+  //     } else {
+  //       alert('Only text files are allowed.');
+  //     }
+  //   }
+  // };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    if (e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      if (file.type === 'text/plain') {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const fileText = reader.result as string;
+          setText(fileText);
+          sendMessage(); // Automatically send the message after dropping the file
+        };
+        reader.readAsText(file);
+      } else {
+        toast.error('Only text files are allowed.', {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
+      }
+    }
+  };
+
+  const handleAction = (
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
+      event.preventDefault();
+      if (wordCount < 80 || wordCount > 500) {
+        toast.error('Word count must be between 80 and 500.', {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });      
+      } else if (text.trim().length > 0) {
+        sendMessage();
+      }
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(90deg, #ffaa40, #9c40ff, #ffaa40)`,
@@ -108,12 +212,18 @@ const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <div className="mt-auto">
+    <div
+      className={`mt-auto ${isDragging ? 'border-dashed border-4 border-purple-500' : ''}`}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+    >
       <div className="relative">
         <div
           className="flex items-end rounded-lg overflow-hidden bg-black transition-all border duration-300 hover:shadow-xl relative p-[2px]"
           style={gradientStyle}
         >
+          <ScrollToFooterButton />
           <div className="flex items-end w-full bg-black rounded-lg">
             <textarea
               ref={textareaRef}
@@ -121,11 +231,11 @@ const Footer: React.FC<FooterProps> = ({
               style={{
                 minHeight: "80px",
                 height: textareaHeight,
-                maxHeight: "300px"
+                maxHeight: "300px",
               }}
               value={text}
               onChange={handleTextAreaChange}
-              onKeyDown={handleKeyDown}
+              onKeyDown={handleAction}
               placeholder="Enter your AI-generated text here..."
             />
             <div className="absolute top-2 right-2 text-sm text-gray-400">
@@ -133,8 +243,8 @@ const Footer: React.FC<FooterProps> = ({
             </div>
             <button
               className={`p-3 text-purple-400 hover:text-purple-300 focus:outline-none transition-all duration-300 ${loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"}`}
-              onClick={sendMessage}
-              disabled={loading || text.trim().length < 3 || wordCount < 100}
+              onClick={handleAction}
+              // disabled={loading || text.trim().length < 3 || wordCount < 80 || wordCount > 500}
             >
               {loading ? (
                 <div className="w-6 h-6 border-2 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
@@ -162,6 +272,8 @@ const Footer: React.FC<FooterProps> = ({
           background-color: #555;
         }
       `}</style>
+            <ToastContainer /> {/* Include the ToastContainer to render toasts */}
+
     </div>
   );
 };

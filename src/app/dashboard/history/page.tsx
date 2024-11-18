@@ -8,6 +8,8 @@ import { saveAs } from "file-saver"
 import Header from "../../header";
 import { serverURL } from "@/utils/utils";
 import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Import styles
+
 
 interface Variant {
   id: number
@@ -111,36 +113,146 @@ const HistoryPage: React.FC = () => {
   ).sort((a, b) => (a.id < b.id ? -1 : 1))
 
   const clearHistory = () => {
-    setMessages([])
-    localStorage.removeItem("messageHistory")
-    setShowConfirmation(false)
-  }
+    try {
+      setMessages([]); // Clear messages
+      localStorage.removeItem("messageHistory"); // Remove message history from local storage
+      setShowConfirmation(false); // Hide confirmation dialog
+  
+      // Show success toast
+      toast.success("Message history cleared successfully!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    } catch (err) {
+      // Show error toast if something goes wrong
+      toast.error("Failed to clear message history.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    }
+  };
+
 
   const exportMessage = (message: Message) => {
-    const variantsText = message.variants
-      .map((variant, index) => `Variant ${index + 1}:\n${variant.text}`)
-      .join("\n\n")
-    const exportText = `Original Input:\n${message.originalInput}\n\n${variantsText}`
-    const element = document.createElement("a")
-    const file = new Blob([exportText], { type: "text/plain" })
-    element.href = URL.createObjectURL(file)
-    element.download = `message_${message.id}.txt`
-    document.body.appendChild(element)
-    element.click()
-  }
-
-  const exportAllMessages = async () => {
-    const zip = new JSZip()
-    botMessages.forEach((message) => {
+    try {
       const variantsText = message.variants
         .map((variant, index) => `Variant ${index + 1}:\n${variant.text}`)
-        .join("\n\n")
-      const exportText = `Original Input:\n${message.originalInput}\n\n${variantsText}`
-      zip.file(`message_${message.id}.txt`, exportText)
-    })
-    const content = await zip.generateAsync({ type: "blob" })
-    saveAs(content, "all_messages.zip")
-  }
+        .join("\n\n");
+  
+      const exportText = `Original Input:\n${message.originalInput}\n\n${variantsText}`;
+      const element = document.createElement("a");
+      const file = new Blob([exportText], { type: "text/plain" });
+  
+      element.href = URL.createObjectURL(file);
+      element.download = `message_${message.id}.txt`;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+  
+      // Show success toast
+      toast.success("File downloaded successfully!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    } catch (err) {
+      // Show error toast if something goes wrong
+      toast.error("Failed to export message.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    }
+  };
+  
+
+  const exportAllMessages = async () => {
+    try {
+      const zip = new JSZip();
+  
+      botMessages.forEach((message) => {
+        const variantsText = message.variants
+          .map((variant, index) => `Variant ${index + 1}:\n${variant.text}`)
+          .join("\n\n");
+        const exportText = `Original Input:\n${message.originalInput}\n\n${variantsText}`;
+        zip.file(`message_${message.id}.txt`, exportText);
+      });
+  
+      const content = await zip.generateAsync({ type: "blob" });
+      saveAs(content, "all_messages.zip");
+  
+      // Show success toast
+      toast.success("All messages exported successfully!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    } catch (err) {
+      // Show error toast if something goes wrong
+      toast.error("Failed to export all messages.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    }
+  };
+  
   
   return (   
     <>
@@ -267,8 +379,9 @@ const HistoryPage: React.FC = () => {
               </div>
             </div>
           )}
-          <ToastContainer position="bottom-right" />
         </main>
+        <ToastContainer position="bottom-right" />
+
       </div>
     </>
   );
