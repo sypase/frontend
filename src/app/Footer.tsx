@@ -66,23 +66,6 @@ const Footer: React.FC<FooterProps> = ({
         if (text.trim().length > 0 && wordCount >= 100) {
           sendMessage(); // Call sendMessage directly for non-logged-in users
         }
-        else
-        {
-          toast.error('Word count must be between 80 and 500.', {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: {
-              backgroundColor: "#272727",
-              color: "#fff",
-              borderRadius: "8px",
-            },
-          });
-        }
       }
     }
   };  
