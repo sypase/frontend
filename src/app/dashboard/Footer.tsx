@@ -133,10 +133,45 @@ const Footer: React.FC<FooterProps> = ({
   //   }
   // };
 
+  const handleAction = (
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    const fromFooterPage = localStorage.getItem('fromFooterPage') === 'true';
+  
+    if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
+      event.preventDefault();
+      
+      if (!fromFooterPage) { // Only show toast if not from FooterPage
+        if (wordCount < 80 || wordCount > 500) {
+          toast.error('Word count must be between 80 and 500.', {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            style: {
+              backgroundColor: "#272727",
+              color: "#fff",
+              borderRadius: "8px",
+            },
+          });      
+        } else if (text.trim().length > 0) {
+          sendMessage();
+        }
+      } else {
+        sendMessage();
+      }
+    }
+  };
+  
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
-
+    const fromFooterPage = localStorage.getItem('fromFooterPage') === 'true';
+  
     if (e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
       if (file.type === 'text/plain') {
@@ -147,7 +182,7 @@ const Footer: React.FC<FooterProps> = ({
           sendMessage(); // Automatically send the message after dropping the file
         };
         reader.readAsText(file);
-      } else {
+      } else if (!fromFooterPage) { // Only show toast if not from FooterPage
         toast.error('Only text files are allowed.', {
           position: "top-center",
           autoClose: 2000,
@@ -166,34 +201,7 @@ const Footer: React.FC<FooterProps> = ({
       }
     }
   };
-
-  const handleAction = (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
-      event.preventDefault();
-      // if (wordCount < 80 || wordCount > 500) {
-      //   toast.error('Word count must be between 80 and 500.', {
-      //     position: "top-center",
-      //     autoClose: 2000,
-      //     hideProgressBar: true,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "dark",
-      //     style: {
-      //       backgroundColor: "#272727",
-      //       color: "#fff",
-      //       borderRadius: "8px",
-      //     },
-      //   });      
-      // } else if 
-      if (text.trim().length > 0) {
-        sendMessage();
-      }
-    }
-  };
+  
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();

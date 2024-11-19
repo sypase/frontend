@@ -51,24 +51,42 @@ const Footer: React.FC<FooterProps> = ({
   const handleAction = (
     event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
+    if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
+    event.preventDefault();
+    // Check word count first
+    if (wordCount < 80 || wordCount > 500) {
+      toast.error('Word count must be between 80 and 500.', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      }); // Stop further execution if word count is invalid
+    }
+    else{
     if (isLoggedIn) {
       // Check if the event is a keyboard event and the key is 'Enter', or if it's a click event
-      if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
-        event.preventDefault();
-        if (text.trim().length > 0 && wordCount >= 100) {
+
+        if (text.trim().length > 0 && (wordCount >= 80 && wordCount <= 500)) {
           handleSendMessage(); // Send the message if conditions are met
-        }
       }
     } else {
       // If not logged in, use sendMessage for Enter key or button click
-      if ((event as React.KeyboardEvent).key === 'Enter' || event.type === 'click') {
-        event.preventDefault(); // Prevent default behavior
-        if (text.trim().length > 0 && wordCount >= 100) {
+
+        if (text.trim().length > 0 && (wordCount >= 80 && wordCount <= 500)) {
           sendMessage(); // Call sendMessage directly for non-logged-in users
         }
-      }
     }
-  };  
+  }
+  }
+  };
   
 
   return (

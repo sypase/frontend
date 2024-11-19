@@ -249,7 +249,7 @@ export default function Home() {
       await getRewrites();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        toast.error(error.response.data.message || "Something went wrong!");
+        toast.error(error.response.data);
       } else {
         toast.error("Something went wrong!");
       }
