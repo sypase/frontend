@@ -2,7 +2,7 @@ import './globals.css';
 import { appName } from '@/utils/utils';
 import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
-import { GoogleAnalytics } from '@next/third-parties/google';
+// import { GoogleAnalytics } from '@next/third-parties/google';
 import { defaultSEOConfig } from '../../next-seo.config';
 
 // Initialize Inter font
@@ -118,7 +118,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           }}
         />
         {children}
-        <GoogleAnalytics gaId="G-YOUR-ANALYTICS-ID" />
+        {/* <GoogleAnalytics gaId="G-YOUR-ANALYTICS-ID" /> */}
       </body>
     </html>
   );

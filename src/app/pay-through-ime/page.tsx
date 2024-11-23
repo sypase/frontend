@@ -1,9 +1,19 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Timeline } from "@/components/ui/timeline";
 import Image from "next/image";
 import WordPullUp from "@/components/ui/word-pull-up";
-export default function Page() {
+import Header from "../header";
+import SignupForm from "../signup/SignupForm";
+
+
+const IMEPayPage= () => {
+  const [showSignupForm, setShowSignupForm] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    // This ensures that client-side only code runs after the component mounts
+    setIsClient(true);
+}, []);
   const timelineData = [
     {
       title: "Step 1",
@@ -84,8 +94,12 @@ export default function Page() {
   ];
 
   return (
+    
+    <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
+
     <div className="min-h-screen bg-black">
-      <div className="max-w-4xl text-white text-6xl pt-20 mb-[-50px] mx-auto   ">
+            <Header onShowSignupForm={() => setShowSignupForm(true)} />
+      <div className="max-w-4xl text-white text-6xl mb-[-50px] mx-auto  mt-20 p-10 ">
         <WordPullUp
           className="text-4xl font-bold tracking-[-0.02em] text-white dark:text-white md:text-6xl md:leading-[5rem]"
           words="How To Pay Through IME Pay"
@@ -93,6 +107,12 @@ export default function Page() {
       </div>
 
       <Timeline data={timelineData} />
+      {isClient && showSignupForm && (
+                    <SignupForm onClose={() => setShowSignupForm(false)} />
+                )}
     </div>
+    </main>
   );
 }
+
+export default IMEPayPage;

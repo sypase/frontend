@@ -18,7 +18,7 @@ import { serverURL } from "@/utils/utils";
 import { logos, logoSettings, kathmanduText, countWords } from "./constants";
 import { NextSeo } from 'next-seo';  // Importing next-seo
 import { defaultSEOConfig,breadcrumbJsonLd } from '../../next-seo.config';
-
+import TextareaWithButton from "./review";
 
 import Header from "./header";
 
@@ -548,6 +548,7 @@ export default function Home() {
 
                 <AccordionDemo />
 
+                < TextareaWithButton />
 
                 <ElegantFooter />
 
@@ -576,6 +577,7 @@ export default function Home() {
               <div ref={messagesEndRef} />
             </div>
           </animated.div>
+          
         </main>
 
         <Footer
@@ -591,6 +593,7 @@ export default function Home() {
           toggleAdvancedMode={toggleAdvancedMode} // Added this line
           isLoggedIn={!!user}
           />  
+          
         {showSignupForm && (
           <SignupForm onClose={() => setShowSignupForm(false)} />
         )}

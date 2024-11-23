@@ -334,7 +334,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
             {user?.name || "Dashboard"}
           </button>
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-neutral-950 bg-black bg-opacity-80 rounded-md shadow-lg">
+            <div className="absolute right-0 mt-2 w-64 bg-black bg-opacity-80 rounded-md shadow-lg">
               <div className="py-1">
                 <div className="px-4 py-2 text-sm text-neutral-300">
                   <p className="font-semibold">{user?.name}</p>
