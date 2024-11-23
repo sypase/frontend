@@ -10,9 +10,10 @@ import { BentoDemo } from "./bentopricing";
 import { FiGlobe } from "react-icons/fi";
 import PricingCards from "./pricingcard";
 import { initializePaddle } from "@paddle/paddle-js";
-import dynamic from 'next/dynamic';
-import Head from 'next/head'; // Import Head from Next.js
+import dynamic from "next/dynamic";
+import Head from "next/head"; // Import Head from Next.js
 
+import Link from "next/link";
 
 interface Item {
   _id: string;
@@ -49,7 +50,6 @@ export default function UnifiedPricingShop() {
   const [showSignupForm, setShowSignupForm] = useState(false);
   const [paddleLoaded, setPaddleLoaded] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  
 
   const detectLocation = async () => {
     try {
@@ -60,9 +60,6 @@ export default function UnifiedPricingShop() {
       console.error("Error detecting location:", error);
     }
   };
-
-  
-
 
   const fetchItems = async () => {
     try {
@@ -162,7 +159,6 @@ export default function UnifiedPricingShop() {
     }
   };
 
-
   const openCheckout = async (priceId: string) => {
     if (
       paddleLoaded &&
@@ -211,13 +207,17 @@ export default function UnifiedPricingShop() {
   const renderPaymentMethods = () => {
     if (currency === "NPR") {
       return (
-        <span className="text-blue-400 flex items-center justify-center mt-6">
-          <img
-            src="/assets/logos/imepay.png"
-            alt="IME Pay"
-            className="w-15 h-20 mr-2"
-          />
-        </span>
+        <div>
+          <span className="text-blue-400 flex items-center justify-center mt-6 mb-3">
+            <img
+              src="/assets/logos/imepay.png"
+              alt="IME Pay"
+              className="w-15 h-20 mr-2"
+            />
+          </span>
+
+          <Link href="../pay-through-ime">How To Pay From IME Pay?</Link>
+        </div>
       );
     } else {
       return (
@@ -236,7 +236,7 @@ export default function UnifiedPricingShop() {
     if (isLoggedIn) {
       window.location.href = "/dashboard";
     } else {
-      setShowSignupForm(true);// Show signup form if not logged in
+      setShowSignupForm(true); // Show signup form if not logged in
     }
   };
 
@@ -266,93 +266,94 @@ export default function UnifiedPricingShop() {
             {
               "@context": "https://schema.org",
               "@type": "BreadcrumbList",
-              "itemListElement": [
+              itemListElement: [
                 {
                   "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": "https://noaigpt.com/"
+                  position: 1,
+                  name: "Home",
+                  item: "https://noaigpt.com/",
                 },
                 {
                   "@type": "ListItem",
-                  "position": 2,
-                  "name": "Pricing",
-                  "item": "https://noaigpt.com/pricing"
+                  position: 2,
+                  name: "Pricing",
+                  item: "https://noaigpt.com/pricing",
                 },
-              ]
+              ],
             },
             {
               "@context": "https://schema.org",
               "@type": "Product",
-              "name": "NoaiGPT",
-              "image": "https://noaigpt.com/assets/images/pricing.png",
-              "description": "Choose the perfect top-up plan that fits your needs.",
-              "sku": "noaigpt-plan",
-              "offers": {
+              name: "NoaiGPT",
+              image: "https://noaigpt.com/assets/images/pricing.png",
+              description:
+                "Choose the perfect top-up plan that fits your needs.",
+              sku: "noaigpt-plan",
+              offers: {
                 "@type": "Offer",
-                "url": "https://noaigpt.com/pricing",
-                "priceCurrency": "USD",
-                "price": "10.00"
-              }
-            }
+                url: "https://noaigpt.com/pricing",
+                priceCurrency: "USD",
+                price: "10.00",
+              },
+            },
           ])}
         </script>
       </head>
-    <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
-      <Header onShowSignupForm={() => setShowSignupForm(true)} />
+      <main className="relative flex flex-col w-full min-h-screen bg-black text-white overflow-hidden">
+        <Header onShowSignupForm={() => setShowSignupForm(true)} />
 
-      <div className="flex flex-col items-center mt-40 mb-12 px-4">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-white p-4">
-          Stay Unique, Stay Undetectable
-        </h1>
-        <p className="text-lg text-gray-300 text-center max-w-xl">
-          Choose the perfect{" "}
-          <span className="font-bold italic text-blue-400 hover:text-blue-300 transition duration-300">
-            top-up
-          </span>{" "}
-          plan that fits your needs. Enjoy unlimited word usage with{" "}
-          <span className="font-bold italic text-blue-400 hover:text-blue-300 transition duration-300">
-            no expiration
-          </span>
-          .
+        <div className="flex flex-col items-center mt-40 mb-12 px-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-white p-4">
+            Stay Unique, Stay Undetectable
+          </h1>
+          <p className="text-lg text-gray-300 text-center max-w-xl">
+            Choose the perfect{" "}
+            <span className="font-bold italic text-blue-400 hover:text-blue-300 transition duration-300">
+              top-up
+            </span>{" "}
+            plan that fits your needs. Enjoy unlimited word usage with{" "}
+            <span className="font-bold italic text-blue-400 hover:text-blue-300 transition duration-300">
+              no expiration
+            </span>
+            .
+          </p>
+        </div>
+
+        <PricingCards
+          pricingData={items}
+          country={currency === "NPR" ? "NP" : "US"}
+          isLoggedIn={isLoggedIn}
+          setShowSignupForm={setShowSignupForm}
+          paymentMethods={paymentMethods}
+          openCheckout={openCheckout}
+        />
+
+        <p className="text-center mb-10 text-gray-300">
+          Supported payment methods: {renderPaymentMethods()}
         </p>
-      </div>
 
-      <PricingCards
-        pricingData={items}
-        country={currency === "NPR" ? "NP" : "US"}
-        isLoggedIn={isLoggedIn}
-        setShowSignupForm={setShowSignupForm}
-        paymentMethods={paymentMethods}
-        openCheckout={openCheckout}
-      />
+        {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
+          <p className="text-center mb-10 text-red-500">
+            No payment method available for NPR
+          </p>
+        )}
 
-      <p className="text-center mb-10 text-gray-300">
-        Supported payment methods: {renderPaymentMethods()}
-      </p>
+        <div className="fixed bottom-4 right-4 z-50">
+          <button
+            onClick={() => setCurrency(currency === "USD" ? "NPR" : "USD")}
+            className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white border-2 border-blue-500 font-semibold rounded-full shadow-md hover:bg-gray-700 transition-all duration-300"
+          >
+            <FiGlobe className="text-blue-400" />
+            <span>{currency === "USD" ? "United States" : "Nepal"}</span>
+          </button>
+        </div>
 
-      {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
-        <p className="text-center mb-10 text-red-500">
-          No payment method available for NPR
-        </p>
-      )}
-
-      <div className="fixed bottom-4 right-4 z-50">
-        <button
-          onClick={() => setCurrency(currency === "USD" ? "NPR" : "USD")}
-          className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white border-2 border-blue-500 font-semibold rounded-full shadow-md hover:bg-gray-700 transition-all duration-300"
-        >
-          <FiGlobe className="text-blue-400" />
-          <span>{currency === "USD" ? "United States" : "Nepal"}</span>
-        </button>
-      </div>
-
-      <BentoDemo onShowSignupForm={handleShowSignupForm} />
-      <ElegantFooter />
-      {showSignupForm && (
-        <SignupForm onClose={() => setShowSignupForm(false)} />
-      )}
-    </main>
+        <BentoDemo onShowSignupForm={handleShowSignupForm} />
+        <ElegantFooter />
+        {showSignupForm && (
+          <SignupForm onClose={() => setShowSignupForm(false)} />
+        )}
+      </main>
     </>
   );
 }
