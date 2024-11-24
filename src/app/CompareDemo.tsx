@@ -1,7 +1,7 @@
 import React from "react";
 import { Compare } from "@/components/ui/compare";
-
-import { NextSeo } from "next-seo";
+import ShineBorder from "@/components/ui/shine-border";
+import { NextSeo } from 'next-seo';
 
 export function CompareDemo() {
   return (
@@ -11,28 +11,27 @@ export function CompareDemo() {
         description="Compare AI-generated text with humanized text side by side to see the differences in a visually interactive way."
         openGraph={{
           title: "AI Text vs Humanized Text - Compare Demo",
-          description:
-            "A demo comparing AI-generated text with humanized text.",
+          description: "A demo comparing AI-generated text with humanized text.",
           images: [
             {
-              url: "/assets/Bypass Photos/aitext.png",
+              url: '/assets/Bypass Photos/aitext.png',
               width: 800,
               height: 600,
-              alt: "AI Generated Text Comparison",
+              alt: 'AI Generated Text Comparison',
             },
             {
-              url: "/assets/Bypass Photos/humanizedtext.png",
+              url: '/assets/Bypass Photos/humanizedtext.png',
               width: 800,
               height: 600,
-              alt: "Humanized Text Comparison",
+              alt: 'Humanized Text Comparison',
             },
           ],
-          site_name: "NoaiGPT",
+          site_name: 'NoaiGPT',
         }}
         twitter={{
-          cardType: "summary_large_image",
-          site: "@noaigpt",
-          handle: "@noaigpt",
+          cardType: 'summary_large_image',
+          site: '@noaigpt',
+          handle: '@noaigpt',
         }}
       />
       <section className="mt-4 h-[100vh] flex justify-center items-center bg-black">
