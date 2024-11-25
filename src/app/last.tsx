@@ -15,12 +15,12 @@ const ElegantFooter = () => {
             label: "Explore",
             items: [
                 { name: "Blog", href: "/blog" },
-                { name: "Bypasser Benchmark", href: "/bypasser-benchmark" },
+                { name: "Bypasser Benchmark", href: "/ai-bypassers" },
                 { name: "Pricing", href: "/pricing" },
                 { name: "Dashboard", href: "/dashboard" },
                 { name: "Earn", href: "/earn" },
-                { name: "LinkedIn", href: "/linkedin" },
-                { name: "Instagram", href: "/instagram" }
+                { name: "LinkedIn", href: "https://www.linkedin.com/company/noaigpt/" },
+                { name: "Instagram", href: "https://www.instagram.com/noaigptcom/" }
             ]
         },
         {
