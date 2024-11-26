@@ -123,6 +123,8 @@ export default function Home() {
   const inputContainerRef = useRef<HTMLDivElement>(null);
   const outputContainerRef = useRef<HTMLTextAreaElement>(null);
   const latestMessageRef = useRef<HTMLDivElement>(null);
+  const loadingComponentRef = useRef<HTMLDivElement | null>(null);
+
 
 
   const getUser = async () => {
@@ -151,22 +153,29 @@ export default function Home() {
     }
   };
 
+
+  useEffect(() => {
+    if (window.innerWidth <= 768) { 
+    if (loadingComponentRef.current) {
+      loadingComponentRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+  }, [loading]);
+
   
   useEffect(() => {
-    getUser();
-
+    // Ensure smooth scroll to the latest message for smaller screens
     if (latestMessageRef.current) {
-      latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-      // Scroll the entire page to the bottom on responsive screens
-  if (window.innerWidth <= 768) { // For smaller screens
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth", // Smooth scroll effect
-    });
-  }
-  }, [messages]);
+      if (window.innerWidth > 768) { 
 
+        latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [messages]); // Re-run whenever messages change
+  
+
+
+  
   useEffect(() => {
     if (!loading) {
       const savedMessages = localStorage.getItem("messageHistory");
@@ -196,9 +205,11 @@ export default function Home() {
 
 
   const rewrite = async () => {
+
     if (text.length < 3 || loading) return;
 
     setLoading(true);
+
     const newMessage: Message = {
       id: messages.length + 1,
       sender: "user",
@@ -219,13 +230,6 @@ export default function Home() {
       }
     }
   
-    // Scroll to the bottom of the screen
-    if (window.innerWidth <= 768) { // Check for smaller screen widths
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
-    }  
 
     const config = {
       method: "POST",
@@ -271,15 +275,13 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+    
   };
 
   useEffect(() => {
     getRewrites();
   }, []);
 
-  useEffect(() => {
-    getRewrites();
-  }, [messages]);
 
   const handleTextAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -403,8 +405,9 @@ export default function Home() {
           <div className="h-full flex flex-col">
           <div className="flex-grow p-4  relative">
           {loading ? (
-                  <div className="absolute inset-0">
+                  <div ref={loadingComponentRef} className=" absolute inset-0">
                     <MultiStepLoader
+                    
                       loadingStates={loadingStates}
                       loading={loading}
                       duration={3000}
