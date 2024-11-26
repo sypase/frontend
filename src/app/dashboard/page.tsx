@@ -15,8 +15,8 @@ import { MultiStepLoader } from "../../components/ui/multi-step-loader";
 import { HorizontalStepLoader } from "../../components/ui/horizontal-step-loader";
 import Header from "../header";
 
-// // Register the ScrollToPlugin with GSAP
-// gsap.registerPlugin(ScrollToPlugin);
+// Register the ScrollToPlugin with GSAP
+gsap.registerPlugin(ScrollToPlugin);
 
 interface Message {
   id: number;
@@ -203,14 +203,25 @@ export default function Home() {
 
     if (inputContainerRef.current) {
       const messageElement = inputContainerRef.current.lastElementChild;
-      // if (messageElement) {
-      //   gsap.fromTo(
-      //     messageElement,
-      //     { opacity: 0, y: 20 },
-      //     { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
-      //   );
-      // }
+    
+      if (messageElement && messageElement instanceof HTMLElement) {
+        const isDesktop = window.matchMedia("(min-width: 768px)").matches; // Check screen width
+        if (isDesktop) {
+          // Apply GSAP animation for larger screens
+          gsap.fromTo(
+            messageElement,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+          );
+        } else {
+          // For smaller screens, do nothing
+          console.log("Skipping animation on smaller screens");
+        }
+      } else {
+        console.warn("messageElement is not a valid DOM element:", messageElement);
+      }
     }
+    
 
     const config = {
       method: "POST",
