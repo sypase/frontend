@@ -298,7 +298,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     <div className="flex items-center space-x-3">
       <Link
         href="/pricing"
-        className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300 hidden sm:block"
+        className="px-4 py-1.5 text-sm font-medium text-neutral-300 bg-transparent border border-neutral-700 rounded hover:bg-neutral-800 hover:text-neutral-50 transition-all duration-300  sm:block"
       >
         Pricing
       </Link>
@@ -373,14 +373,14 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                 >
                   <FiArchive className="inline-block mr-2" /> History
                 </button>
-                <button
+                {/*<button
                   onClick={() =>
                     (window.location.href = "/pricing")
                   }
                   className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
                 >
                   <FiDollarSign className="inline-block mr-2" /> Pricing
-                </button>
+                </button>*/}
                 <button
                   onClick={() =>
                     (window.location.href = "/earn")
