@@ -158,6 +158,13 @@ export default function Home() {
     if (latestMessageRef.current) {
       latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
     }
+      // Scroll the entire page to the bottom on responsive screens
+  if (window.innerWidth <= 768) { // For smaller screens
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth", // Smooth scroll effect
+    });
+  }
   }, [messages]);
 
   useEffect(() => {
