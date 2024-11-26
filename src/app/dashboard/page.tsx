@@ -156,7 +156,7 @@ export default function Home() {
     getUser();
 
     if (latestMessageRef.current) {
-      // latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
+      latestMessageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
