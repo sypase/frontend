@@ -78,7 +78,7 @@ export function CarouselDApiDemo({ variants }: CarouselDApiDemoProps) {
 
   return (
     <div className="mx-auto max-w-full overflow-hidden ">
-      <Carousel setApi={setApi} className="w-full max-w-full bg-neutral-950 text-white">
+      <Carousel setApi={setApi} className="w-full max-w-full bg-gray-800 text-white">
         <CarouselContent className="flex">
           {variants.map((variant) => (
             <CarouselItem key={variant.id} className="flex-shrink-0 w-full">
