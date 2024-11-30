@@ -178,54 +178,86 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
 
   return (
     <>
-      {showAnnouncement && (
-        <div className="bg-gradient-to-r from-[#ffaa40] to-[#9c40ff] text-white text-center py-1.5 px-3 fixed top-0 left-0 right-0 z-50 border-b border-[#ffaa40]">
-          <div className="max-w-7xl mx-auto relative flex items-center justify-center gap-2">
-            <div className="flex items-center gap-1">
-              <span className="bg-[#ffaa40] text-white text-xs font-semibold px-2 py-0.5 rounded-full border border-[#ffaa40]">
-                NEW
-              </span>
-              <Sparkles className="h-3 w-3 text-[#9c40ff]" />
-              <p className="text-xs font-medium">
-                <span className="font-semibold text-white">
-                  NoaiGPT Model Update:
-                </span>
-                <span className="mx-1 text-white">
-                  Now with Enhanced Turnitin Compatibility
-                </span>
-                <span className="inline-flex items-center">
-                  <Link
-                    href="/learn-more"
-                    className="inline-flex items-center ml-2 text-white hover:text-[#ffaa40] font-medium group"
-                  >
-                    Learn more
-                    <svg
-                      className="w-3.5 h-3.5 ml-0.5 transform transition-transform group-hover:translate-x-0.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </Link>
-                </span>
-              </p>
-            </div>
-            <button
-              onClick={closeAnnouncement}
-              className="absolute right-0 p-1 text-white hover:text-[#ffaa40] hover:bg-[#9c40ff] rounded-full transition-all duration-200"
-              aria-label="Close announcement"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </div>
+{showAnnouncement && (
+  <div className="bg-gradient-to-r from-[#ffaa40] to-[#9c40ff] text-white text-center py-1.5 px-3 fixed top-0 left-0 right-0 z-50 border-b border-[#ffaa40]">
+    <div className="max-w-7xl mx-auto relative flex items-center justify-center gap-2">
+      {isLoggedIn && (rewriteCount+dailyFreeCredits) < 80 ? (
+        // Low Credit Announcement
+        <div className="flex items-center gap-1">
+          <span className="bg-[#ffaa40] text-white text-xs font-semibold px-2 py-0.5 rounded-full border border-[#ffaa40]">
+            ALERT
+          </span>
+          <p className="text-xs font-medium">
+            <span className="font-semibold text-white">Low Credit Count!</span>
+            <span className="mx-1 text-white">Get more credits now to continue rewriting!</span>
+            <span className="inline-flex items-center">
+              <Link
+                href="/pricing"
+                className="inline-flex items-center ml-2 text-white hover:text-[#ffaa40] font-medium group"
+              >
+                Get Credits
+                <svg
+                  className="w-3.5 h-3.5 ml-0.5 transform transition-transform group-hover:translate-x-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Link>
+            </span>
+          </p>
+        </div>
+      ) : (
+        // Default Announcement
+        <div className="flex items-center gap-1">
+          <span className="bg-[#ffaa40] text-white text-xs font-semibold px-2 py-0.5 rounded-full border border-[#ffaa40]">
+            NEW
+          </span>
+          <Sparkles className="h-3 w-3 text-[#9c40ff]" />
+          <p className="text-xs font-medium">
+            <span className="font-semibold text-white">NoaiGPT Model Update:</span>
+            <span className="mx-1 text-white">Now with Enhanced Turnitin Compatibility</span>
+            <span className="inline-flex items-center">
+              <Link
+                href="/learn-more"
+                className="inline-flex items-center ml-2 text-white hover:text-[#ffaa40] font-medium group"
+              >
+                Learn more
+                <svg
+                  className="w-3.5 h-3.5 ml-0.5 transform transition-transform group-hover:translate-x-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Link>
+            </span>
+          </p>
         </div>
       )}
+      <button
+        onClick={closeAnnouncement}
+        className="absolute right-0 p-1 text-white hover:text-[#ffaa40] hover:bg-[#9c40ff] rounded-full transition-all duration-200"
+        aria-label="Close announcement"
+      >
+        <X className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  </div>
+)}
+
 
 <header
   className={`fixed left-0 right-0 z-40 bg-neutral-950 bg-opacity-50 backdrop-blur-lg border-b border-neutral-800 ${
