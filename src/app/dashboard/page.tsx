@@ -268,13 +268,37 @@ export default function Home() {
       await getRewrites();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        toast.error(error.response.data);
+        let errorMessage = "Something went wrong!";
+        
+        // If error.response.data is an object, extract the error message
+        if (typeof error.response.data === 'object' && error.response.data?.error) {
+          errorMessage = error.response.data.error;
+        } else if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        }
+        
+        toast.error(errorMessage, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
       } else {
         toast.error("Something went wrong!");
       }
-    } finally {
-      setLoading(false);
-    }
+      } finally {
+        setLoading(false);
+      }
+      
     
   };
 
