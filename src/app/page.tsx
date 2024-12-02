@@ -346,8 +346,8 @@ export default function Home() {
     <title>NoAIGPT - Professional AI Text Humanizer & Content Authenticity Platform</title>
     <meta
       name="description"
-      content="Experience the most advanced AI text humanization platform trusted by over 100,000 professionals worldwide. Our cutting-edge technology transforms AI-generated content into perfectly natural human text, guaranteed to pass all content detection tools with 100% accuracy. Utilizing proprietary deep learning algorithms and linguistic pattern analysis, NoAIGPT preserves your content's original meaning while ensuring complete undetectability. Perfect for content creators, marketing agencies, academic professionals, and enterprises seeking to maintain authenticity in their digital content. Join the leading solution for content authenticity and experience why top companies choose NoAIGPT for their content optimization needs."
-    />
+      content= "Transform AI-generated content into natural human text with NoAIGPT. Featuring advanced algorithms and trusted by top content creators, marketing agencies, and Fortune 500 companies."
+      />
     <link rel="canonical" href="https://noaigpt.com/" />
 
     <meta property="og:type" content="website" />

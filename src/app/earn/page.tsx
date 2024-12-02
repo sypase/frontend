@@ -168,7 +168,7 @@ const EarnPage = () => {
                 <title>NoAIGPT - Earn with Our Referral Program</title>
                 <meta
                     name="description"
-                    content="Join NoAIGPT’s referral program and earn credits for every friend you refer. Simply share your unique link, and when your friend signs up, both of you will receive 500 credits! It's quick, easy, and rewarding. Start referring today and earn credits for enhanced AI content solutions."
+                    content="Earn credits by referring friends to NoAIGPT. Share your link and get rewards when they sign up, unlocking more AI-humanized content and advanced features."
                 />
                 <link rel="canonical" href="https://noaigpt.com/earn" />
 
@@ -176,7 +176,8 @@ const EarnPage = () => {
                 <meta property="og:title" content="Earn with Our Referral Program - NoAIGPT" />
                 <meta
                     property="og:description"
-                    content="Earn credits by referring friends to NoAIGPT. Share your unique link and receive rewards when they sign up. It’s an easy and rewarding way to unlock more AI-humanized content and advanced features."
+                    content="Join NoAIGPT’s referral program and earn credits for every friend you refer. Simply share your unique link, and when your friend signs up, both of you will receive 500 credits! It's quick, easy, and rewarding. Start referring today and earn credits for enhanced AI content solutions."
+
                 />
                 <meta
                     property="og:image"

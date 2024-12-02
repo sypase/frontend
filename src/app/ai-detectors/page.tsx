@@ -27,7 +27,7 @@ const AiDetectorsPage = () => {
                 <title>AI Detectors - Compare the Best Tools | NoAIGPT</title>
                 <meta
                     name="description"
-                    content="Explore how NoAIGPT’s cutting-edge AI detection bypass technology outperforms top AI detectors. Our advanced algorithms ensure AI-generated content remains undetectable, providing unmatched content authenticity for businesses and creators."
+                    content="Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs."
                 />
                 <meta
                     name="keywords"
@@ -37,7 +37,7 @@ const AiDetectorsPage = () => {
                 <meta property="og:title" content="AI Detectors - Compare the Best Tools | NoAIGPT" />
                 <meta
                     property="og:description"
-                    content="Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs."
+                    content="Explore how NoAIGPT’s cutting-edge AI detection bypass technology outperforms top AI detectors. Our advanced algorithms ensure AI-generated content remains undetectable, providing unmatched content authenticity for businesses and creators."
                 />
                 <meta property="og:url" content="https://noaigpt.com/ai-detectors" />
                 <meta

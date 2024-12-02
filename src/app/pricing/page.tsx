@@ -252,8 +252,7 @@ export default function UnifiedPricingShop() {
         <meta property="og:title" content="Pricing Plans - NoaiGPT" />
         <meta
           property="og:description"
-          content="Choose from NoAIGPT’s flexible pricing plans to access powerful AI text humanization technology. Ensure high-quality, undetectable content with advanced linguistic algorithms and AI detector bypass across all plans."
-        />
+          content="Explore NoAIGPT's flexible pricing plans, offering high-quality AI text humanization that guarantees undetectable content. Perfect for content creators and businesses."        />
         <meta
           property="og:image"
           content="https://noaigpt.com/assets/images/pricing.png"
