@@ -271,7 +271,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
           NoaiGPT
             <Badge
             variant="outline"
-            className="ml-2 text-neutral-300 border-neutral-600 sm:inline-block"
+            className="ml-2 text-neutral-300 border-neutral-600 hidden sm:inline-block"
             >
             Beta
             </Badge>
