@@ -30,6 +30,7 @@ interface PaymentMethods {
   imepay: { enabled: boolean; currencies: string[] };
   esewa: { enabled: boolean; currencies: string[] };
   khalti: { enabled: boolean; currencies: string[] };
+  fonepay: { enabled: boolean; currencies: string[] };
 }
 
 interface User {
@@ -211,11 +212,7 @@ export default function UnifiedPricingShop() {
             alt="Fone Pay"
             className="w-15 h-20 mr-4" // No curve added to this logo
           />
-          <img
-            src="/assets/logos/imepay.png"
-            alt="IME Pay"
-            className="w-15 h-20 mr-4 rounded-md" // Added `rounded-md` for a slight curve
-          />
+
         </span>
       );
     } else {
@@ -275,7 +272,7 @@ export default function UnifiedPricingShop() {
           Supported payment methods: {renderPaymentMethods()}
         </p>
 
-        {!paymentMethods?.imepay?.enabled && currency === "NPR" && (
+        {!paymentMethods?.imepay?.enabled || !paymentMethods?.fonepay.enabled && currency === "NPR" && (
           <p className="text-center mb-10 text-red-500">
             No payment method available for NPR
           </p>
