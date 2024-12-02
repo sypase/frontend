@@ -339,111 +339,196 @@ export default function Home() {
 
   if (!isLoaded) {
     return (
+      <>
+        <head>
+    <meta charSet="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NoAIGPT - Professional AI Text Humanizer & Content Authenticity Platform</title>
+    <meta
+      name="description"
+      content="Experience the most advanced AI text humanization platform trusted by over 100,000 professionals worldwide. Our cutting-edge technology transforms AI-generated content into perfectly natural human text, guaranteed to pass all content detection tools with 100% accuracy. Utilizing proprietary deep learning algorithms and linguistic pattern analysis, NoAIGPT preserves your content's original meaning while ensuring complete undetectability. Perfect for content creators, marketing agencies, academic professionals, and enterprises seeking to maintain authenticity in their digital content. Join the leading solution for content authenticity and experience why top companies choose NoAIGPT for their content optimization needs."
+    />
+    <link rel="canonical" href="https://noaigpt.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://noaigpt.com/" />
+    <meta property="og:site_name" content="NoAIGPT" />
+    <meta property="og:title" content="NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users" />
+    <meta
+      property="og:description"
+      content="Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform. Featuring advanced linguistic algorithms, real-time processing, and guaranteed passing of all content detection systems."
+    />
+    <meta
+      property="og:image"
+      content="https://noaigpt.com/assets/images/og-image.png"
+    />
+    <meta property="og:image:secure_url" content="https://noaigpt.com/assets/images/og-image.png" />
+    <meta property="og:image:alt" content="NoAIGPT - Professional AI Content Humanizer Platform" />
+    <meta
+      property="og:image"
+      content="https://noaigpt.com/assets/images/og-square.png"
+    />
+    <meta property="og:image:alt" content="NoAIGPT Logo" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@noaigpt" />
+    <meta name="twitter:handle" content="@noaigpt" />
+    <meta name="twitter:title" content="NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users" />
+    <meta
+      name="twitter:description"
+      content="Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform."
+    />
+    <meta name="twitter:image" content="https://noaigpt.com/assets/images/og-image.png" />
+
+    <meta name="apple-mobile-web-app-title" content="NoAIGPT" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossOrigin="anonymous"
+    />
+
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://noaigpt.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Pricing",
+            "item": "https://noaigpt.com/pricing"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "AI Detectors",
+            "item": "https://noaigpt.com/ai-detectors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Earn",
+            "item": "https://noaigpt.com/earn"
+          },
+        ]
+      })}
+    </script>
+  </head>
       <div className="flex flex-col items-center justify-center min-h-screen bg-black">
         <div className="text-4xl font-semibold text-center text-transparent bg-gradient-to-b from-gray-200 to-gray-600 bg-clip-text transition-transform transform hover:scale-105">
           Stay Unique, Stay Undetectable
         </div>
       </div>
+      </>
     );
   }
   
 
   return (
     <>
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>NoAIGPT - Professional AI Text Humanizer & Content Authenticity Platform</title>
-        <meta
-          name="description"
-          content = "Experience the most advanced AI text humanization platform trusted by over 100,000 professionals worldwide. Our cutting-edge technology transforms AI-generated content into perfectly natural human text, guaranteed to pass all content detection tools with 100% accuracy. Utilizing proprietary deep learning algorithms and linguistic pattern analysis, NoAIGPT preserves your content's original meaning while ensuring complete undetectability. Perfect for content creators, marketing agencies, academic professionals, and enterprises seeking to maintain authenticity in their digital content. Join the leading solution for content authenticity and experience why top companies choose NoAIGPT for their content optimization needs."
-          />
-        <link rel="canonical" href="https://noaigpt.com/" />
+  <head>
+    <meta charSet="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NoAIGPT - Professional AI Text Humanizer & Content Authenticity Platform</title>
+    <meta
+      name="description"
+      content="Experience the most advanced AI text humanization platform trusted by over 100,000 professionals worldwide. Our cutting-edge technology transforms AI-generated content into perfectly natural human text, guaranteed to pass all content detection tools with 100% accuracy. Utilizing proprietary deep learning algorithms and linguistic pattern analysis, NoAIGPT preserves your content's original meaning while ensuring complete undetectability. Perfect for content creators, marketing agencies, academic professionals, and enterprises seeking to maintain authenticity in their digital content. Join the leading solution for content authenticity and experience why top companies choose NoAIGPT for their content optimization needs."
+    />
+    <link rel="canonical" href="https://noaigpt.com/" />
 
-        {/* Open Graph Meta Tags */}
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:url" content="https://noaigpt.com/" />
-        <meta property="og:site_name" content="NoAIGPT" />
-        <meta property="og:title" content="NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users" />
-        <meta
-          property="og:description"
-          content="Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform. Featuring advanced linguistic algorithms, real-time processing, and guaranteed passing of all content detection systems."
-        />
-        <meta
-          property="og:image"
-          content="https://noaigpt.com/assets/images/og-image.png"
-        />
-        <meta property="og:image:secure_url" content="https://noaigpt.com/assets/images/og-image.png" />
-        <meta property="og:image:alt" content="NoAIGPT - Professional AI Content Humanizer Platform" />
-        <meta
-          property="og:image"
-          content="https://noaigpt.com/assets/images/og-square.png"
-        />
-        <meta property="og:image:alt" content="NoAIGPT Logo" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://noaigpt.com/" />
+    <meta property="og:site_name" content="NoAIGPT" />
+    <meta property="og:title" content="NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users" />
+    <meta
+      property="og:description"
+      content="Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform. Featuring advanced linguistic algorithms, real-time processing, and guaranteed passing of all content detection systems."
+    />
+    <meta
+      property="og:image"
+      content="https://noaigpt.com/assets/images/og-image.png"
+    />
+    <meta property="og:image:secure_url" content="https://noaigpt.com/assets/images/og-image.png" />
+    <meta property="og:image:alt" content="NoAIGPT - Professional AI Content Humanizer Platform" />
+    <meta
+      property="og:image"
+      content="https://noaigpt.com/assets/images/og-square.png"
+    />
+    <meta property="og:image:alt" content="NoAIGPT Logo" />
 
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@noaigpt" />
-        <meta name="twitter:handle" content="@noaigpt" />
-        <meta name="twitter:title" content="NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users" />
-        <meta
-          name="twitter:description"
-          content="Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform."
-        />
-        <meta name="twitter:image" content="https://noaigpt.com/assets/images/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@noaigpt" />
+    <meta name="twitter:handle" content="@noaigpt" />
+    <meta name="twitter:title" content="NoAIGPT - Professional AI Text Humanizer | Trusted by 100,000+ Users" />
+    <meta
+      name="twitter:description"
+      content="Transform AI-generated content into flawlessly natural human text with our enterprise-grade humanization platform."
+    />
+    <meta name="twitter:image" content="https://noaigpt.com/assets/images/og-image.png" />
 
-        {/* Apple and Mobile Meta Tags */}
-        <meta name="apple-mobile-web-app-title" content="NoAIGPT" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-title" content="NoAIGPT" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#000000" />
 
-        {/* Favicon and Icons */}
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
-        {/* Preconnect for Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossOrigin="anonymous"
+    />
 
-        {/* Structured Data for Breadcrumb */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://noaigpt.com/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Pricing",
-                "item": "https://noaigpt.com/pricing"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "AI Detectors",
-                "item": "https://noaigpt.com/ai-detectors"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "Earn",
-                "item": "https://noaigpt.com/earn"
-              },
-            ]
-          })}
-        </script>
-      </head>
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://noaigpt.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Pricing",
+            "item": "https://noaigpt.com/pricing"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "AI Detectors",
+            "item": "https://noaigpt.com/ai-detectors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Earn",
+            "item": "https://noaigpt.com/earn"
+          },
+        ]
+      })}
+    </script>
+  </head>
+
       <Header
       onShowSignupForm={() => setShowSignupForm(true)}
 />

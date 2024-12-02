@@ -246,21 +246,27 @@ export default function UnifiedPricingShop() {
         <title>Pricing Plans - NoaiGPT</title>
         <meta
           name="description"
-          content="Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration."
+          content="Explore NoAIGPT's flexible pricing plans designed to meet the needs of content creators and businesses. From the Starter plan to the Standard plan, our AI text humanization technology guarantees high-quality, undetectable content, passing all AI detectors. Choose the plan that suits your needs and experience the future of content authenticity today."
         />
         <meta property="og:url" content="https://noaigpt.com/pricing" />
         <meta property="og:title" content="Pricing Plans - NoaiGPT" />
         <meta
           property="og:description"
-          content="Choose the perfect top-up plan that fits your needs. Enjoy unlimited word usage with no expiration."
+          content="Choose from NoAIGPT’s flexible pricing plans to access powerful AI text humanization technology. Ensure high-quality, undetectable content with advanced linguistic algorithms and AI detector bypass across all plans."
         />
         <meta
           property="og:image"
           content="https://noaigpt.com/assets/images/pricing.png"
         />
-        <meta name="twitter:handle" content="@noaigpt" />
-        <meta name="twitter:site" content="@noaigpt" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@noaigpt" />
+        <meta name="twitter:handle" content="@noaigpt" />
+        <meta name="twitter:title" content="Pricing Plans - NoaiGPT" />
+        <meta
+          name="twitter:description"
+          content="Choose from NoAIGPT’s flexible pricing plans to access powerful AI text humanization technology. Ensure high-quality, undetectable content with advanced linguistic algorithms and AI detector bypass across all plans."
+        />
+        <meta name="twitter:image" content="https://noaigpt.com/assets/images/pricing.png" />
         <script type="application/ld+json">
           {JSON.stringify([
             {

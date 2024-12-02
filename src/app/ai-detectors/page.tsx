@@ -27,7 +27,7 @@ const AiDetectorsPage = () => {
                 <title>AI Detectors - Compare the Best Tools | NoAIGPT</title>
                 <meta
                     name="description"
-                    content="Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs."
+                    content="Explore how NoAIGPT’s cutting-edge AI detection bypass technology outperforms top AI detectors. Our advanced algorithms ensure AI-generated content remains undetectable, providing unmatched content authenticity for businesses and creators."
                 />
                 <meta
                     name="keywords"
@@ -49,6 +49,11 @@ const AiDetectorsPage = () => {
         <meta name="twitter:handle" content="@noaigpt" />
         <meta name="twitter:site" content="@noaigpt" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AI Detectors - NoaiGPT" />
+        <meta
+          name="twitter:description"
+          content="Compare the performance of popular AI detection tools such as ZeroGPT, GPTRadar, and Turnitin. Find the right AI detector for your needs."
+        />
         <script type="application/ld+json">
           {JSON.stringify([
             {

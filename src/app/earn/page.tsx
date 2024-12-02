@@ -160,37 +160,23 @@ const EarnPage = () => {
         }
     };
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-screen w-full bg-black text-white">
-                Loading...
-            </div>
-        );
-    }
-
-
 
     return (
         <>
             <head>
-                <meta charSet="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
                 <title>NoAIGPT - Earn with Our Referral Program</title>
                 <meta
                     name="description"
-                    content="Earn rewards by referring friends to NoAIGPT. Share your unique referral link and start earning credits today."
+                    content="Join NoAIGPT’s referral program and earn credits for every friend you refer. Simply share your unique link, and when your friend signs up, both of you will receive 500 credits! It's quick, easy, and rewarding. Start referring today and earn credits for enhanced AI content solutions."
                 />
                 <link rel="canonical" href="https://noaigpt.com/earn" />
 
-                {/* Open Graph Meta Tags */}
-                <meta property="og:type" content="website" />
-                <meta property="og:locale" content="en_US" />
                 <meta property="og:url" content="https://noaigpt.com/earn" />
-                <meta property="og:site_name" content="NoAIGPT" />
-                <meta property="og:title" content="Earn with Our Referral Program | NoAIGPT" />
+                <meta property="og:title" content="Earn with Our Referral Program - NoAIGPT" />
                 <meta
                     property="og:description"
-                    content="Share your referral link and earn rewards with NoAIGPT. Start earning today!"
+                    content="Earn credits by referring friends to NoAIGPT. Share your unique link and receive rewards when they sign up. It’s an easy and rewarding way to unlock more AI-humanized content and advanced features."
                 />
                 <meta
                     property="og:image"
