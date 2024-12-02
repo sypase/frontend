@@ -49,6 +49,10 @@ const defaultSEOConfig: DefaultSeoProps = {
     // WhatsApp specific meta tags
     additionalMetaTags: [
       {
+        name: "keywords",
+        content: "AI Text Humanizer, AI Content Humanization, AI Detection Bypass, Humanize AI Text, Content Authenticity Platform, Professional Content Humanizer, AI Text to Human Text, Linguistic Pattern Analysis, Deep Learning Content Humanizer, Content Optimization Tool, Best AI Detection Bypass Tool, NoAIGPT Platform",
+      },
+      {
         property: "og:image:secure_url",
         content: "https://noaigpt.com/assets/images/og-image.png",
       },
