@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { serverURL } from "@/utils/utils";
@@ -12,29 +10,30 @@ interface FonepayFormProps {
 export default function FonepayForm({ item }: FonepayFormProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasInitiated = useRef(false); // Use ref instead of state
   const router = useRouter();
 
   useEffect(() => {
+    if (hasInitiated.current) return; // Check the ref instead of state
+    hasInitiated.current = true;
+
     const initiateFonepayPayment = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        // Send request to backend to initiate payment
         const response = await axios.post(
           `${serverURL}/payments/fonepay/create-order-fonepay`,
-          {
-            item,
-          },
+          { item },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
+        console.log("Fonepay response:", response.data);
 
         if (response.data && response.data.redirectUrl) {
-          // Redirect to Fonepay payment page
           window.location.href = response.data.redirectUrl;
         } else {
           throw new Error("Failed to get redirect URL from server.");
@@ -50,7 +49,7 @@ export default function FonepayForm({ item }: FonepayFormProps) {
     };
 
     initiateFonepayPayment();
-  }, [item]);
+  }, [item]); // Dependency array ensures it's run once per `item`
 
   if (loading) {
     return (
