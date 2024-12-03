@@ -6,13 +6,10 @@ import dynamic from "next/dynamic";
 import { FiArrowLeft } from "react-icons/fi";
 import WordFadeIn from "@/components/ui/word-fade-in";
 
-const IMEPayIntegration = dynamic(() => import("./imepay_form"), {
-  ssr: false,
-});
-
-const EsewaIntegration = dynamic(() => import("./esewa_form"), {
-  ssr: false,
-});
+// Dynamically load payment forms for different methods
+const IMEPayIntegration = dynamic(() => import("./imepay_form"), { ssr: false });
+const EsewaIntegration = dynamic(() => import("./esewa_form"), { ssr: false });
+const FonepayIntegration = dynamic(() => import("./fonepay_form"), { ssr: false });
 
 function PaymentContent() {
   const params = useSearchParams();
@@ -23,6 +20,7 @@ function PaymentContent() {
     <div className="w-full max-w-md mx-auto">
       {method === "imepay" && item && <IMEPayIntegration item={item} />}
       {method === "esewa" && item && <EsewaIntegration item={item} />}
+      {method === "fonepay" && item && <FonepayIntegration item={item} />}
     </div>
   );
 }
