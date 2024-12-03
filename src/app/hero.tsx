@@ -41,7 +41,7 @@ const stats = [
     title: "Words Processed",
   },
   {
-    data: "10K",
+    data: "100K",
     title: "Users",
   },
   {

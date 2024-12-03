@@ -271,7 +271,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
           NoaiGPT
             <Badge
             variant="outline"
-            className="ml-2 text-neutral-300 border-neutral-600 hidden sm:inline-block"
+            className="ml-2 text-neutral-300 border-neutral-600"
             >
             Beta
             </Badge>
@@ -350,101 +350,95 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
       </a>
 
       {!isLoggedIn && (
-        <button
-          onClick={onShowSignupForm}
-          className="px-4 py-2 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
-        >
-          Try for Free
-        </button>
-      )}
-      {isLoggedIn && (
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={toggleDropdown}
-            className="px-4 py-2 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
-          >
-            {user?.name || "Dashboard"}
-          </button>
-          {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-black bg-opacity-80 rounded-md shadow-lg">
-              <div className="py-1">
-                <div className="px-4 py-2 text-sm text-neutral-300">
-                  <p className="font-semibold">{user?.name}</p>
-                  <p className="text-xs">{user?.email}</p>
-                  <div className="my-1 text-sm text-neutral-400">
-                    {dailyFreeCredits} Free Words Left
-                  </div>
-                  <div className="my-1 text-sm text-neutral-400 flex justify-between items-center">
-                    <span>{rewriteCount || 0} Credits Left</span>
-                    <button
-                      onClick={() => (window.location.href = "/pricing")}
-                      className="text-blue-500 hover:text-blue-700 text-sm border-2 border-blue-500 rounded px-3 py-1"
-                    >
-                      Get More
-                    </button>
-                  </div>
-                </div>
-                <div className="border-t border-neutral-800"></div>
-                <button
-                  onClick={() => (window.location.href = "/profile")}
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
-                >
-                  <FiUser className="inline-block mr-2" /> Profile
-                </button>
-                <button
-                  onClick={() => (window.location.href = "/dashboard")}
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
-                >
-                  <FiBook className="inline-block mr-2" /> Dashboard
-                </button>
-                <button
-                  onClick={() =>
-                    (window.location.href = "/dashboard/history")
-                  }
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
-                >
-                  <FiArchive className="inline-block mr-2" /> History
-                </button>
-                {/*<button
-                  onClick={() =>
-                    (window.location.href = "/pricing")
-                  }
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
-                >
-                  <FiDollarSign className="inline-block mr-2" /> Pricing
-                </button>*/}
-                <button
-                  onClick={() =>
-                    (window.location.href = "/earn")
-                  }
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
-                >
-                  <FiGift className="inline-block mr-2" /> Earn Credits
-                </button>
-                <button
-                  onClick={() =>
-                    (window.location.href = "/ai-detectors")
-                  }
-                  className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
-                >
-                <FiCrosshair className="inline-block mr-2" /> AI Detectors
-                </button>
-              </div>
-              <div className="border-t border-neutral-700">
-                <button
-                  onClick={() => {
-                    localStorage.clear();
-                    window.location.href = "/";
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
-                >
-                  <LogOut className="inline-block mr-2" /> Logout
-                </button>
-              </div>
+  <button
+    onClick={onShowSignupForm}
+    className="px-4 py-2 text-sm font-medium text-black bg-white border border-transparent rounded hover:bg-neutral-200 transition-all duration-300"
+  >
+    Try for Free
+  </button>
+)}
+{isLoggedIn && (
+  <div className="relative pl-3 sm:pl-auto" ref={dropdownRef}>
+    <button
+      onClick={toggleDropdown}
+      className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-black font-bold text-sm border border-transparent hover:bg-neutral-200 transition-all duration-300 sm:w-auto sm:h-auto sm:rounded sm:px-4 sm:py-2"
+    >
+      <span className="hidden sm:inline">{user?.name || "Dashboard"}</span>
+      <span className="inline sm:hidden">{user?.name?.charAt(0).toUpperCase()}</span>
+    </button>
+    {isDropdownOpen && (
+      <div className="absolute right-0 mt-2 w-64 bg-black bg-opacity-80 rounded-md shadow-lg">
+        <div className="py-1">
+          <div className="px-4 py-2 text-sm text-neutral-300">
+            <p className="font-semibold">{user?.name}</p>
+            <p className="text-xs">{user?.email}</p>
+            <div className="my-1 text-sm text-neutral-400">
+              {dailyFreeCredits} Free Words Left
             </div>
-          )}
+            <div className="my-1 text-sm text-neutral-400 flex justify-between items-center">
+              <span>{rewriteCount || 0} Credits Left</span>
+              <button
+                onClick={() => (window.location.href = "/pricing")}
+                className="text-blue-500 hover:text-blue-700 text-sm border-2 border-blue-500 rounded px-3 py-1"
+              >
+                Get More
+              </button>
+            </div>
+          </div>
+          <div className="border-t border-neutral-800"></div>
+          <button
+            onClick={() => (window.location.href = "/profile")}
+            className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+          >
+            <FiUser className="inline-block mr-2" /> Profile
+          </button>
+          <button
+            onClick={() => (window.location.href = "/dashboard")}
+            className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+          >
+            <FiBook className="inline-block mr-2" /> Dashboard
+          </button>
+          <button
+            onClick={() =>
+              (window.location.href = "/dashboard/history")
+            }
+            className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800"
+          >
+            <FiArchive className="inline-block mr-2" /> History
+          </button>
+          <button
+            onClick={() =>
+              (window.location.href = "/earn")
+            }
+            className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
+          >
+            <FiGift className="inline-block mr-2" /> Earn Credits
+          </button>
+          <button
+            onClick={() =>
+              (window.location.href = "/ai-detectors")
+            }
+            className="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 sm:hidden"
+          >
+            <FiCrosshair className="inline-block mr-2" /> AI Detectors
+          </button>
         </div>
-      )}
+        <div className="border-t border-neutral-700">
+          <button
+            onClick={() => {
+              localStorage.clear();
+              window.location.href = "/";
+            }}
+            className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-neutral-800"
+          >
+            <LogOut className="inline-block mr-2" /> Logout
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
     </div>
   </div>
 </header>
