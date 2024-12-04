@@ -203,30 +203,32 @@ export default function ProfilePage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center mb-6">
-                    <MinidenticonImg
-                      username={user.email}
-                      width={150}
-                      height={150}
-                      className="rounded-full mr-6"
-                    />
-                    <div>
-                      <p className="text-xl font-semibold mb-2">{user.name}</p>
-                      <p className="text-neutral-400 mb-2">{user.email}</p>
-                      <div className="flex items-center">
-                        <p className="text-neutral-400 mr-2">Referral Code:</p>
-                        <p className="font-semibold">{user.referralCode}</p>
-                        <Button
-                          variant="ghost"
-                          onClick={copyReferralLink}
-                          className="ml-2 text-neutral-400 hover:text-neutral-200"
-                        >
-                          <FiCopy />
-                        </Button>
-                      </div>
-                      <p className="text-neutral-400 mt-2">
-                        Total Completed Referrals: {totalCompletedReferrals}
-                      </p>
+                  <MinidenticonImg
+                    username={user.email}
+                    width={150}
+                    height={150}
+                    className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] rounded-full mr-0 md:mr-6"
+                  />
+
+                  <div className="max-w-full overflow-hidden">
+                    <p className="text-xl font-semibold mb-2 break-words">{user.name}</p>
+                    <p className="text-neutral-400 mb-2 break-words">{user.email}</p>
+                    <div className="flex items-center">
+                      <p className="text-neutral-400 mr-2">Referral Code:</p>
+                      <p className="font-semibold">{user.referralCode}</p>
+                      <Button
+                        variant="ghost"
+                        onClick={copyReferralLink}
+                        className="ml-2 text-neutral-400 hover:text-neutral-200"
+                      >
+                        <FiCopy />
+                      </Button>
                     </div>
+                    <p className="text-neutral-400 mt-2 break-words">
+                      Total Completed Referrals: {totalCompletedReferrals}
+                    </p>
+                  </div>
+
                   </div>
                 </CardContent>
               </Card>

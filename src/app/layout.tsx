@@ -65,38 +65,49 @@ export default function RootLayout({ children }: RootLayoutProps) {
         
         {/* Mobile specific meta tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://noaigpt.com/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Pricing",
-                "item": "https://noaigpt.com/pricing"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "AI Detectors",
-                "item": "https://noaigpt.com/ai-detectors"
-              },
-              {
-                "@type": "ListItem",
-                "position": 4,
-                "name": "Earn",
-                "item": "https://noaigpt.com/earn"
-              },
-            ]
-          })}
-        </script>
+        <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://noaigpt.com/",
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Pricing",
+          "item": "https://noaigpt.com/pricing",
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Earn",
+          "item": "https://noaigpt.com/earn",
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "AI Detectors",
+          "item": "https://noaigpt.com/ai-detectors",
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "AI Bypassers",
+          "item": "https://noaigpt.com/ai-bypassers",
+        },
+      ],
+    }),
+  }}
+/>
+
+
       </head>
       <body className={`${inter.className} antialiased`}>
         <script

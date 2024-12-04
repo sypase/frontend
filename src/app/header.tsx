@@ -109,7 +109,6 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
       const response = await axios.get(`${serverURL}/bypass/rewrites`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      console.log("Rewrites:", response.data);
       setRewriteCount(response.data.balance);
     } catch (error) {
       console.error("Error fetching rewrites:", error);

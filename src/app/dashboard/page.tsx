@@ -205,11 +205,10 @@ export default function Home() {
 
 
   const rewrite = async () => {
-
     if (text.length < 3 || loading) return;
-
+  
     setLoading(true);
-
+  
     const newMessage: Message = {
       id: messages.length + 1,
       sender: "user",
@@ -218,7 +217,7 @@ export default function Home() {
     };
     setMessages((prev) => [...prev, newMessage]);
     setText("");
-
+  
     if (inputContainerRef.current) {
       const messageElement = inputContainerRef.current.lastElementChild;
       if (messageElement) {
@@ -230,7 +229,6 @@ export default function Home() {
       }
     }
   
-
     const config = {
       method: "POST",
       url: `${serverURL}/bypass/rewrite`,
@@ -243,17 +241,16 @@ export default function Home() {
         tone: 0,
       },
     };
-
+  
     try {
       const response = await axios(config);
-
-      console.log(response.data);
-
+  
+  
       const variants = response.data.variants.map((variant: any) => ({
         text: variant.text,
         score: variant.score,
       }));
-
+  
       const botMessage: Message = {
         id: response.data.messageId,
         sender: "bot",
@@ -262,45 +259,55 @@ export default function Home() {
         variantIndex: 0,
         originalInput: text,
       };
-
+  
       setMessages((prev) => [...prev, botMessage]);
-
+  
       await getRewrites();
     } catch (error) {
+      let errorMessage = "Something went wrong!";
+  
+      // Handle specific error response
       if (axios.isAxiosError(error) && error.response) {
-        let errorMessage = "Something went wrong!";
-        
-        // If error.response.data is an object, extract the error message
+        // Extract error message from response
         if (typeof error.response.data === 'object' && error.response.data?.error) {
           errorMessage = error.response.data.error;
         } else if (typeof error.response.data === 'string') {
           errorMessage = error.response.data;
         }
-        
-        toast.error(errorMessage, {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          style: {
-            backgroundColor: "#272727",
-            color: "#fff",
-            borderRadius: "8px",
-          },
-        });
-      } else {
-        toast.error("Something went wrong!");
       }
-      } finally {
-        setLoading(false);
-      }
-      
-    
+  
+      // Add the error message to the messages array for display
+      const errorMessageObj: Message = {
+        id: messages.length + 1,
+        sender: "bot",
+        text: errorMessage,
+        variantIndex: 0,
+        originalInput: text,
+      };
+  
+      setMessages((prev) => [...prev, errorMessageObj]);
+  
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+  
+  
 
   useEffect(() => {
     getRewrites();
@@ -429,26 +436,25 @@ export default function Home() {
           <div className="h-full flex flex-col">
           <div className="flex-grow p-4  relative">
           {loading ? (
-                  <div ref={loadingComponentRef} className=" absolute inset-0">
-                    <MultiStepLoader
-                    
-                      loadingStates={loadingStates}
-                      loading={loading}
-                      duration={3000}
-                    />
-                  </div>
-                ) : messages.length === 0 ? (
-                  <div className="flex items-center justify-center h-full">
-                    <TypewriterEffect messages={welcomeMessages} />
-                  </div>
-                ) : (
-                  <textarea
-                    ref={outputContainerRef}
-                    className="w-full h-full resize-none text-sm text-gray-300 leading-relaxed focus:outline-none bg-black"
-                    value={messages[messages.length - 1].text}
-                    readOnly
-                  />
-                )}
+            <div ref={loadingComponentRef} className="absolute inset-0">
+              <MultiStepLoader loadingStates={loadingStates} loading={loading} duration={3000} />
+            </div>
+          ) : messages.length === 0 ? (
+            <div className="flex items-center justify-center h-full">
+              <TypewriterEffect messages={welcomeMessages} />
+            </div>
+          ) : (
+            <textarea
+              ref={outputContainerRef}
+              className={`w-full h-full resize-none  leading-relaxed focus:outline-none bg-black ${
+                messages[messages.length - 1].text === "Something went wrong!" || messages[messages.length - 1].text.includes("Not enough credits to proceed.")
+                  ? " text-gray-300 text-center font-bold mx-auto text-3xl"
+                  : " text-gray-300 text-sm"
+              }`}
+              value={messages[messages.length - 1].text}
+              readOnly
+            />
+          )}
               </div>
   
               {messages.length > 0 && messages[messages.length - 1].variants && (
