@@ -90,7 +90,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               },
               {
                 "@type": "ListItem",
-                "position": 3,
+                "position": 4,
                 "name": "Earn",
                 "item": "https://noaigpt.com/earn"
               },
