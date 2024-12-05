@@ -18,6 +18,7 @@ import {
   FiInfo,
   FiPackage,
   FiArrowRight,
+  FiDownload,
 } from "react-icons/fi";
 import MinidenticonImg from "./MinidenticonImg";
 import Header from "../header";
@@ -44,13 +45,13 @@ interface User {
   credits: number;
   referralCode: string;
 }
-
 interface Purchase {
   _id: string;
   item: string;
   amount: number;
   paymentMethod: string;
   date: string;
+  invoiceId: string; // Add this property
 }
 
 interface Order {
@@ -93,13 +94,12 @@ export default function ProfilePage() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      setPurchases(response.data);
+      setPurchases(response.data); // Ensure invoiceId is included in the response
     } catch (error) {
       console.error("Error fetching purchases:", error);
       toast.error("Failed to load purchases.");
     }
   };
-
   const getRewrites = async () => {
     try {
       const response = await axios.get(`${serverURL}/bypass/rewrites`, {
@@ -139,23 +139,23 @@ export default function ProfilePage() {
       const referralLink = `${window.location.origin}/?referral=${user.referralCode}`;
       navigator.clipboard
         .writeText(referralLink)
-        .then(() => 
+        .then(() =>
           toast.success("Referral link copied to clipboard!", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: {
-          backgroundColor: "#272727",
-          color: "#fff",
-          borderRadius: "8px",
-        },
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+              backgroundColor: "#272727",
+              color: "#fff",
+              borderRadius: "8px",
+            },
           })
         )
-        .catch(() => 
+        .catch(() =>
           toast.error("Failed to copy referral link.", {
             position: "top-center",
             autoClose: 2000,
@@ -168,9 +168,34 @@ export default function ProfilePage() {
               backgroundColor: "#272727",
               color: "#fff",
               borderRadius: "8px",
-        },
+            },
           })
         );
+    }
+  };
+  const downloadInvoice = async (invoiceId: string) => {
+    try {
+      const response = await axios.get(
+        `${serverURL}/shop/download-invoice/${invoiceId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          responseType: "blob", // Important for file downloads
+        }
+      );
+
+      // Create a link to download the file
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${invoiceId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast.success("Invoice downloaded successfully!");
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
+      toast.error("Failed to download invoice.");
     }
   };
 
@@ -203,32 +228,35 @@ export default function ProfilePage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center mb-6">
-                  <MinidenticonImg
-                    username={user.email}
-                    width={150}
-                    height={150}
-                    className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] rounded-full mr-0 md:mr-6"
-                  />
+                    <MinidenticonImg
+                      username={user.email}
+                      width={150}
+                      height={150}
+                      className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] rounded-full mr-0 md:mr-6"
+                    />
 
-                  <div className="max-w-full overflow-hidden">
-                    <p className="text-xl font-semibold mb-2 break-words">{user.name}</p>
-                    <p className="text-neutral-400 mb-2 break-words">{user.email}</p>
-                    <div className="flex items-center">
-                      <p className="text-neutral-400 mr-2">Referral Code:</p>
-                      <p className="font-semibold">{user.referralCode}</p>
-                      <Button
-                        variant="ghost"
-                        onClick={copyReferralLink}
-                        className="ml-2 text-neutral-400 hover:text-neutral-200"
-                      >
-                        <FiCopy />
-                      </Button>
+                    <div className="max-w-full overflow-hidden">
+                      <p className="text-xl font-semibold mb-2 break-words">
+                        {user.name}
+                      </p>
+                      <p className="text-neutral-400 mb-2 break-words">
+                        {user.email}
+                      </p>
+                      <div className="flex items-center">
+                        <p className="text-neutral-400 mr-2">Referral Code:</p>
+                        <p className="font-semibold">{user.referralCode}</p>
+                        <Button
+                          variant="ghost"
+                          onClick={copyReferralLink}
+                          className="ml-2 text-neutral-400 hover:text-neutral-200"
+                        >
+                          <FiCopy />
+                        </Button>
+                      </div>
+                      <p className="text-neutral-400 mt-2 break-words">
+                        Total Completed Referrals: {totalCompletedReferrals}
+                      </p>
                     </div>
-                    <p className="text-neutral-400 mt-2 break-words">
-                      Total Completed Referrals: {totalCompletedReferrals}
-                    </p>
-                  </div>
-
                   </div>
                 </CardContent>
               </Card>
@@ -265,7 +293,6 @@ export default function ProfilePage() {
                 </CardContent>
               </Card>
             </div>
-
             <Card className="mb-12 bg-neutral-900 border border-neutral-800 shadow-md overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-emerald-900 to-teal-900 p-6">
                 <CardTitle className="text-2xl font-bold text-white">
@@ -288,7 +315,6 @@ export default function ProfilePage() {
                 </div>
               </CardContent>
             </Card>
-
             <Card className="mb-12 bg-neutral-900 border-none shadow-md">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-white">
@@ -339,7 +365,6 @@ export default function ProfilePage() {
                 </div>
               </CardContent>
             </Card>
-
             <Card className="mb-12 bg-neutral-900 border border-neutral-800 shadow-md">
               <CardHeader className="flex items-center justify-between cursor-pointer">
                 <div
@@ -369,52 +394,56 @@ export default function ProfilePage() {
                   )}
                 </div>
               </CardHeader>
+
               {!isPurchasesCollapsed && (
                 <CardContent>
                   {purchases.length > 0 ? (
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="text-neutral-300">
-                            Item
-                          </TableHead>
-                          <TableHead className="text-neutral-300">
-                            Amount
-                          </TableHead>
-                          <TableHead className="text-neutral-300">
-                            Payment Method
-                          </TableHead>
-                          <TableHead className="text-neutral-300">
-                            Date
-                          </TableHead>
+                          <TableHead>Item</TableHead>
+                          <TableHead>Amount</TableHead>
+                          <TableHead>Payment Method</TableHead>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Invoice</TableHead> {/* New Column */}
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {purchases.map((purchase) => (
                           <TableRow key={purchase._id}>
-                            <TableCell className="font-medium text-neutral-300">
-                              {purchase.item}
-                            </TableCell>
-                            <TableCell className="text-neutral-400">
-                              ${purchase.amount.toFixed(2)}
-                            </TableCell>
-                            <TableCell className="text-neutral-400">
-                              {purchase.paymentMethod}
-                            </TableCell>
-                            <TableCell className="text-neutral-400">
-                              {purchase.date}
+                            <TableCell>{purchase.item}</TableCell>
+                            <TableCell>${purchase.amount.toFixed(2)}</TableCell>
+                            <TableCell>{purchase.paymentMethod}</TableCell>
+                            <TableCell>{purchase.date}</TableCell>
+                            {/* Add Download Invoice Button */}
+                            <TableCell className="text-blue-400 cursor-pointer hover:text-blue-500 transition-colors duration-200">
+                              {purchase.invoiceId ? (
+                                <>
+                                  <button
+                                    onClick={() =>
+                                      downloadInvoice(purchase.invoiceId)
+                                    }
+                                    className="flex items-center"
+                                  >
+                                    Download
+                                    <FiDownload className="ml-1" />
+                                  </button>
+                                </>
+                              ) : (
+                                "N/A"
+                              )}
                             </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
                     </Table>
                   ) : (
-                    <p className="text-neutral-400">No purchases yet.</p>
+                    <p>No purchases yet.</p>
                   )}
                 </CardContent>
               )}
             </Card>
-
+            ;
             <Card className="mb-12 bg-neutral-900 border border-neutral-800 shadow-md">
               <CardHeader>
                 <CardTitle>Detailed Transactions</CardTitle>
