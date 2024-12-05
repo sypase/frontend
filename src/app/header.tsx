@@ -178,7 +178,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   return (
     <>
 {showAnnouncement && (
-  <div className="bg-gradient-to-r from-[#ffaa40] to-[#9c40ff] text-white text-center py-1.5 px-3 fixed top-0 left-0 right-0 z-50 border-b border-[#ffaa40] max-h-screen overflow-hidden">
+  <div
+    className={`text-white text-center py-1.5 px-3 fixed top-0 left-0 right-0 z-50 border-b ${
+      isLoggedIn && (rewriteCount + dailyFreeCredits) < 80
+        ? 'bg-red-600 border-red-600' // Low Credit Background (red)
+        : 'bg-gradient-to-r from-[#ffaa40] to-[#9c40ff] border-black' // Default Gradient Background
+    } max-h-screen overflow-hidden`}
+  >
     <div className="max-w-7xl mx-auto relative flex items-center justify-center gap-2">
       {isLoggedIn && (rewriteCount + dailyFreeCredits) < 80 ? (
         // Low Credit Announcement
@@ -256,6 +262,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     </div>
   </div>
 )}
+
 
 
 
