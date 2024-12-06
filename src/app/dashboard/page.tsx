@@ -128,12 +128,7 @@ export default function Home() {
 
 
   const getUser = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setIsLoggedIn(false);
-      window.location.href = "/";
-      return;
-    }
+
 
     const config = {
       method: "GET",
@@ -443,18 +438,71 @@ export default function Home() {
             <div className="flex items-center justify-center h-full">
               <TypewriterEffect messages={welcomeMessages} />
             </div>
-          ) : (
-            <textarea
-              ref={outputContainerRef}
-              className={`w-full h-full resize-none  leading-relaxed focus:outline-none bg-black ${
-                messages[messages.length - 1].text === "Something went wrong!" || messages[messages.length - 1].text.includes("Not enough credits to proceed.")
-                  ? " text-gray-300 text-center font-bold mx-auto text-3xl"
-                  : " text-gray-300 text-sm"
-              }`}
-              value={messages[messages.length - 1].text}
-              readOnly
-            />
-          )}
+) : (
+<div 
+  className={`w-full h-full resize-none leading-relaxed focus:outline-none ${messages[messages.length - 1].text === "Something went wrong!" || messages[messages.length - 1].text.includes("Unauthorized") ? "text-gray-300 text-center font-bold text-3xl border-2 bg-transparent" : "text-gray-300 text-sm"}`} 
+  style={messages[messages.length - 1].text === "Something went wrong!" || messages[messages.length - 1].text.includes("Unauthorized")
+    ? {
+        background: 'red', // Transparent background
+        boxShadow: "0 0 15px rgba(156, 64, 255, 0.3), 0 0 30px rgba(156, 64, 255, 0.2), 0 0 45px rgba(156, 64, 255, 0.1)", // Optional glow effect
+        borderRadius: '8px', // Rounded corners for the border
+        padding: '20px',
+        width: '70%',   // Decrease width by 30%
+        height: '70%',  // Decrease height by 30%
+        position: 'absolute', // Absolute positioning
+        top: '50%',         // Center vertically
+        left: '50%',        // Center horizontally
+        transform: 'translate(-50%, -50%)', // Adjust the box's position to center
+      }
+    : {}
+  }
+>
+  {/* Only display message in textarea if not unauthorized */}
+  {!(messages[messages.length - 1].text.includes("Unauthorized")) && (
+    <textarea
+      ref={outputContainerRef}
+      value={messages[messages.length - 1].text}
+      readOnly
+      className="w-full h-full resize-none leading-relaxed focus:outline-none bg-black text-white text-center font-bold text-3xl border-2 border-white"
+    />
+  )}
+
+  {/* Show Low Credit Count and Pricing Plans if Unauthorized */}
+  {messages[messages.length - 1].text.includes("Unauthorized") && (
+    <div className="error-content text-center">
+      <div className="text-xl font-bold text-center text-white mb-4">
+        Low Credit Count! Get more credits now to continue rewriting!
+      </div>
+      <div className="pricing-plans text-center flex w-full justify-center gap-4">
+        <div className="plan bg-black py-6 px-2 rounded-lg shadow-lg ">
+          <p className="text-2xl font-semibold text-white">5000 Words</p>
+          <p className="text-xl text-white">For Rs 399</p>
+        </div>
+        <div className="plan bg-black py-6 px-2 rounded-lg shadow-lg">
+          <p className="text-2xl font-semibold text-white">15000 Words</p>
+          <p className="text-xl text-white">For Rs 499</p>
+        </div>
+      </div>
+      {/* Button to see all pricing plans */}
+      <div className="mt-6">
+        <button 
+          className="bg-black text-white py-2 px-4 rounded-lg transition duration-300"
+          onClick={() => alert("Redirecting to all pricing plans...")}
+        >
+          See All Pricing Plans
+        </button>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
+
+
+
+)} 
               </div>
   
               {messages.length > 0 && messages[messages.length - 1].variants && (
