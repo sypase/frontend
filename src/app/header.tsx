@@ -141,9 +141,6 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
 
   const fetchUserData = async () => {
     try {
@@ -163,6 +160,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      getUser();
       fetchUserData();
     }
   }, [isLoggedIn]);
