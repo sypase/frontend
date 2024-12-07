@@ -289,7 +289,7 @@ const Footer: React.FC<FooterProps> = ({
             <FiClipboard className="w-6 h-6" />
           </button>
             <button
-              className={`p-3 text-purple-400 hover:text-purple-300 focus:outline-none transition-all duration-300 ${loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"}`}
+              className={`p-3 pl-1 text-purple-400 hover:text-purple-300 focus:outline-none transition-all duration-300 ${loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"}`}
               onClick={handleAction}
               // disabled={loading || text.trim().length < 3 || wordCount < 80 || wordCount > 500}
             >

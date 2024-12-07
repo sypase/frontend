@@ -110,8 +110,10 @@ const EarnPage = () => {
 
     // Calculate total for a week
     const calculateWeeklyTotal = (invoices: Invoice[]) => {
-        return invoices.reduce((total, invoice) => total + invoice.totalAmount, 0);
+        const total = invoices.reduce((total, invoice) => total + invoice.totalAmount, 0);
+        return total * 0.5; // 50% of the total
     };
+    
 
     // Pagination for weekly invoices
     const getWeeklyInvoicesPaginated = () => {
@@ -166,8 +168,10 @@ const EarnPage = () => {
 
     // Calculate grand total of all invoices
     const calculateGrandTotal = () => {
-        return Object.values(weeklyInvoices).flat().reduce((total, invoice) => total + invoice.totalAmount, 0);
+        const total = Object.values(weeklyInvoices).flat().reduce((total, invoice) => total + invoice.totalAmount, 0);
+        return total * 0.5; // 50% of the total
     };
+    
 
     return (
         <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-black text-gray-100">
@@ -177,7 +181,7 @@ const EarnPage = () => {
                 {user && allowedEmails.includes(user.email) ? (
                     <div className="mt-8">
                         <h2 className="text-2xl font-semibold text-center text-gray-100 mb-4">
-                            Weekly Invoice Breakdown
+                            Swikar's Referral Information
                         </h2>
 
                         {/* Week Selector */}
@@ -201,7 +205,7 @@ const EarnPage = () => {
                             <Card className="bg-neutral-900 border border-neutral-800 shadow-lg w-full max-w-4xl mx-auto my-8 rounded-2xl">
                                 <CardHeader className="bg-neutral-800 p-6 rounded-t-2xl">
                                     <CardTitle className="text-xl font-extrabold text-white">
-                                        Week {selectedWeek} Invoices
+                                        Week {selectedWeek} Sales
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-6 space-y-4">
@@ -253,9 +257,10 @@ const EarnPage = () => {
 
                                     {/* Weekly Total */}
                                     <div className="mt-4 text-right">
-                                        <p className="text-xl font-bold text-white">
-                                            Week Total: {calculateWeeklyTotal(weeklyInvoices[selectedWeek] || []).toFixed(2)} {weeklyInvoices[selectedWeek]?.[0]?.currency || ''}
-                                        </p>
+                                    <p className="text-xl font-bold text-white">
+                                        Week Total: {calculateWeeklyTotal(weeklyInvoices[selectedWeek] || []).toFixed(2)} {weeklyInvoices[selectedWeek]?.[0]?.currency || ''}
+                                    </p>
+
                                     </div>
                                 </CardContent>
                             </Card>
@@ -269,9 +274,10 @@ const EarnPage = () => {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="p-6">
-                                <p className="text-2xl font-bold text-white text-center">
-                                    {calculateGrandTotal().toFixed(2)} {Object.values(weeklyInvoices).flat()[0]?.currency || ''}
-                                </p>
+                            <p className="text-2xl font-bold text-white text-center">
+                                {calculateGrandTotal().toFixed(2)} {Object.values(weeklyInvoices).flat()[0]?.currency || ''}
+                            </p>
+
                             </CardContent>
                         </Card>
                     </div>
