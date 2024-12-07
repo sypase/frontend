@@ -99,12 +99,10 @@ const EarnPage = () => {
                     });
     
                     // Log response data to check what’s returned
-                    console.log("Referral data response:", response);
     
                     const { earnedPointsAsReferrer, totalCompletedReferrals } = response.data;
                     setTotalCompletedReferrals(totalCompletedReferrals);
                     setEarnings(totalCompletedReferrals * 500);
-                    console.log("Referral data:", response.data);
                 } catch (error) {
                     // Log detailed error information
                     console.error("Error fetching referral data:", error);

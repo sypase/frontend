@@ -14,6 +14,7 @@ import { jelly } from "ldrs";
 import { MultiStepLoader } from "../../components/ui/multi-step-loader";
 import { HorizontalStepLoader } from "../../components/ui/horizontal-step-loader";
 import Header from "../header";
+import Link from 'next/link';
 
 // Register the ScrollToPlugin with GSAP
 gsap.registerPlugin(ScrollToPlugin);
@@ -493,7 +494,7 @@ export default function Home() {
           <div className="mt-6">
             <button
               className="bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300"
-              onClick={() => alert("Redirecting to all pricing plans...")}
+              onClick={() => window.location.href = "/pricing"}
             >
               See All Pricing Plans
             </button>
