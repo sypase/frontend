@@ -365,20 +365,20 @@ export default function ProfilePage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="mb-12 bg-neutral-900 border border-neutral-800 shadow-md">
+            <Card className="mb-12 bg-neutral-900 border border-neutral-700 shadow-md">
               <CardHeader className="flex items-center justify-between cursor-pointer">
                 <div
                   className="flex items-center flex-grow"
                   onClick={() => setIsPurchasesCollapsed(!isPurchasesCollapsed)}
                 >
-                  <CardTitle className="flex items-center">
+                  <CardTitle className="flex items-center text-white">
                     Recent Purchases
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <FiInfo className="ml-2 text-neutral-400 cursor-pointer" />
                         </TooltipTrigger>
-                        <TooltipContent className="bg-black text-white p-2 rounded">
+                        <TooltipContent className="bg-neutral-800 text-white p-2 rounded">
                           <p>
                             If you have any issues with purchases, please open a
                             ticket in our Discord server.
@@ -388,9 +388,9 @@ export default function ProfilePage() {
                     </TooltipProvider>
                   </CardTitle>
                   {isPurchasesCollapsed ? (
-                    <FiChevronDown className="text-xl ml-2" />
+                    <FiChevronDown className="text-xl ml-2 text-white" />
                   ) : (
-                    <FiChevronUp className="text-xl ml-2" />
+                    <FiChevronUp className="text-xl ml-2 text-white" />
                   )}
                 </div>
               </CardHeader>
@@ -398,19 +398,33 @@ export default function ProfilePage() {
               {!isPurchasesCollapsed && (
                 <CardContent>
                   {purchases.length > 0 ? (
-                    <Table>
+                    <Table className="text-white">
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Item</TableHead>
-                          <TableHead>Amount</TableHead>
-                          <TableHead>Payment Method</TableHead>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Invoice</TableHead> {/* New Column */}
+                          <TableHead className="text-neutral-300">
+                            Item
+                          </TableHead>
+                          <TableHead className="text-neutral-300">
+                            Amount
+                          </TableHead>
+                          <TableHead className="text-neutral-300">
+                            Payment Method
+                          </TableHead>
+                          <TableHead className="text-neutral-300">
+                            Date
+                          </TableHead>
+                          <TableHead className="text-neutral-300">
+                            Invoice
+                          </TableHead>{" "}
+                          {/* New Column */}
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {purchases.map((purchase) => (
-                          <TableRow key={purchase._id}>
+                          <TableRow
+                            key={purchase._id}
+                            className="hover:bg-neutral-800"
+                          >
                             <TableCell>{purchase.item}</TableCell>
                             <TableCell>${purchase.amount.toFixed(2)}</TableCell>
                             <TableCell>{purchase.paymentMethod}</TableCell>
@@ -438,12 +452,12 @@ export default function ProfilePage() {
                       </TableBody>
                     </Table>
                   ) : (
-                    <p>No purchases yet.</p>
+                    <p className="text-neutral-300">No purchases yet.</p>
                   )}
                 </CardContent>
               )}
             </Card>
-            ;
+            
             <Card className="mb-12 bg-neutral-900 border border-neutral-800 shadow-md">
               <CardHeader>
                 <CardTitle>Detailed Transactions</CardTitle>

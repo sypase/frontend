@@ -444,16 +444,78 @@ export default function Home() {
               <TypewriterEffect messages={welcomeMessages} />
             </div>
           ) : (
-            <textarea
-              ref={outputContainerRef}
-              className={`w-full h-full resize-none  leading-relaxed focus:outline-none bg-black ${
-                messages[messages.length - 1].text === "Something went wrong!" || messages[messages.length - 1].text.includes("Not enough credits to proceed.")
-                  ? " text-gray-300 text-center font-bold mx-auto text-3xl"
-                  : " text-gray-300 text-sm"
-              }`}
-              value={messages[messages.length - 1].text}
-              readOnly
-            />
+<div
+  className={`w-full h-full resize-none leading-relaxed focus:outline-none ${
+    messages[messages.length - 1].text === "Something went wrong!" ||
+    messages[messages.length - 1].text.includes("Not enough credits to proceed.")
+      ? "text-gray-300 text-center font-bold text-3xl border-2 bg-transparent"
+      : "text-gray-300 text-sm"
+  }`}
+  style={
+    messages[messages.length - 1].text === "Something went wrong!" ||
+    messages[messages.length - 1].text.includes("Not enough credits to proceed.")
+      ? {
+          background: "red",
+          boxShadow:
+            "0 0 15px rgba(156, 64, 255, 0.3), 0 0 30px rgba(156, 64, 255, 0.2), 0 0 45px rgba(156, 64, 255, 0.1)",
+          borderRadius: "8px",
+          padding: "20px",
+          width: "70%",
+          height: "70%",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }
+      : {}
+  }
+>
+  {/* Render different content based on the error state */}
+  {messages[messages.length - 1].text === "Something went wrong!" ||
+  messages[messages.length - 1].text.includes("Not enough credits to proceed.") ? (
+    <>
+      {/* Handle low credits scenario */}
+      {messages[messages.length - 1].text.includes("Not enough credits to proceed.") ? (
+        <div className="error-content text-center">
+          <div className="text-xl font-bold text-center text-white mb-4">
+            Low Credit Count! Get more credits now to continue rewriting!
+          </div>
+          <div className="pricing-plans text-center flex w-full justify-center gap-4">
+            <div className="plan bg-black py-6 px-2 rounded-lg shadow-lg">
+              <p className="text-2xl font-semibold text-white">5000 Words</p>
+              <p className="text-xl text-white">For Rs 399</p>
+            </div>
+            <div className="plan bg-black py-6 px-2 rounded-lg shadow-lg">
+              <p className="text-2xl font-semibold text-white">15000 Words</p>
+              <p className="text-xl text-white">For Rs 499</p>
+            </div>
+          </div>
+          <div className="mt-6">
+            <button
+              className="bg-black text-white py-2 px-4 rounded-lg transition duration-300"
+              onClick={() => alert("Redirecting to all pricing plans...")}
+            >
+              See All Pricing Plans
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="text-gray-300 text-center font-bold text-3xl">
+          {messages[messages.length - 1].text}
+        </div>
+      )}
+    </>
+  ) : (
+    // Handle non-error message
+    <textarea
+      ref={outputContainerRef}
+      className="w-full h-full resize-none text-sm text-gray-300 leading-relaxed focus:outline-none bg-black"
+      value={messages[messages.length - 1].text}
+      readOnly
+    />
+  )}
+</div>
+
           )}
               </div>
   
