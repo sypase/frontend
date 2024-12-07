@@ -3,6 +3,8 @@ import { FiArrowRight } from "react-icons/fi";
 import ScrollToFooterButton from "./ScrollToFooterButton";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import styles
+import { FiClipboard } from "react-icons/fi"; // Import clipboard icon
+
 
 
 interface FooterProps {
@@ -73,6 +75,34 @@ const Footer: React.FC<FooterProps> = ({
     }
   }, [setText, sendMessage, text, wordCount]);
 
+    const handlePaste = async () => {
+    const fromFooterPage = localStorage.getItem('fromFooterPage') === 'true';
+  
+    if (fromFooterPage) {
+      // If it's from the footer page, skip pasting from clipboard.
+      return;
+    }
+  
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      setText(clipboardText);
+    } catch (error) {
+      toast.error('Failed to paste clipboard content.', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    }
+  };
   // const handleAction = (
   //   event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLTextAreaElement>
   // ) => {
@@ -220,6 +250,8 @@ const Footer: React.FC<FooterProps> = ({
     boxShadow: "0 0 15px rgba(156, 64, 255, 0.3), 0 0 30px rgba(156, 64, 255, 0.2), 0 0 45px rgba(156, 64, 255, 0.1)",
   };
 
+
+
   return (
     <div
       className={`mt-auto ${isDragging ? 'border-dashed border-4 border-purple-500' : ''}`}
@@ -250,6 +282,12 @@ const Footer: React.FC<FooterProps> = ({
             <div className="absolute top-2 right-2 text-sm text-gray-400">
               {wordCount} words
             </div>
+            <button
+            className="p-3 pr-0 text-purple-400/90 hover:text-purple-300 focus:outline-none transition-all duration-300"
+            onClick={handlePaste}
+          >
+            <FiClipboard className="w-6 h-6" />
+          </button>
             <button
               className={`p-3 text-purple-400 hover:text-purple-300 focus:outline-none transition-all duration-300 ${loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"}`}
               onClick={handleAction}

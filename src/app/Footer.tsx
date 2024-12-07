@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FiArrowRight, FiZap, FiCheckCircle } from "react-icons/fi";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import styles
+import { FiClipboard } from "react-icons/fi"; // Import clipboard icon
 
 
 
@@ -24,7 +25,6 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({
   text,
   setText,
-  wordCount,
   loading,
   sendMessage,
   handleTextAreaChange,
@@ -34,6 +34,10 @@ const Footer: React.FC<FooterProps> = ({
   toggleAdvancedMode,
   isLoggedIn
 }) => {
+  const [wordCount, setWordCount] = useState(0); // State for word count
+  const [textareaHeight, setTextareaHeight] = useState('80px');
+
+
 
   // New function to handle sending message and redirecting without useNavigate
   const handleSendMessage = () => {
@@ -87,7 +91,40 @@ const Footer: React.FC<FooterProps> = ({
   }
   }
   };
+
+  const handlePaste = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      setText(clipboardText);
+    } catch (error) {
+      toast.error('Failed to paste clipboard content.', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    }
+  };
   
+  useEffect(() => {
+    const updatedWordCount = text.split(/\s+/).filter(Boolean).length;
+    setWordCount(updatedWordCount);
+
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '80px';
+      const scrollHeight = textareaRef.current.scrollHeight;
+      textareaRef.current.style.height = scrollHeight + 'px';
+      setTextareaHeight(scrollHeight + 'px');
+    }
+  }, [text]);
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-40">
@@ -115,7 +152,13 @@ const Footer: React.FC<FooterProps> = ({
             {wordCount} words
           </div>
           <button
-            className={`p-3 text-blue-500 hover:text-blue-600 focus:outline-none transition-all duration-300 ${
+              className="p-3 pr-0 text-blue-500 hover:text-blue-600 focus:outline-none transition-all duration-300"
+              onClick={handlePaste}
+            >
+              <FiClipboard className="w-6 h-6" />
+            </button>
+          <button
+            className={`p-3 pl-1 text-blue-500 hover:text-blue-600 focus:outline-none transition-all duration-300 ${
               loading ? "opacity-50 cursor-not-allowed" : "hover:scale-110"
             }`}
             onClick={handleAction} // Use handleAction for button click
